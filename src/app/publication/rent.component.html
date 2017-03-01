@@ -1,0 +1,55 @@
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<wizard #wizard>
+    <wizard-step title="Que queres alguilar?">
+        <rent-what (whatChange)="rentWhatChange($event)"></rent-what>
+
+        <div class="wizard-buttons">
+            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
+        </div>
+    </wizard-step>
+    <wizard-step (stepEnter)="onStepWhat($event)" title="Danos un poco mas de detalle" optionalStep>
+        <form #emailDetails="ngForm">
+            <router-outlet></router-outlet>
+        </form>
+
+        <div class="wizard-buttons">
+            <button class="btn btn-info" (click)="onResetPublication()">Nueva Publicaci&oacute;n</button>
+            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
+            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
+        </div>
+
+    </wizard-step>
+    <wizard-step title="Disponibilidad y precio">
+        <rent-price></rent-price>
+        <rent-availability></rent-availability>
+        <div class="wizard-buttons">
+            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
+            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
+        </div>
+    </wizard-step>
+
+    <wizard-step title="Confirma la publicaci&oacute;n">
+        Content of Step 3
+        <div class="wizard-buttons">
+            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
+            <button class="btn btn-primary pull-right" (click)="onStepFinish()" type="button">Finalizar</button>
+        </div>
+    </wizard-step>
+</wizard>
+
+
+<template ngbModalContainer #confirmNewPublicationModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmar</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Esta seguro que quiere descartar la publicaci&oacute;n actual?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c(true)">Si</button>
+    <button type="button" class="btn btn-secondary" (click)="c(false)">No</button>
+  </div>
+</template>

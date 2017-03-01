@@ -1,0 +1,58 @@
+<template ngbModalContainer>
+
+</template>
+
+<template #modalContent let-close="close">
+    <div class="modal-header">
+        <h5 class="modal-title">Event action occurred</h5>
+        <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            Action:
+            <pre>{{ modalData?.action }}</pre>
+        </div>
+        <div>
+            Event:
+            <pre>{{ modalData?.event | json }}</pre>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">OK</button>
+    </div>
+</template>
+
+<div class="row text-center">
+    <div class="col-md-4">
+        <div class="btn-group">
+            <button class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" type="button">Anterior</button>
+            <button class="btn btn-secondary" mwlCalendarToday [(viewDate)]="viewDate" type="button">Hoy</button>
+            <button class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" type="button">Siguiente</button>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' }}</h3>
+    </div>
+    <div class="col-md-4">
+        <div class="btn-group">
+            <button class="btn btn-primary" (click)="view = 'month'" [class.active]="view === 'month'" type="button">Mes</button>
+            <button class="btn btn-primary" (click)="view = 'week'" [class.active]="view === 'week'" type="button">Semana</button>
+            <button class="btn btn-primary" (click)="view = 'day'" [class.active]="view === 'day'" type="button">D&iacute;a</button>
+        </div>
+    </div>
+</div>
+<br>
+<div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="'week'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="'day'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+</div>

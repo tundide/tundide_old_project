@@ -1,0 +1,12 @@
+.main-container{
+  margin: 50px 0 0 225px;
+    padding: 10px;
+    -ms-overflow-x: hidden;
+        overflow-x: hidden;
+    position: relative;
+}
+
+.sidebarPushRight{
+    left: 225px !important;
+    z-index:10;
+}

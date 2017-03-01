@@ -1,0 +1,9 @@
+Documentacion:
+
+ApiDoc: npm install apidoc -g
+JSDoc: npm install jsdoc -g
+TsDoc: npm install tsdoc -g
+
+Lint:
+
+npm install -g eslint

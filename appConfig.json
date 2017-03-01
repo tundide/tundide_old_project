@@ -1,0 +1,26 @@
+{
+    "auth": {
+        "secret": "sessionSecretKey",
+        "maxAge": 2419200000,
+        "facebookAuth": {
+            "clientID": "your-secret-clientID-here",
+            "clientSecret": "your-client-secret-here",
+            "callbackURL": "http://localhost:8080/auth/facebook/callback"
+        },
+        "twitterAuth": {
+            "consumerKey": "your-consumer-key-here",
+            "consumerSecret": "your-client-secret-here",
+            "callbackURL": "http://localhost:8080/auth/twitter/callback"
+        },
+        "linkedinAuth": {
+            "consumerKey": "your-consumer-key-here",
+            "consumerSecret": "your-client-secret-here",
+            "callbackURL": "http://127.0.0.1:3001/auth/linkedin/callback"
+        },
+        "googleAuth": {
+            "clientID": "411277683525-frvv35ojh4cp71ia3ggvh6u99a6ppj77.apps.googleusercontent.com",
+            "clientSecret": "uUxbYkcdy-JOXxaeNE0P4vmw",
+            "callbackURL": "http://localhost:3001/auth/google/callback"
+        }
+    }
+}

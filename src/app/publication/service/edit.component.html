@@ -1,0 +1,131 @@
+<div class="form-group">
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Ingresa fotos de tu Servicio</h4>
+            <image-upload [buttonCaption]="'Seleccionar Imagenes'" [dropBoxMessage]="'O arrastralas ac&aacute;!'"></image-upload>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Contanos como es el lugar</h4>
+            <ckeditor debounce="500" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">
+            </ckeditor>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Ingresa la ubicaci&oacute;n</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="provincia">Provincia</label>
+                            <select id="provincia" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="localidad">Localidad</label>
+                            <select id="localidad" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="barrio">Barrio</label>
+                            <select id="barrio" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="calle">Calle</label>
+                            <input type="text" id="calle" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="numero">Numero</label>
+                            <input type="numeric" id="numero" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <sebm-google-map [zoom]="16" [latitude]="lat" [longitude]="lon">
+                    </sebm-google-map>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Detalle del Inmbueble</h4>
+            <label for="banos">Ba&ntilde;os</label>
+            <input type="numeric" id="banos" class="form-control" />
+
+            <label for="superficie">Superficie cubierta <small>(m2)</small></label>
+            <input type="numeric" id="superficie" class="form-control" />
+
+            <label for="piso">Piso</label>
+            <input type="numeric" id="piso" class="form-control" />
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Con que comodidades cuenta?</h4>
+            <div class="row">
+                <div class="col-lg-4">
+                    <p>
+                        <ui-switch></ui-switch> Internet
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Aire acondicionado
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Ascensor
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Calefacci&oacute;n
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Recepci&oacute;n
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <p>
+                        <ui-switch></ui-switch> Seguridad
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Grupo Electrogeno
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Telefono
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Gas Natural
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Agua Corriente
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <p>
+                        <ui-switch></ui-switch> Sala de Espera
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Cafeteria
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Rampa de acceso
+                    </p>
+                    <p>
+                        <ui-switch></ui-switch> Apertura puerta de calle
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

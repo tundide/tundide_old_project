@@ -1,0 +1,87 @@
+.row .active {
+    background-color: #ddd;
+}
+
+.cardType {
+    height: 450px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
+}
+
+.cardType input {
+    display: none;
+}
+
+h2 {
+    padding: 20px;
+    color: white;
+    background: #3E4FB2;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+h3 {
+    padding: 20px;
+    color: white;
+    background: #5ECFB9;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+h4 {
+    padding: 20px;
+    color: white;
+    background: #9D9F00;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+h5 {
+    padding: 20px;
+    color: white;
+    background: #9D1F60;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.detail {
+    color: #777;
+    line-height: 1.5;
+    font-family: 'Roboto', sans-serif;
+}
+
+.img-wrapper {
+    padding: 0;
+    position: relative;
+}
+
+.img-wrapper:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(62, 79, 178, .25);
+    width: 100%;
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: 200px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    margin: 0;
+    display: block;
+    position: relative;
+}

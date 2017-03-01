@@ -1,0 +1,35 @@
+<div class="card">
+
+    <div class="row ">
+        <div class="col-md-2">
+            <a>
+                <img src="https://placeholdit.imgix.net/~text?txtsize=38&txt=200%C3%97200&w=200&h=200" class="w-100">
+            </a>
+        </div>
+        <div class="col-md-8 px-2">
+            <div class="card-block px-2">
+                <a [routerLink]="['/view/property', publication._id]">
+                    <h4 class="card-title">{{publication.title}}</h4>
+                </a>
+                <p class="card-text">868 Avenida Presidente Roque Sáenz Peña - Buenos Aires - CABA - C1035</p>
+                <p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i> 4878-6884</p>
+            </div>
+        </div>
+
+        <div class="col-md-2 px-2">
+            <div class="card-block px-2">
+                <div class="rating">
+                    <div class="stars">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                    <span class="review-no">41 rese&ntilde;as</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

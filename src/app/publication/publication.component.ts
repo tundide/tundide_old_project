@@ -2,20 +2,20 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PublicationService } from './publication.service';
-import { Publication } from './publication.model';
 import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WizardComponent } from 'ng2-archwizard/dist';
+import { Property } from './property/property.model';
+import { Service } from './service/service.model';
 
 @Component({
-  selector: 'rent',
-  styleUrls: ['rent.component.scss'],
-  templateUrl: 'rent.component.html'
+  selector: 'publication',
+  styleUrls: ['publication.component.scss'],
+  templateUrl: 'publication.component.html'
 })
-export class RentComponent {
+export class PublicationComponent {
 
   whatType = 1;
-  publication: Publication;
 
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
 
@@ -31,16 +31,19 @@ export class RentComponent {
 
     this.toastyConfig.theme = 'bootstrap';
 
+    this.publicationService.getPublicationChangeEvent().subscribe((publication) => {
+      this.publicationService.saveToStorage(publication);
+    });
   }
 
   /**
-   * Remove LocalStorage and reinitialize the actual publication
+   * Remove Publication from localStorage and reinitialize the actual publication
    */
   onResetPublication() {
     this.modalService.open(this.modal).result.then((result) => {
       if (result) {
         this.wizard.goToStep(0);
-        this.publicationService.storage.clean();
+        this.publicationService.deleteInStorage();
         this.router.navigate(['/publication']);
 
         this.toastyService.success({
@@ -66,37 +69,57 @@ export class RentComponent {
       title: 'Publicacion recuperada'
     };
 
-    if (this.publicationService.storage.exists()) {
+    let sameType = false;
+    let inStorage = false;
+    if (this.publicationService.existsInStorage()) {
+      inStorage = true;
+      let pub = this.publicationService.getFromStorage();
+      if (pub.type === this.whatType) {
+        sameType = true;
+      }
+    }
+
+    if (inStorage && sameType) {
       this.toastyService.info(toastOptions);
     }
 
+    let typeOfPublication;
+    let urlToNavigation;
     switch (this.whatType) {
       case 1:
-        this.router.navigate(['/publication/property/edit']);
+        typeOfPublication = new Property();
+        urlToNavigation = '/publication/property/edit';
         break;
       case 2:
-        this.router.navigate(['/publication/services/edit']);
+        typeOfPublication = new Service();
+        urlToNavigation = '/publication/service/edit';
         break;
       case 3:
-        this.router.navigate(['/publication/entreteinment/edit']);
+        typeOfPublication = new Property();
+        urlToNavigation = '/publication/entreteinment/edit';
         break;
       case 4:
-        this.router.navigate(['/publication/others/edit']);
+        typeOfPublication = new Property();
+        urlToNavigation = '/publication/others/edit';
         break;
     }
 
-    this.publicationService.storage.initialize(this.whatType);
+    if (!inStorage || !sameType) {
+      this.publicationService.saveToStorage(typeOfPublication);
+    }
+
+    this.router.navigate([urlToNavigation]);
   }
 
   /**
    * Save publication on database and redirect to view publication
    */
   onStepFinish() {
-    let publication = this.publicationService.storage.get();
-    this.publicationService.save(publication).subscribe(
+    let publication = this.publicationService.getFromStorage();
+    this.publicationService.saveToDatabase(publication).subscribe(
                   data => {
-                    this.publicationService.storage.clean();
-                    console.log(data.obj._id);
+                    this.publicationService.deleteInStorage();
+
                     this.router.navigate(['/view/property', data.obj._id]);
                   },
                   // error => console.error(error)

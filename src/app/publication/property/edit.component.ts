@@ -25,18 +25,20 @@ export class PropertyEditComponent implements OnInit, DoCheck {
   lat = Coord.latitude;
   lon = Coord.longitude;
 
-  publication: Publication;
+  private publication: Publication;
 
   ngDoCheck() {
-    this.publicationservice.storage.save(this.publication);
+    this.publicationService.getPublicationChangeEvent().emit(this.publication);
   }
 
-  constructor(private publicationservice: PublicationService) {
-
-    this.publication = this.publicationservice.storage.get();
+  constructor(private publicationService: PublicationService) {
+    this.publication = this.publicationService.getFromStorage();
   }
 
   ngOnInit() {
+    this.publicationService.getPublicationChangeEvent().subscribe((publication) => {
+      this.publication = publication;
+    });
     // navigator.geolocation.getCurrentPosition(function (pos) {
     //   Coord.latitude = pos.coords.latitude;
     //   Coord.longitude = pos.coords.longitude;
@@ -45,9 +47,6 @@ export class PropertyEditComponent implements OnInit, DoCheck {
     // }, function (err) {
     //   console.warn(`ERROR(${err.code}): ${err.message}`);
     // });
-
-
-
 
     this.images = [];
     this.images.push({

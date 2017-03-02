@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routing } from './publication.routing';
-import { RentComponent } from './rent.component';
+import { PublicationComponent } from './publication.component';
 import { ViewComponent } from './view.component';
-import { RentWhatComponent } from './rent.what.component';
-import { RentPriceComponent } from './rent.price.component';
-import { RentAvailabilityComponent } from './rent.availability.component';
+import { PublicationWhatComponent } from './publication.what.component';
+import { PublicationPriceComponent } from './publication.price.component';
+import { PublicationAvailabilityComponent } from './publication.availability.component';
 import { PropertyMoudle } from './property/property.module';
 import { ServiceMoudle } from './service/service.module';
 import { AuthGuard } from '../auth/auth-guard.service';
@@ -17,8 +17,12 @@ import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [RentComponent, ViewComponent, RentWhatComponent, RentAvailabilityComponent, RentPriceComponent],
-    exports: [RentComponent, ViewComponent, RentWhatComponent, RentAvailabilityComponent, RentPriceComponent],
+    declarations: [PublicationComponent,
+                    ViewComponent,
+                    PublicationWhatComponent,
+                    PublicationAvailabilityComponent,
+                    PublicationPriceComponent],
+    exports: [PublicationComponent, ViewComponent, PublicationWhatComponent, PublicationAvailabilityComponent, PublicationPriceComponent],
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,

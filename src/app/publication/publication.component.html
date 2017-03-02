@@ -1,7 +1,7 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 <wizard #wizard>
     <wizard-step title="Que queres alguilar?">
-        <rent-what (whatChange)="rentWhatChange($event)"></rent-what>
+        <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
 
         <div class="wizard-buttons">
             <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
@@ -20,8 +20,8 @@
 
     </wizard-step>
     <wizard-step title="Disponibilidad y precio">
-        <rent-price></rent-price>
-        <rent-availability></rent-availability>
+        <publication-price></publication-price>
+        <publication-availability></publication-availability>
         <div class="wizard-buttons">
             <button class="btn btn-primary" type="button" previousStep>Anterior</button>
             <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>

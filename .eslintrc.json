@@ -1,4 +1,8 @@
 {
+    "parser": "typescript-eslint-parser",
+    "plugins": [
+        "typescript"
+    ],
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
@@ -8,6 +12,7 @@
     },
     "rules": {
         "semi": 2,
-        "no-var": 1
+        "no-var": 1,
+        "typescript/rule-name": "error"
     }
 }

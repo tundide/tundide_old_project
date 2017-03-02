@@ -137,6 +137,7 @@ function saveProperty(publication) {
     p.facilities = publication.facilities;
     p.title = publication.title;
     p.description = publication.description;
+    p.price = publication.price;
     p.review = {
         score: publication.score
     };
@@ -147,6 +148,7 @@ function saveService(publication) {
     let p = new Service();
     p.title = publication.title;
     p.description = publication.description;
+    p.price = publication.price;
     p.review = {
         score: publication.score
     };

@@ -20,8 +20,10 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+
     this.sub = this.route.params.subscribe(params => {
-      this.publicationService.get(params['id']).subscribe(
+      this.publicationService.getFromDatabase(params['id']).subscribe(
               data => {
                 this.property = data.obj;
               },

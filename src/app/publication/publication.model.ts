@@ -7,6 +7,8 @@ export enum PublicationType {
 
 export class Publication {
     type: PublicationType;
+    price: number;
+
     constructor(publicationType: PublicationType) {
         this.type = publicationType;
     }

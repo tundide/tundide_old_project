@@ -1,11 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'rent-availability',
-  styleUrls: ['rent.availability.component.scss'],
-  templateUrl: 'rent.availability.component.html'
+  selector: 'publication-availability',
+  styleUrls: ['publication.availability.component.scss'],
+  templateUrl: 'publication.availability.component.html'
 })
-export class RentAvailabilityComponent {
+export class PublicationAvailabilityComponent {
   rentType;
   @Output() whatChange = new EventEmitter();
 

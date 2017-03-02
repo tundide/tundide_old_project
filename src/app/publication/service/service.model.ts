@@ -1,12 +1,12 @@
 import { Publication } from '../publication.model';
 
-export class Property extends Publication {
+export class Service extends Publication {
     description: string;
     details: Details;
     location: Location;
     facilities: Facilities;
     constructor() {
-        super(1);
+        super(2);
         this.price = 0;
         this.description = '';
         this.details = new Details();

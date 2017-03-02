@@ -14,6 +14,7 @@ let PublicationSchema = mongoose.Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     title: String,
     description: String,
+    price: Number,
     schedules: {
         day: Date,
         password: String,

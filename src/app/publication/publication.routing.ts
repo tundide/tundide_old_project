@@ -1,5 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
-import { RentComponent } from './rent.component';
+import { PublicationComponent } from './publication.component';
 import { ViewComponent } from './view.component';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PropertyEditComponent } from './property/edit.component';
@@ -34,7 +34,7 @@ const routes: Routes = [
                 path: 'service'
             }
         ],
-        component: RentComponent,
+        component: PublicationComponent,
         path: 'publication'
     },
     {

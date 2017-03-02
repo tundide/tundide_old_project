@@ -4,7 +4,7 @@ import { PublicationService } from '../publication.service';
 import { Property } from './property.model';
 
 @Component({
-  selector: 'view',
+  selector: 'view-property',
   styleUrls: ['view.component.scss'],
   templateUrl: 'view.component.html'
 })

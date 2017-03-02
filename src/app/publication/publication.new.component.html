@@ -9,7 +9,12 @@
     </wizard-step>
     <wizard-step (stepEnter)="onStepWhat($event)" title="Danos un poco mas de detalle" optionalStep>
         <form #emailDetails="ngForm">
-            <router-outlet></router-outlet>
+            <edit-property *ngIf="typeSelected=='Property'"></edit-property>
+            <edit-service *ngIf="typeSelected=='Service'"></edit-service>
+            <!--
+                Cuando esten desarrollando los dos descomentarlo
+                <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>
+            <edit-others *ngIf="whatType==4"></edit-others>-->
         </form>
 
         <div class="wizard-buttons">

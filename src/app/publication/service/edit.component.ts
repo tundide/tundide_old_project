@@ -11,7 +11,7 @@ export class Coord {
 }
 
 @Component({
-  selector: 'edit',
+  selector: 'edit-service',
   styleUrls: ['edit.component.scss'],
   templateUrl: 'edit.component.html'
 })

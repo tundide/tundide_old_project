@@ -44,7 +44,7 @@ let Service = require('../../models/service');
 router.post('/', function(req, res) {
     switch (req.body.type) {
         case 1:
-            let publicationProperty = saveProperty(req.body);
+            let publicationProperty = saveProperty(req.user._id, req.body);
 
             publicationProperty.then(function(doc) {
                 res.status(201).json({
@@ -54,7 +54,7 @@ router.post('/', function(req, res) {
             });
             break;
         case 2:
-            let publicationService = saveService(req.body);
+            let publicationService = saveService(req.user._id, req.body);
 
             publicationService.then(function(doc) {
                 res.status(201).json({
@@ -68,7 +68,42 @@ router.post('/', function(req, res) {
 
 router.patch('/:id', function(req, res, next) {
     Property.findById(req.body.id, function(err, property) {
+        if (req.user._id !== property.user.id) {
+            res.status(401).json({
+                message: 'Esta publicaci&oacute;n no corresponde a su usuario'
+            });         
+        }
 
+        if (doc) {
+            switch (req.body.type) {
+                case 1:
+                    let publicationProperty = saveProperty(req.user._id, req.body);
+
+                    publicationProperty.then(function(doc) {
+                        res.status(201).json({
+                            message: 'Saved property',
+                            obj: doc
+                        });
+                    });
+                    break;
+                case 2:
+                    let publicationService = saveService(req.user._id, req.body);
+
+                    publicationService.then(function(doc) {
+                        res.status(201).json({
+                            message: 'Saved service',
+                            obj: doc
+                        });
+                    });
+                    break;
+            }
+
+
+        } else {
+            res.status(201).json({
+                message: 'No se encontraron coincidencias'
+            });
+        }
     });
 });
 
@@ -132,8 +167,15 @@ router.get('/query/:query', function(req, res, next) {
     // });
 });
 
-function saveProperty(publication) {
+function updateProperty(userId, publication) {
+    Property.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (err, tank) {
+    if (err) return handleError(err);
+    res.send(tank);
+    });
+}
+function saveProperty(userId, publication) {
     let p = new Property();
+    p.user = userId;
     p.facilities = publication.facilities;
     p.title = publication.title;
     p.description = publication.description;
@@ -141,11 +183,20 @@ function saveProperty(publication) {
     p.review = {
         score: publication.score
     };
-    return p.save();
+
+    if (p.id === undefined) {
+        return p.save();
+    }else {
+        Property.findByIdAndUpdate(publication._id, {$set:p}, { new: true }, function (err, tank) {
+            if (err) return handleError(err);
+                res.send(tank);
+        });
+    }
 }
 
-function saveService(publication) {
+function saveService(userId, publication) {
     let p = new Service();
+    p.user = userId;
     p.title = publication.title;
     p.description = publication.description;
     p.price = publication.price;

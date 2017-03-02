@@ -3,8 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routing } from './publication.routing';
-import { PublicationComponent } from './publication.component';
-import { ViewComponent } from './view.component';
+import { PublicationNewComponent } from './publication.new.component';
+import { PublicationViewComponent } from './publication.view.component';
+import { PublicationEditComponent } from './publication.edit.component';
 import { PublicationWhatComponent } from './publication.what.component';
 import { PublicationPriceComponent } from './publication.price.component';
 import { PublicationAvailabilityComponent } from './publication.availability.component';
@@ -17,12 +18,18 @@ import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [PublicationComponent,
-                    ViewComponent,
+    declarations: [PublicationNewComponent,
+                    PublicationViewComponent,
+                    PublicationEditComponent,
                     PublicationWhatComponent,
                     PublicationAvailabilityComponent,
                     PublicationPriceComponent],
-    exports: [PublicationComponent, ViewComponent, PublicationWhatComponent, PublicationAvailabilityComponent, PublicationPriceComponent],
+    exports: [PublicationNewComponent,
+                PublicationViewComponent,
+                PublicationEditComponent,
+                PublicationWhatComponent,
+                PublicationAvailabilityComponent,
+                PublicationPriceComponent],
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,

@@ -10,12 +10,13 @@ import { Service } from './service/service.model';
 
 @Component({
   selector: 'publication',
-  styleUrls: ['publication.component.scss'],
-  templateUrl: 'publication.component.html'
+  styleUrls: ['publication.new.component.scss'],
+  templateUrl: 'publication.new.component.html'
 })
-export class PublicationComponent {
+export class PublicationNewComponent {
 
   whatType = 1;
+  typeSelected = '';
 
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
 
@@ -84,31 +85,25 @@ export class PublicationComponent {
     }
 
     let typeOfPublication;
-    let urlToNavigation;
     switch (this.whatType) {
       case 1:
+        this.typeSelected = 'Property';
         typeOfPublication = new Property();
-        urlToNavigation = '/publication/property/edit';
         break;
       case 2:
         typeOfPublication = new Service();
-        urlToNavigation = '/publication/service/edit';
         break;
       case 3:
         typeOfPublication = new Property();
-        urlToNavigation = '/publication/entreteinment/edit';
         break;
       case 4:
         typeOfPublication = new Property();
-        urlToNavigation = '/publication/others/edit';
         break;
     }
 
     if (!inStorage || !sameType) {
       this.publicationService.saveToStorage(typeOfPublication);
     }
-
-    this.router.navigate([urlToNavigation]);
   }
 
   /**
@@ -120,7 +115,7 @@ export class PublicationComponent {
                   data => {
                     this.publicationService.deleteInStorage();
 
-                    this.router.navigate(['/view/property', data.obj._id]);
+                    this.router.navigate(['/view', data.obj._id]);
                   },
                   // error => console.error(error)
               );

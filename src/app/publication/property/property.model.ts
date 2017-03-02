@@ -1,14 +1,11 @@
 import { Publication } from '../publication.model';
 
 export class Property extends Publication {
-    description: string;
     details: Details;
     location: Location;
     facilities: Facilities;
     constructor() {
         super(1);
-        this.price = 0;
-        this.description = '';
         this.details = new Details();
         this.location = new Location();
         this.facilities = new Facilities();

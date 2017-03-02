@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PublicationService } from '../publication.service';
 import { Publication } from '../publication.model';
 
@@ -13,11 +13,11 @@ export class Coord {
 }
 
 @Component({
-  selector: 'edit',
+  selector: 'edit-property',
   styleUrls: ['edit.component.scss'],
   templateUrl: 'edit.component.html'
 })
-export class PropertyEditComponent implements OnInit, DoCheck {
+export class PropertyEditComponent implements OnInit {
   starsCount: number;
 
   images: any[];
@@ -27,7 +27,7 @@ export class PropertyEditComponent implements OnInit, DoCheck {
 
   private publication: Publication;
 
-  ngDoCheck() {
+  publicationChange() {
     this.publicationService.getPublicationChangeEvent().emit(this.publication);
   }
 

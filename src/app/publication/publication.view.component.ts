@@ -7,10 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'view',
-  styleUrls: ['view.component.scss'],
-  templateUrl: 'view.component.html'
+  styleUrls: ['publication.view.component.scss'],
+  templateUrl: 'publication.view.component.html'
 })
-export class ViewComponent {
+export class PublicationViewComponent {
 
   constructor(
     private toastyService: ToastyService,

@@ -5,8 +5,10 @@
 
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt-nodejs');
+let Schema = mongoose.Schema;
 
 let userSchema = mongoose.Schema({
+    favorites: [{ type : Schema.Types.ObjectId, ref: 'Publication' }],
     plan: {
         type: Number,
         testMonth: Boolean,
@@ -59,7 +61,7 @@ userSchema.methods.generateHash = function(password) {
  * @function validPassword
  * @memberof module:Users~User
  * @this module:Users~User
- * @param {String} password
+ * @param {string} password
  * @returns True or False
  */
 userSchema.methods.validPassword = function(password) {
@@ -69,7 +71,7 @@ userSchema.methods.validPassword = function(password) {
 
 /**
  * A composition of user Facebook profile data and Facebook token data.
- * @typedef {Object} FacebookUserData
+ * @typedef {Object} Facebook
  * @property {string}           id            - Facebook user id of the user
  * @property {string}           token         - Facebook long lived token to access user information later
  * @property {string}           email         - Email of facebook user 
@@ -77,10 +79,19 @@ userSchema.methods.validPassword = function(password) {
  */
 
 /**
+ * Details of the client Plan
+ * @typedef {Object} Plan
+ * @property {number}           type                    - Type of Plan (Bronze - Silver - Gold - Plantinum - Diamond)
+ * @property {string}           testMonth               - Indicate is the actual month is test
+ * @property {number}           publicationsAvailable   - Count of publications available 
+ * @property {date}             expiration              - Date of publication expiration
+ */
+
+/**
  * Mongoose model for user document.
  *
  * @class User
- * @property {string}           plan                            - plan of the user
- * @property {FacebookUserData} facebook                        - Facebook information of the user
+ * @property {Plan}           plan                            - plan of the user
+ * @property {Facebook}       facebook                        - Facebook information of the user
  */
 module.exports = mongoose.model('User', userSchema);

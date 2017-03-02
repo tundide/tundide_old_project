@@ -17,3 +17,10 @@ let jobLockExpiredUser = new CronJob('1 * * * * *', function() {
 }, null, true);
 
 jobLockExpiredUser.start();
+
+
+let jobDeleteExpiredPublications = new CronJob('1 * * * * *', function() {
+    console.log('Se eliminar 5 publicaciones vencidas');
+}, null, true);
+
+jobDeleteExpiredPublications.start();

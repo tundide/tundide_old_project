@@ -1,6 +1,59 @@
 <div class="card">
     <div class="card-block">
         <h4 class="card-title">Disponibilidad</h4>
-
+        <p><small>Defina el rango que desea bloquear.</small></p>
+        <p><small>Tenga en cuenta que el rango que bloquee, no estara habilitado para generar reservas.</small></p>
+        <h4>
+        Horarios donde no estara disponible
+        <button
+            class="btn btn-primary pull-right"
+            (click)="addEvent()">
+            Agregar Bloqueo
+        </button>
+        <div class="clearfix"></div>
+        </h4>
+        <table class="event-editor-table">
+            <thead>
+                <tr>
+                    <th>Razon</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let event of events; let index = index">
+                    <td>
+                        <input
+                        type="text"
+                        class="form-control"
+                        place-holder="Raz&oacute;n del Bloqueo"
+                        [(ngModel)]="event.title"
+                        (keyup)="refresh.next()">
+                    </td>
+                    <td>
+                        <date-time-picker
+                        [(date)]="event.start"
+                        (dateChange)="refresh.next()"
+                        placeholder="Not set">
+                        </date-time-picker>
+                    </td>
+                    <td>
+                        <date-time-picker
+                        [(date)]="event.end"
+                        (dateChange)="refresh.next()"
+                        placeholder="Not set">
+                        </date-time-picker>
+                    </td>
+                    <td>
+                        <button
+                        class="btn btn-danger"
+                        (click)="events.splice(index, 1); refresh.next()">
+                        Borrar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

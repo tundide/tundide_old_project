@@ -16,6 +16,7 @@ import { PublicationService } from './publication.service';
 import { ToastyModule } from 'ng2-toasty';
 import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [PublicationNewComponent,
@@ -38,6 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         RouterModule,
         CommonModule,
         NgbModule,
+        SharedModule.forRoot(),
         ToastyModule.forRoot()],
     providers: [AuthGuard, PublicationService]
 })

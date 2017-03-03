@@ -103,6 +103,7 @@ export class PublicationNewComponent {
 
     if (!inStorage || !sameType) {
       this.publicationService.saveToStorage(typeOfPublication);
+      this.publicationService.getPublicationChangeEvent().emit(typeOfPublication);
     }
   }
 

@@ -4,40 +4,11 @@
             <div class="container-fliud">
                 <div class="wrapper row">
                     <div class="preview col-md-6">
-                        <div class="preview-pic tab-content">
-                            <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" />
-                            </div>
-                            <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" />
-                            </div>
-                            <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" />
-                            </div>
-                            <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" />
-                            </div>
-                            <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" />
-                            </div>
-                        </div>
-                        <ul class="preview-thumbnail nav nav-tabs">
-                            <li class="active">
-                                <a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" />
-                                </a>
-                            </li>
-                            <li>
-                                <a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" />
-                                </a>
-                            </li>
-                            <li>
-                                <a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" />
-                                </a>
-                            </li>
-                            <li>
-                                <a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" />
-                                </a>
-                            </li>
-                            <li>
-                                <a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" />
-                                </a>
-                            </li>
-                        </ul>
+                        <ngb-carousel>
+                            <template *ngFor="let img of property.images; let i = img" ngbSlide>
+                                <img class="mx-auto" src="http://localhost:3001/files/download/{{img}}" alt="Random first slide">
+                            </template>
+                        </ngb-carousel>
                     </div>
                     <div class="details col-md-6">
                         <small>Fecha de publicaci&oacute;n: {{property.publishedDate | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
@@ -93,48 +64,50 @@
         <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Comodidades</h4>
-                <p *ngIf="property.facilities.internet" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Internet</span>
-                </p>
-                <p *ngIf="property.facilities.airconditioning" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Aire acondicionado</span>
-                </p>
-                <p *ngIf="property.facilities.elevator" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Ascensor</span>
-                </p>
-                <p *ngIf="property.facilities.heating" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Calefacci&oacute;n</span>
-                </p>
-                <p *ngIf="property.facilities.reception" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Recepci&oacute;n</span>
-                </p>
-                <p *ngIf="property.facilities.security" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Seguridad</span>
-                </p>
-                <p *ngIf="property.facilities.powerunit" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Grupo Electrogeno</span>
-                </p>
-                <p *ngIf="property.facilities.phone" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Telefono</span>
-                </p>
-                <p *ngIf="property.facilities.gas" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Gas Natural</span>
-                </p>
-                <p *ngIf="property.facilities.water" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Agua Corriente</span>
-                </p>
-                <p *ngIf="property.facilities.lobby" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Sala de Espera</span>
-                </p>
-                <p *ngIf="property.facilities.buffet" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Cafeteria</span>
-                </p>
-                <p *ngIf="property.facilities.ramp" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Rampa de acceso</span>
-                </p>
-                <p *ngIf="property.facilities.openingtothestreet" class="card-text">
-                    <span><i class="fa fa-check" aria-hidden="true"></i>Apertura puerta de calle</span>
-                </p>
+                <div *ngIf="property.facilities">
+                    <p *ngIf="property.facilities.internet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Internet</span>
+                    </p>
+                    <p *ngIf="property.facilities.airconditioning" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Aire acondicionado</span>
+                    </p>
+                    <p *ngIf="property.facilities.elevator" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Ascensor</span>
+                    </p>
+                    <p *ngIf="property.facilities.heating" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Calefacci&oacute;n</span>
+                    </p>
+                    <p *ngIf="property.facilities.reception" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Recepci&oacute;n</span>
+                    </p>
+                    <p *ngIf="property.facilities.security" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Seguridad</span>
+                    </p>
+                    <p *ngIf="property.facilities.powerunit" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Grupo Electrogeno</span>
+                    </p>
+                    <p *ngIf="property.facilities.phone" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Telefono</span>
+                    </p>
+                    <p *ngIf="property.facilities.gas" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Gas Natural</span>
+                    </p>
+                    <p *ngIf="property.facilities.water" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Agua Corriente</span>
+                    </p>
+                    <p *ngIf="property.facilities.lobby" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Sala de Espera</span>
+                    </p>
+                    <p *ngIf="property.facilities.buffet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Cafeteria</span>
+                    </p>
+                    <p *ngIf="property.facilities.ramp" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Rampa de acceso</span>
+                    </p>
+                    <p *ngIf="property.facilities.openingtothestreet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Apertura puerta de calle</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

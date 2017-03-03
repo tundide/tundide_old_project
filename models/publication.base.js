@@ -12,6 +12,7 @@ let Schema = mongoose.Schema;
  */
 let PublicationSchema = mongoose.Schema({
     id: { type: Schema.Types.ObjectId },
+    images: [{ type: Schema.Types.ObjectId }],
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     title: String,
     description: String,

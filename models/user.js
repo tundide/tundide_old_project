@@ -71,7 +71,7 @@ userSchema.methods.validPassword = function(password) {
 
 /**
  * A composition of user Facebook profile data and Facebook token data.
- * @typedef {Object} Facebook
+ * @typedef {Object}            Facebook
  * @property {string}           id            - Facebook user id of the user
  * @property {string}           token         - Facebook long lived token to access user information later
  * @property {string}           email         - Email of facebook user 

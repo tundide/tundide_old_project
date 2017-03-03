@@ -10,6 +10,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AppConfig } from '../../app.config';
 import { SharedModule } from '../../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [PropertyEditComponent, PropertyViewComponent],
@@ -20,6 +21,7 @@ import { SharedModule } from '../../shared/shared.module';
         UiSwitchModule,
         CKEditorModule,
         SharedModule.forRoot(),
+        NgbModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: AppConfig.mapsKey
         }),

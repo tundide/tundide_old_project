@@ -54,7 +54,7 @@ app.use(function(req, res, next) {
 });
 
 let routes = require('./routes/routes');
-routes(app, passport);
+routes(app, passport, mongoose);
 
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');

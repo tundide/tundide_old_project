@@ -20,8 +20,6 @@ export class Coord {
 export class PropertyEditComponent implements OnInit {
   starsCount: number;
 
-  images: any[];
-
   lat = Coord.latitude;
   lon = Coord.longitude;
 
@@ -47,47 +45,23 @@ export class PropertyEditComponent implements OnInit {
     // }, function (err) {
     //   console.warn(`ERROR(${err.code}): ${err.message}`);
     // });
+  }
 
-    this.images = [];
-    this.images.push({
-      alt: 'Vista al sotano pero muy linda',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-600x400.jpg', title: 'Amplia Oficina'
-    });
-    this.images.push({
-      alt: 'Paredes blancas muy blancas',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-1-600x322.jpg', title: 'Linda Decoracion'
-    });
-    this.images.push({
-      alt: 'Luz natural, (Llega hasta el sotano)',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-6-600x391.jpg', title: 'Gran Luminosidad'
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-7-600x450.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-4-600x381.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-8-600x450.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-9.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-3-600x348.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-2-600x400.jpg', title: ''
-    });
-    this.images.push({
-      alt: '',
-      source: 'http://www.decoracionia.com/imagenes/oficinas-5-600x400.jpg', title: ''
-    });
+  /**
+  * Upload image to the Publication
+  * @param  {string} event Event of the fileUpload with 'serverResponse' property
+  */
+  imageUploaded(event) {
+    this.publication.images.push(JSON.parse(event.serverResponse)._id);
+    this.publicationService.getPublicationChangeEvent().emit(this.publication);
+  }
+
+  /**
+  * Remove image from the Publication
+  * @param  {string} id Id of the image to remove
+  */
+  imageRemoved(id) {
+    this.publication.images.splice(this.publication.images.indexOf(id), 1);
+    this.publicationService.getPublicationChangeEvent().emit(this.publication);
   }
 }

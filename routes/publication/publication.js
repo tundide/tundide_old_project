@@ -1,4 +1,5 @@
 let express = require('express');
+let mongoose = require('mongoose');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Property = require('../../models/property');
@@ -168,14 +169,18 @@ router.get('/query/:query', function(req, res, next) {
 });
 
 function updateProperty(userId, publication) {
-    Property.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (err, tank) {
+    Property.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (err, prop) {
     if (err) return handleError(err);
-    res.send(tank);
+    res.send(prop);
     });
 }
 function saveProperty(userId, publication) {
     let p = new Property();
     p.user = userId;
+
+    publication.images.forEach(function(val){
+        p.images.push(mongoose.Types.ObjectId(val)) 
+    });;
     p.facilities = publication.facilities;
     p.title = publication.title;
     p.description = publication.description;
@@ -187,9 +192,9 @@ function saveProperty(userId, publication) {
     if (p.id === undefined) {
         return p.save();
     }else {
-        Property.findByIdAndUpdate(publication._id, {$set:p}, { new: true }, function (err, tank) {
+        Property.findByIdAndUpdate(publication._id, {$set:p}, { new: true }, function (err, prop) {
             if (err) return handleError(err);
-                res.send(tank);
+                res.send(prop);
         });
     }
 }

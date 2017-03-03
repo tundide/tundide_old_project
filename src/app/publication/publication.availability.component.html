@@ -28,21 +28,18 @@
                         type="text"
                         class="form-control"
                         place-holder="Raz&oacute;n del Bloqueo"
-                        [(ngModel)]="event.title"
-                        (keyup)="refresh.next()">
+                        [(ngModel)]="event.title">
                     </td>
                     <td>
                         <date-time-picker
                         [(date)]="event.start"
-                        (dateChange)="refresh.next()"
-                        placeholder="Not set">
+                        placeholder="No Establecido">
                         </date-time-picker>
                     </td>
                     <td>
                         <date-time-picker
                         [(date)]="event.end"
-                        (dateChange)="refresh.next()"
-                        placeholder="Not set">
+                        placeholder="No Establecido">
                         </date-time-picker>
                     </td>
                     <td>

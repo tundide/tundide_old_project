@@ -11,7 +11,10 @@ import { CalendarModule } from 'angular-calendar';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [TopNavComponent, FooterComponent, CalendarComponent, DateTimePickerComponent],
+    declarations: [TopNavComponent,
+                    FooterComponent,
+                    CalendarComponent,
+                    DateTimePickerComponent],
     exports: [CommonModule,
         FormsModule,
         RouterModule,

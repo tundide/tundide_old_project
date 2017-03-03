@@ -30,18 +30,18 @@ class Details {
 }
 
 class Facilities {
-    internet: boolean;
-    security: boolean;
-    lobby: boolean;
-    airconditioning: boolean;
-    powerunit: boolean;
-    buffet: boolean;
-    elevator: boolean;
-    phone: boolean;
-    ramp: boolean;
-    heating: boolean;
-    gas: boolean;
-    openingtothestreet: boolean;
-    reception: boolean;
-    water: boolean;
+    internet = false;
+    security = false;
+    lobby = false;
+    airconditioning = false;
+    powerunit = false;
+    buffet = false;
+    elevator = false;
+    phone = false;
+    ramp = false;
+    heating = false;
+    gas = false;
+    openingtothestreet = false;
+    reception = false;
+    water = false;
 }

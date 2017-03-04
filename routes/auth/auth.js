@@ -34,6 +34,20 @@ module.exports = function(passport) {
     });
 
     /**
+     * @api {get} /logout Logout User
+     * @apiName auth
+     * @apiGroup Auth
+     * 
+     * @apiSuccess Redirect to home page.
+     * 
+     */
+    router.get('/logout', function(req, res) {
+        req.session.destroy(function(err) {
+            res.redirect('/');
+        });
+    });
+
+    /**
      * @api {get} /google Get Passport authentication
      * @apiName auth
      * @apiGroup Auth

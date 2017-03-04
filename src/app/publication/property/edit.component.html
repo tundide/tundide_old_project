@@ -2,7 +2,8 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Ingresa fotos de tu Inmbueble</h4>
-            <image-upload [buttonCaption]="'Seleccionar Imagenes'" [max]="6" (onFileUploadFinish)="imageUploaded($event)" (onRemove)="imageRemoved($event)" [url]="'http://localhost:3001/files/upload'" [dropBoxMessage]="'O arrastralas ac&aacute;!'"></image-upload>
+            <file-upload [images]="publication.images" (complete)="publicationChange($event)"></file-upload>
+            <!--<image-upload [buttonCaption]="'Seleccionar Imagenes'" [max]="6" (onFileUploadFinish)="imageUploaded($event)" (onRemove)="imageRemoved($event)" [url]="'http://localhost:3001/files/upload'" [dropBoxMessage]="'O arrastralas ac&aacute;!'"></image-upload>-->
         </div>
     </div>
 

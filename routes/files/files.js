@@ -47,9 +47,15 @@ module.exports = function(mongoose) {
             var gfs = grid(conn.db, mongoose.mongo);
 
             var promise = gfs.findOne({ _id: req.params.id }, function(err, file) {
-                res.set('Content-Type', 'image/jpeg');
+                if (file === null) {
+                    return res.status(400).send({
+                        message: 'File not found'
+                    });
+                }
+                res.setHeader('content-type', file.contentType);
+
                 gfs.createReadStream({
-                    filename: file.filename
+                    _id: req.params.id
                 }).pipe(res);
             });
 

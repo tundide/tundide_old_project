@@ -14,7 +14,7 @@ export class AuthService {
     constructor(public http: Http) { }
 
     /**
-     * Event fired whten user authenticated
+     * Event fired when user authenticated
      * @event      onSignin.
      */
     getSigninEvent() {

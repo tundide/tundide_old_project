@@ -5,8 +5,9 @@ import { RouterModule } from '@angular/router';
 import { TopNavComponent } from './topnav/topnav.component';
 import { FooterComponent } from './footer/footer.component';
 import { HttpModule } from '@angular/http';
-import { CalendarComponent } from '../shared/components/calendar/calendar.component';
-import { DateTimePickerComponent } from '../shared/components/calendar/datetimepicker.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { DateTimePickerComponent } from './components/calendar/datetimepicker.component';
+import { FileUploadComponent } from './components/fileupload/fileupload.component';
 import { CalendarModule } from 'angular-calendar';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,14 +15,16 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
     declarations: [TopNavComponent,
                     FooterComponent,
                     CalendarComponent,
-                    DateTimePickerComponent],
+                    DateTimePickerComponent,
+                    FileUploadComponent],
     exports: [CommonModule,
         FormsModule,
         RouterModule,
         TopNavComponent,
         FooterComponent,
         CalendarComponent,
-        DateTimePickerComponent],
+        DateTimePickerComponent,
+        FileUploadComponent],
     imports: [
         CommonModule,
         HttpModule,

@@ -1,9 +1,12 @@
 let express = require('express');
 let mongoose = require('mongoose');
+let grid = require('gridfs-stream');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Property = require('../../models/property');
 let Service = require('../../models/service');
+let fs = require('fs');
+let extend = require('util')._extend;
 
 /**
  * @api {post} /save Save Publication
@@ -43,36 +46,56 @@ let Service = require('../../models/service');
  * 
  */
 router.post('/', function(req, res) {
-    switch (req.body.type) {
-        case 1:
-            let publicationProperty = saveProperty(req.user._id, req.body);
+    let saved = saveImages(req.body.images);
+    saved.then(function(ids) {
+        let pub = new Publication();
+        pub.user = req.user._id;
+        pub.title = req.body.title;
+        pub.description = req.body.description;
+        pub.price = req.body.price;
+        pub.review = {
+            score: req.body.score
+        };
+        if (ids != undefined) {
+            pub.images = ids;
+        }
 
-            publicationProperty.then(function(doc) {
-                res.status(201).json({
+        let saved;
+        switch (req.body.type) {
+            case 1:
+                let publicationProperty = saveProperty(req.body, pub);
+                saved = publicationProperty.save();
+                break;
+            case 2:
+                let publicationService = saveService(req.body, pub);
+                saved = publicationService.save();
+
+                break;
+        }
+
+        saved.then(function(doc) {
+                res.status(200).json({
                     message: 'Saved property',
                     obj: doc
                 });
-            });
-            break;
-        case 2:
-            let publicationService = saveService(req.user._id, req.body);
-
-            publicationService.then(function(doc) {
-                res.status(201).json({
-                    message: 'Saved service',
-                    obj: doc
+            }),
+            function(err) {
+                res.status(500).json({
+                    title: 'Ocurrio un error al guardar el Inmueble',
+                    error: err
                 });
-            });
-            break;
-    }
+            };
+    })
 });
 
+// TODO: Falta agregar la documentacion
+// FIXME: Cambiar el manejo de la misma forma que se hace en el post
 router.patch('/:id', function(req, res, next) {
     Property.findById(req.body.id, function(err, property) {
         if (req.user._id !== property.user.id) {
             res.status(401).json({
                 message: 'Esta publicaci&oacute;n no corresponde a su usuario'
-            });         
+            });
         }
 
         if (doc) {
@@ -108,12 +131,16 @@ router.patch('/:id', function(req, res, next) {
     });
 });
 
+// TODO: Falta agregar la documentacion
 router.get('/:id', function(req, res, next) {
     Publication.findById(req.params.id, function(err, doc) {
         if (doc) {
             switch (doc._type) {
                 case 'Property':
                     Property.findById(req.params.id, function(err, doc) {
+
+
+
                         res.status(201).json({
                             message: 'Recovered correctly',
                             obj: doc
@@ -137,9 +164,9 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+// TODO: Falta agregar la documentacion
 router.get('/query/:query', function(req, res, next) {
     Publication.find({ 'title': new RegExp(req.params.query, 'i') }, function(err, publications) {
-        console.log(publications);
         res.status(201).json({
             message: 'Recovered correctly',
             obj: publications
@@ -168,47 +195,86 @@ router.get('/query/:query', function(req, res, next) {
     // });
 });
 
-function updateProperty(userId, publication) {
-    Property.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (err, prop) {
-    if (err) return handleError(err);
-    res.send(prop);
+// TODO: Falta agregar la documentacion
+// FIXME: Intentar mejorar esta chanchada
+function saveImages(images) {
+    return new Promise((resolve, reject) => {
+        if (images.length == 0) {
+            reject('No  hay imagenes');
+        }
+
+
+        let count = 0;
+        let ids = [];
+        images.forEach(function(item) {
+            let base64Data = item.file.replace(/^data:image\/[a-zA-Z]{1,10};base64,/, "");
+            let fileName = __dirname + "\\" + item.name;
+            fs.writeFile(fileName, base64Data, 'base64', function(err) {
+
+                var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
+                conn.once('open', function() {
+                    var gfs = grid(conn.db, mongoose.mongo);
+
+                    var promise = gfs.findOne({ filename: fileName }, function(err, file) {
+                        if (file === null) {
+                            var writestream = gfs.createWriteStream({
+                                filename: fileName,
+                                content_type: item.contentType
+                            });
+
+                            fs.createReadStream(fileName).pipe(writestream);
+
+                            writestream.on('close', function(file) {
+                                ids.push(file._id);
+
+                                count += 1;
+
+                                fs.unlinkSync(fileName);
+
+                                if (count == images.length) {
+                                    resolve(ids);
+                                }
+                            });
+                        } else {
+                            count += 1;
+                            ids.push(file._id);
+
+                            if (count == images.length) {
+                                resolve(ids);
+                            }
+                        }
+                    });
+                });
+            });
+        })
     });
 }
-function saveProperty(userId, publication) {
-    let p = new Property();
-    p.user = userId;
 
-    publication.images.forEach(function(val){
-        p.images.push(mongoose.Types.ObjectId(val)) 
-    });;
-    p.facilities = publication.facilities;
-    p.title = publication.title;
-    p.description = publication.description;
-    p.price = publication.price;
-    p.review = {
-        score: publication.score
-    };
-
-    if (p.id === undefined) {
-        return p.save();
-    }else {
-        Property.findByIdAndUpdate(publication._id, {$set:p}, { new: true }, function (err, prop) {
-            if (err) return handleError(err);
-                res.send(prop);
-        });
-    }
+// TODO: Falta agregar la documentacion
+function updateProperty(userId, publication) {
+    Property.findByIdAndUpdate(id, { $set: { size: 'large' } }, { new: true }, function(err, prop) {
+        if (err) return handleError(err);
+        res.send(prop);
+    });
 }
 
-function saveService(userId, publication) {
+// TODO: Falta agregar la documentacion
+function saveProperty(publication, publicationModel) {
+    let p = new Property();
+
+    p = extend(p, publicationModel);
+    p.facilities = publication.facilities;
+
+    return p;
+}
+
+// TODO: Falta agregar la documentacion
+function saveService(publication, publicationModel) {
     let p = new Service();
-    p.user = userId;
-    p.title = publication.title;
-    p.description = publication.description;
-    p.price = publication.price;
-    p.review = {
-        score: publication.score
-    };
-    return p.save();
+
+    p = extend(p, publicationModel);
+
+    return p;
 }
 
 module.exports = router;

@@ -7,7 +7,7 @@ import { Publication } from './publication.model';
   styleUrls: ['review.new.component.scss'],
   templateUrl: 'review.new.component.html'
 })
-export class ReviewNew implements OnInit {
+export class ReviewNewComponent implements OnInit {
   private publication: Publication = new Publication(0);
 
   constructor(private publicationService: PublicationService) { }

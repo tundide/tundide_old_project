@@ -1,31 +1,31 @@
-<div class="container">
-    <div class="row" style="margin-top:40px;">
-        <div class="col-md-6">
-            <div class="well well-sm">
-                <div class="text-right">
-                    <a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
-                </div>
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { PropertyEditComponent } from './edit.component';
+import { PropertyViewComponent } from './view.component';
+import { ReviewViewComponent } from '../review.view.component';
+import { ReviewNewComponent } from '../review.new.component';
+import { UiSwitchModule } from 'angular2-ui-switch';
+import { CKEditorModule } from 'ng2-ckeditor';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AppConfig } from '../../app.config';
+import { SharedModule } from '../../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-                <div class="row" id="post-review-box" style="display:none;">
-                    <div class="col-md-12">
-                        <form accept-charset="UTF-8" action="" method="post">
-                            <input id="ratings-hidden" name="rating" type="hidden">
-                            <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
-
-                            <div class="text-right">
-                                <div class="stars starrr" data-rating="0"></div>
-                                <a class="btn btn-danger btn-sm" href="#" id="close-review-box" style="display:none; margin-right: 10px;">
-                                    <span class="glyphicon glyphicon-remove"></span>Cancel</a>
-                                <button class="btn btn-success btn-lg" type="submit">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>  })]
+@NgModule({
+    declarations: [PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
+    exports: [PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
+    imports: [FormsModule,
+        RouterModule,
+        CommonModule,
+        UiSwitchModule,
+        CKEditorModule,
+        SharedModule.forRoot(),
+        NgbModule.forRoot(),
+        AgmCoreModule.forRoot({
+            apiKey: AppConfig.mapsKey
+        })]
 })
 
 export class PropertyMoudle { }

@@ -1,28 +1,52 @@
 <div class="card" id="cardLogin">
-  <div class="card-block">
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">E-mail</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Clave</label>
-        <input type="password" class="form-control" id="exampleInputPassword1"> <a href="#">No la recuerdo</a>
-      </div>
-      <div class="form-check">
-        <label class="form-check-label">
+    <div class="card-block">
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">E-mail</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Clave</label>
+                <input type="password" class="form-control" id="exampleInputPassword1"> <a href="#">No la recuerdo</a>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
           <input type="checkbox" class="form-check-input">
           Recordarme
         </label>
-      </div>
-      <button type="submit" class="btn btn-primary">Ingresar</button>
-      <a href="/auth/google"><img src="/images/SocialMediaIcons/GooglePlus.png" /></a>
-      <a><img src="/images/SocialMediaIcons/Facebook.png" /></a>
-      <a><img src="/images/SocialMediaIcons/LinkedIn.png" /></a>
-      <a><img src="/images/SocialMediaIcons/Twitter.png" /></a>
-    </form>
-  </div>
-  <div class="card-block">
-    No tenes cuenta? <a routerLink="/logout">Registrate</a>
-  </div>
+            </div>
+
+            <div class="kpx_login">
+                <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
+                    <div class="col-xs-12 col-sm-12">
+                        <button type="submit" class="btn btn-md btn-block btn-primary">Ingresar</button>
+                    </div>
+                </div>
+                <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
+                    <div class="offset-md-1 col-md-10">
+                        <div>
+                            <a href="#" class="btn btn-md btn-block kpx_btn-facebook" data-toggle="tooltip" data-placement="top" title="Facebook">
+                                <i class="fa fa-facebook fa-2x"></i>
+                            </a>
+                            <a href="#" class="btn btn-md btn-block kpx_btn-twitter" data-toggle="tooltip" data-placement="top" title="Twitter">
+                                <i class="fa fa-twitter fa-2x"></i>
+                            </a>
+                            <a href="/auth/google" class="btn btn-md btn-block kpx_btn-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus">
+                                <i class="fa fa-google-plus fa-2x"></i>
+                            </a>
+                            <a href="#" class="btn btn-md btn-block kpx_btn-linkedin" data-toggle="tooltip" data-placement="top" title="LinkedIn">
+                                <i class="fa fa-linkedin fa-2x"></i>
+                            </a>
+                            <a href="#" class="btn btn-md btn-block kpx_btn-windows" data-toggle="tooltip" data-placement="top" title="Windows">
+                                <i class="fa fa-windows fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-block">
+        No tenes cuenta? <a routerLink="/logout">Registrate</a>
+    </div>
 </div>

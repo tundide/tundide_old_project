@@ -8,7 +8,8 @@ let bcrypt = require('bcrypt-nodejs');
 let Schema = mongoose.Schema;
 
 let userSchema = mongoose.Schema({
-    favorites: [{ type : Schema.Types.ObjectId, ref: 'Publication' }],
+    lastAccess: Date,
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Publication' }],
     plan: {
         type: Number,
         testMonth: Boolean,

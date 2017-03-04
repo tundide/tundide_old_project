@@ -1,5 +1,134 @@
-#cardLogin{
-float: none;
-margin: 10% auto;
-width: 50%;
+#cardLogin {
+    float: none;
+    margin: 10% auto;
+    width: 40%;
+}
+
+.kpx_socialButtons div a {
+    display: inline-block;
+    margin: 1px;
+}
+
+
+/* Custom, iPhone Retina */
+
+@media (min-width:480px) {
+    #cardLogin {
+        width: 40%;
+    }
+    .kpx_socialButtons div a {
+        width: 70px;
+    }
+}
+
+
+/* Extra Small Devices, Phones */
+
+@media (max-width:480px) {
+    #cardLogin {
+        width: 90%;
+    }
+    .kpx_socialButtons div a {
+        width: 100%;
+    }
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-facebook {
+    background: #3b5998;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.kpx_login .kpx_socialButtons a {
+    color: white; // In yourUse @body-bg 
+    opacity: 0.9;
+}
+
+.kpx_login .kpx_socialButtons a:hover {
+    color: white;
+    opacity: 1;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-facebook:hover {
+    background: #172d5e
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-facebook:focus {
+    background: #fff;
+    color: #3b5998;
+    border-color: #3b5998;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-twitter {
+    background: #00aced;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-twitter:hover {
+    background: #043d52
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-twitter:focus {
+    background: #fff;
+    color: #00aced;
+    border-color: #00aced;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-google-plus {
+    background: #c32f10;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-google-plus:hover {
+    background: #6b1301
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-google-plus:focus {
+    background: #fff;
+    color: #c32f10;
+    border-color: #c32f10
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-linkedin {
+    background: #0976b4;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-linkedin:hover {
+    background: #004269
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-linkedin:focus {
+    background: #fff;
+    color: #0976b4;
+    border-color: #0976b4
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-windows {
+    background: #0078d7;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-windows:hover {
+    background: #004269
+}
+
+.kpx_login .kpx_socialButtons .kpx_btn-windows:focus {
+    background: #fff;
+    color: #0976b4;
+    border-color: #0976b4
 }

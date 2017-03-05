@@ -1,5 +1,6 @@
+@import "../_custom.scss";
 .card {
-    background: #eee;
+    background: $gray-lightest;
     padding: 10px;
     line-height: 1.5em;
 }

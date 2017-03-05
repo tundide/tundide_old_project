@@ -56,9 +56,7 @@ router.post('/', function(req, res) {
         pub.review = {
             score: req.body.score
         };
-        if (ids != undefined) {
-            pub.images = ids;
-        }
+        pub.images = ids;
 
         let saved;
         switch (req.body.type) {
@@ -199,13 +197,13 @@ router.get('/query/:query', function(req, res, next) {
 // FIXME: Intentar mejorar esta chanchada
 function saveImages(images) {
     return new Promise((resolve, reject) => {
+        let ids = [];
+
         if (images.length == 0) {
-            reject('No  hay imagenes');
+            resolve(ids);
         }
 
-
         let count = 0;
-        let ids = [];
         images.forEach(function(item) {
             let base64Data = item.file.replace(/^data:image\/[a-zA-Z]{1,10};base64,/, "");
             let fileName = __dirname + "\\" + item.name;

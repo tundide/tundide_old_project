@@ -3,6 +3,8 @@ var webpackMerge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common.js');
 
 module.exports = webpackMerge.smart(commonConfig, {
+    devtool: 'cheap-module-eval-source-map',
+
     entry: {
         'app': './src/main.aot.ts'
     },
@@ -15,16 +17,14 @@ module.exports = webpackMerge.smart(commonConfig, {
     },
 
     module: {
-        loaders: [
-            {
-                test: /\.ts$/,
-                loaders: [
-                    'awesome-typescript-loader',
-                    'angular2-template-loader',
-                    'angular2-router-loader?aot=true&genDir=public/js/app'
-                ]
-            }
-        ]
+        loaders: [{
+            test: /\.ts$/,
+            loaders: [
+                'awesome-typescript-loader',
+                'angular2-template-loader',
+                'angular2-router-loader?aot=true&genDir=public/js/app'
+            ]
+        }]
     },
 
     plugins: [

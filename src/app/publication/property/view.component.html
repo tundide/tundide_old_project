@@ -6,7 +6,7 @@
                 <div class="container-fliud">
                     <div class="wrapper row">
                         <div class="preview col-md-6">
-                            <ngb-carousel>
+                            <ngb-carousel *ngIf="property.images.length > 0">
                                 <template *ngFor="let img of property.images; let i = img" ngbSlide>
                                 <img class="mx-auto" src="http://localhost:3001/files/download/{{img}}" alt="Random first slide">
                             </template>

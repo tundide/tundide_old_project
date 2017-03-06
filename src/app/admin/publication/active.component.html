@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="container">
+
+            <div class="hgroup mb20">
+                <h1>Publicaciones Activas</h1>
+            </div>
+
+            <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <thead>
+                    <tr>
+                        <th style="width: 20%">
+                            <mfDefaultSorter by="id">Identificador</mfDefaultSorter>
+                        </th>
+                        <th style="width: 50%">
+                            <mfDefaultSorter by="title">Titulo</mfDefaultSorter>
+                        </th>
+                        <th style="width: 30%">
+                            <mfDefaultSorter by="action">Accion</mfDefaultSorter>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pub of publications">
+                        <td>{{pub.shortId}}</td>
+                        <td>{{pub.title}}</td>
+                        <td>
+                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
+                                <span class="fa fa-pencil-square-o"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

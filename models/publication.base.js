@@ -3,7 +3,6 @@
  * @module Publication
  */
 let mongoose = require('mongoose');
-let util = require('util');
 let Schema = mongoose.Schema;
 
 /**
@@ -11,24 +10,27 @@ let Schema = mongoose.Schema;
  * @constructor Publication
  */
 let PublicationSchema = mongoose.Schema({
+    dateOfExpiration: Date,
+    description: String,
     id: { type: Schema.Types.ObjectId },
     images: [{ type: Schema.Types.ObjectId }],
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
-    title: String,
-    description: String,
     price: Number,
     publishedDate: { type: Date, default: Date.now },
-    dateOfExpiration: Date,
-    schedules: {
-        title: Date,
-        startDate: Date,
-        endDate: Date,
+    reviews: {
+        description: String,
         user: { type: Schema.Types.ObjectId, ref: 'User' }
     },
-    reviews: {
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
-        description: String
-    }
+    schedules: {
+        endDate: Date,
+        startDate: Date,
+        title: Date,
+        user: { type: Schema.Types.ObjectId, ref: 'User' }
+    },
+    shortId: String,
+    status: { type: Number, default: 1 /** Active */ },
+    /** 1 - Activa, 2 - Pausada */
+    title: String,
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { collection: 'publications', discriminatorKey: '_type' });
 
 module.exports = PublicationSchema;

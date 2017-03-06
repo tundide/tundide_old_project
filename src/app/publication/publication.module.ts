@@ -13,10 +13,10 @@ import { PropertyMoudle } from './property/property.module';
 import { ServiceMoudle } from './service/service.module';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PublicationService } from './publication.service';
+import { SharedModule } from '../shared/shared.module';
 import { ToastyModule } from 'ng2-toasty';
 import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [PublicationNewComponent,

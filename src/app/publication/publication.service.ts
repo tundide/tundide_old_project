@@ -105,13 +105,14 @@ export class PublicationService {
     }
 
     /**
-     * Save publication in database
+     * Find publications in database
      * @param  {Publication} publication The publication object
-     * @returns {Publication} Saved publication
+     * @returns {Array.<Publication>} Saved publications
      */
-    findIntoDatabase(query: string) {
+    findIntoDatabase(query: any) {
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/publication/query/' + query, {headers: headers})
+
+        return this.http.get('http://localhost:3001/publication/find/' + JSON.stringify(query), {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -122,5 +123,22 @@ export class PublicationService {
             });
     }
 
+    /**
+     * Find publications in database
+     * @param  {Number} status Status of publications (1 - Active / 2 - Paused)
+     * @returns {Array.<Publication>} Saved publications
+     */
+    listUserIntoDatabase(status: number) {
+        const headers = new Headers({'Content-Type': 'application/json'});
 
+        return this.http.get('http://localhost:3001/publication/list/user/' + status, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

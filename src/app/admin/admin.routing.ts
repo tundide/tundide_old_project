@@ -5,6 +5,8 @@ import { AlertComponent } from './settings/alert.component';
 import { ScheduleComponent } from './settings/schedule.component';
 import { AdminComponent } from './admin.component';
 import { AuthGuard } from '../auth/auth-guard.service';
+import { PublicationActiveComponent } from './publication/active.component';
+import { PublicationPausedComponent } from './publication/paused.component';
 
 const routes: Routes = [
     {
@@ -29,6 +31,16 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 component: ScheduleComponent,
                 path: 'schedule'
+            },
+            {
+                canActivate: [AuthGuard],
+                component: PublicationActiveComponent,
+                path: 'active'
+            },
+            {
+                canActivate: [AuthGuard],
+                component: PublicationPausedComponent,
+                path: 'paused'
             }
         ],
         component: AdminComponent,

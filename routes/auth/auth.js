@@ -27,7 +27,7 @@ module.exports = function(passport) {
                 });
             });
         } else {
-            return res.status(401).json({
+            return res.status(500).json({
                 error: 'Unauthorized'
             });
         }

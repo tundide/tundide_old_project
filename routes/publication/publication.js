@@ -7,6 +7,7 @@ let Property = require('../../models/property');
 let Service = require('../../models/service');
 let fs = require('fs');
 let extend = require('util')._extend;
+let shortid = require('shortid');
 
 /**
  * @api {post} /save Save Publication
@@ -45,7 +46,7 @@ let extend = require('util')._extend;
  * }
  * 
  */
-router.post('/', function(req, res) {
+router.post('/', isLoggedIn, function(req, res) {
     let saved = saveImages(req.body.images);
     saved.then(function(ids) {
         let pub = new Publication();
@@ -88,10 +89,10 @@ router.post('/', function(req, res) {
 
 // TODO: Falta agregar la documentacion
 // FIXME: Cambiar el manejo de la misma forma que se hace en el post
-router.patch('/:id', function(req, res, next) {
+router.patch('/:id', isLoggedIn, function(req, res, next) {
     Property.findById(req.body.id, function(err, property) {
         if (req.user._id !== property.user.id) {
-            res.status(401).json({
+            res.status(500).json({
                 message: 'Esta publicaci&oacute;n no corresponde a su usuario'
             });
         }
@@ -136,9 +137,6 @@ router.get('/:id', function(req, res, next) {
             switch (doc._type) {
                 case 'Property':
                     Property.findById(req.params.id, function(err, doc) {
-
-
-
                         res.status(201).json({
                             message: 'Recovered correctly',
                             obj: doc
@@ -163,34 +161,23 @@ router.get('/:id', function(req, res, next) {
 });
 
 // TODO: Falta agregar la documentacion
-router.get('/query/:query', function(req, res, next) {
-    Publication.find({ 'title': new RegExp(req.params.query, 'i') }, function(err, publications) {
+router.get('/find/:query', function(req, res, next) {
+    Publication.find(JSON.parse(req.params.query), function(err, publications) {
         res.status(201).json({
             message: 'Recovered correctly',
             obj: publications
         });
     });
+});
 
-    // Publication.findById(req.params.id, function(err, doc) {
-    //     switch (doc._type) {
-    //         case 'Property':
-    //             Property.findById(req.params.id, function(err, doc) {
-    //                 res.status(201).json({
-    //                     message: 'Recovered correctly',
-    //                     obj: doc
-    //                 });
-    //             });
-    //             break;
-    //         case 'Service':
-    //             Service.findById(req.params.id, function(err, doc) {
-    //                 res.status(201).json({
-    //                     message: 'Recovered correctly',
-    //                     obj: doc
-    //                 });
-    //             });
-    //             break;
-    //     }
-    // });
+router.get('/list/user/:status', isLoggedIn, function(req, res, next) {
+    let param = req.user;
+    Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
+        res.status(201).json({
+            message: 'Recovered correctly',
+            obj: publications
+        });
+    });
 });
 
 // TODO: Falta agregar la documentacion
@@ -261,6 +248,7 @@ function saveProperty(publication, publicationModel) {
     let p = new Property();
 
     p = extend(p, publicationModel);
+    p.shortId = 'PR-' + shortid.generate();
     p.facilities = publication.facilities;
 
     return p;
@@ -271,8 +259,19 @@ function saveService(publication, publicationModel) {
     let p = new Service();
 
     p = extend(p, publicationModel);
+    p.shortId = 'SE-' + shortid.generate();
 
     return p;
 }
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        return res.status(500).json({
+            error: 'Unauthorized'
+        });
+    }
+};
 
 module.exports = router;

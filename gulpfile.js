@@ -27,7 +27,7 @@ gulp.task('doc', function(done) {
 
 gulp.task('jsdoc', function(cb) {
     let config = require('./config/jsdoc.json');
-    gulp.src(['./**/*.js', '!**/node_modules/**/*.*'], { read: true })
+    gulp.src(['./**/*.js', '!**/node_modules/**/*.*', '!**/public/**/*.*'], { read: true })
         .pipe(jsdoc(config, cb));
 });
 

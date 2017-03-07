@@ -1,6 +1,6 @@
 /**
  * The data-layer for a Properties
- * @class Property
+ * @class Service
  * @memberof module:Publication
  */
 let mongoose = require('mongoose');

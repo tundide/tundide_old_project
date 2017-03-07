@@ -24,6 +24,7 @@ export class Reservation {
     endDate: Date;
     startDate: Date;
     title: string;
+    approved: boolean;
 }
 
 export class Publication {

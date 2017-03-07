@@ -8,13 +8,13 @@ let extend = require('mongoose-schema-extend');
 let util = require('util');
 let bcrypt = require('bcrypt-nodejs');
 let Schema = mongoose.Schema;
-let PublicationSchema = require('./publication.base.js');
+let PublicationSchema = require('./publication.js');
 
 /**
  * Property schema
  * @constructor Property
  */
-let PropertySchema = PublicationSchema.extend({
+let PropertySchema = PublicationSchema.schema.extend({
     facilities: {
         internet: Boolean,
         airconditioning: Boolean,

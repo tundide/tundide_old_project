@@ -5,6 +5,27 @@ export enum PublicationType {
     Others
 }
 
+class Review {
+    score: number;
+    messages: Array<Message>;
+
+    constructor() {
+        this.score = 0;
+        this.messages = new Array<Message>();
+    }
+}
+
+class Message {
+    message: string;
+    user: string;
+}
+
+export class Reservation {
+    endDate: Date;
+    startDate: Date;
+    title: string;
+}
+
 export class Publication {
     type: PublicationType;
     title: string;
@@ -12,6 +33,8 @@ export class Publication {
     description: string;
     price: number;
     images: Array<string>;
+    review: Review;
+    reservations: Array<Reservation>;
 
     constructor(publicationType: PublicationType) {
         this.title = '';
@@ -19,6 +42,8 @@ export class Publication {
         this.price = 0;
         this.description = '';
         this.type = publicationType;
+        this.review = new Review();
         this.images = new Array();
+        this.reservations = new Array();
     }
 }

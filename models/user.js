@@ -10,6 +10,13 @@ let Schema = mongoose.Schema;
 let userSchema = mongoose.Schema({
     lastAccess: Date,
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Publication' }],
+    reservations: [{
+        publication: { type: Schema.Types.ObjectId, ref: 'Publication' },
+        pendingtoqualify: Boolean
+    }],
+    reviews: {
+        score: Number
+    },
     plan: {
         type: Number,
         testMonth: Boolean,

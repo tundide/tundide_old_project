@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, Input, TemplateRef } from '@angular/core';
 import {
   startOfDay,
   endOfDay,
@@ -40,8 +40,13 @@ const colors: any = {
 export class CalendarComponent {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
+  @Input('month') month: boolean;
+  @Input('week') week: boolean;
+  @Input('day') day: boolean;
+
   locale = 'es';
 
+  @Input('default')
   view = 'month';
 
   viewDate: Date = new Date();

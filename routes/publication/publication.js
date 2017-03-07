@@ -54,9 +54,7 @@ router.post('/', isLoggedIn, function(req, res) {
         pub.title = req.body.title;
         pub.description = req.body.description;
         pub.price = req.body.price;
-        pub.review = {
-            score: req.body.score
-        };
+        pub.review = req.body.review;
         pub.images = ids;
 
         let saved;
@@ -84,12 +82,12 @@ router.post('/', isLoggedIn, function(req, res) {
                     error: err
                 });
             };
-    })
+    });
 });
 
 // TODO: Falta agregar la documentacion
 // FIXME: Cambiar el manejo de la misma forma que se hace en el post
-router.patch('/:id', isLoggedIn, function(req, res, next) {
+router.patch('/:id', isLoggedIn, function(req, res) {
     Property.findById(req.body.id, function(err, property) {
         if (req.user._id !== property.user.id) {
             res.status(500).json({
@@ -131,7 +129,7 @@ router.patch('/:id', isLoggedIn, function(req, res, next) {
 });
 
 // TODO: Falta agregar la documentacion
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
     Publication.findById(req.params.id, function(err, doc) {
         if (doc) {
             switch (doc._type) {
@@ -161,7 +159,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 // TODO: Falta agregar la documentacion
-router.get('/find/:query', function(req, res, next) {
+router.get('/find/:query', function(req, res) {
     Publication.find(JSON.parse(req.params.query), function(err, publications) {
         res.status(201).json({
             message: 'Recovered correctly',
@@ -170,8 +168,7 @@ router.get('/find/:query', function(req, res, next) {
     });
 });
 
-router.get('/list/user/:status', isLoggedIn, function(req, res, next) {
-    let param = req.user;
+router.get('/list/user/:status', isLoggedIn, function(req, res) {
     Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
         res.status(201).json({
             message: 'Recovered correctly',
@@ -196,13 +193,13 @@ function saveImages(images) {
             let fileName = __dirname + "\\" + item.name;
             fs.writeFile(fileName, base64Data, 'base64', function(err) {
 
-                var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
+                let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
                 conn.once('open', function() {
-                    var gfs = grid(conn.db, mongoose.mongo);
+                    let gfs = grid(conn.db, mongoose.mongo);
 
-                    var promise = gfs.findOne({ filename: fileName }, function(err, file) {
+                    let promise = gfs.findOne({ filename: fileName }, function(err, file) {
                         if (file === null) {
-                            var writestream = gfs.createWriteStream({
+                            let writestream = gfs.createWriteStream({
                                 filename: fileName,
                                 content_type: item.contentType
                             });
@@ -231,7 +228,7 @@ function saveImages(images) {
                     });
                 });
             });
-        })
+        });
     });
 }
 

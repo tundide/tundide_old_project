@@ -13,6 +13,6 @@
     "rules": {
         "semi": 2,
         "no-var": 1,
-        "typescript/rule-name": "error"
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
     }
 }

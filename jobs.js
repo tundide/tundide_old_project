@@ -6,11 +6,11 @@
 
 let CronJob = require('cron').CronJob;
 
-let job = new CronJob('1 * * * * *', function() {
-    console.log('Enviando alertas');
+let jobSendMailPendingToQualify = new CronJob('1 * * * * *', function() {
+    console.log('Se enviaron 10 emails para calificar publicacion');
 }, null, true);
 
-job.start();
+jobSendMailPendingToQualify.start();
 
 
 let jobLockExpiredUser = new CronJob('1 * * * * *', function() {
@@ -30,3 +30,15 @@ let jobDeleteExpiredPublications = new CronJob('1 * * * * *', function() {
 }, null, true);
 
 jobDeleteExpiredPublications.start();
+
+let jobCalculateUserScore = new CronJob('1 * * * * *', function() {
+    console.log('Se calcularon los scores de los usuarios');
+}, null, true);
+
+jobCalculateUserScore.start();
+
+let jobCalculatePublicationScore = new CronJob('1 * * * * *', function() {
+    console.log('Se calcularon los scores de las publicaciones');
+}, null, true);
+
+jobCalculatePublicationScore.start();

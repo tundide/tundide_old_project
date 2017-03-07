@@ -1,1 +1,15 @@
 <view-property></view-property>
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
+<div class="modal-header">
+    <h4 class="modal-title">Confirmar Reserva</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<publication-reserve></publication-reserve>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
+    <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
+</div>
+</template>

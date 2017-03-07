@@ -1,6 +1,6 @@
 /**
- * The data-layer for a Services
- * @class Service
+ * The data-layer for a Properties
+ * @class Property
  * @memberof module:Publication
  */
 let mongoose = require('mongoose');
@@ -8,28 +8,38 @@ let extend = require('mongoose-schema-extend');
 let util = require('util');
 let bcrypt = require('bcrypt-nodejs');
 let Schema = mongoose.Schema;
-let PublicationSchema = require('./publication.base.js');
+let PublicationSchema = require('./publication.js');
 
 /**
  * Service schema
  * @constructor Service
  */
-let ServiceSchema = PublicationSchema.extend({
-    algo: Number
+let ServiceSchema = PublicationSchema.schema.extend({
+    facilities: {
+        internet: Boolean,
+        airconditioning: Boolean,
+        elevator: Boolean,
+        heating: Boolean,
+        reception: Boolean,
+        security: Boolean,
+        powerunit: Boolean,
+        phone: Boolean,
+        gas: Boolean,
+        water: Boolean,
+        lobby: Boolean,
+        buffet: Boolean,
+        ramp: Boolean,
+        openingtothestreet: Boolean
+    },
+    location: {
+        province: Number,
+        place: Number,
+        district: Number,
+        street: Number,
+        number: Number,
+        latitude: String,
+        longitude: String
+    }
 });
-
-/**
- * Find services into publications
- *
- * @function _find
- * @memberof module:Publication.Service
- * @this module:Publication.Service
- * @param {String} query Detail of query to search service
- * @returns True or False
- */
-ServiceSchema.statics._find = function(query, next) {
-    query._type = 'Service';
-    this.find(query, next);
-};
 
 module.exports = mongoose.model('Service', ServiceSchema);

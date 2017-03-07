@@ -16,7 +16,6 @@ export class PublicationService {
      */
     @Output() onPublicationChange: EventEmitter<any> = new EventEmitter();
 
-
     /**
      * Get publicationChangeEvent
      * @event      onPublicationChange.

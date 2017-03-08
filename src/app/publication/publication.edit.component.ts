@@ -52,6 +52,21 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
   }
 
+  /**
+   * Save changes of the publication on database and redirect to view publication
+   */
+  onSaveChanges() {
+    let publication = this.publicationService.getFromStorage();
+    this.publicationService.updateToDatabase(publication).subscribe(
+                  data => {
+                    this.publicationService.deleteInStorage();
+
+                    this.router.navigate(['/view', data.obj._id]);
+                  },
+                  // error => console.error(error)
+              );
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

@@ -18,6 +18,6 @@ export class PublicationReserveComponent {
   }
 
   reservationChange() {
-    this.reservationService.getReserveChangeEvent().emit(this.reservation);
+    this.reservationService.onReserveChange.emit(this.reservation);
   }
 }

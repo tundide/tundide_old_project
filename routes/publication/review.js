@@ -42,6 +42,7 @@ router.patch('/:id', isLoggedIn, function(req, res) {
     );
 });
 
+// TODO: Agregar documentacion del metodo
 router.get('/:id', isLoggedIn, function(req, res) {
     Publication.findById(req.params.id).populate('reviews.user').exec(function(err, items) {
         res.status(200).json({

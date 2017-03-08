@@ -22,23 +22,6 @@ export class ReservationService {
      */
     @Output() onReserveChange: EventEmitter<any> = new EventEmitter();
 
-    /**
-     * Get reserveEvent
-     * @event      onReserve.
-     */
-    getReserveEvent() {
-        return this.onReserve;
-    }
-
-    /**
-     * Get reserveEvent
-     * @event      onReserve.
-     */
-    getReserveChangeEvent() {
-        return this.onReserveChange;
-    }
-
-
     constructor(private http: Http, private errorService: ErrorService) {
         this.onReserve = new EventEmitter();
         this.onReserveChange = new EventEmitter();

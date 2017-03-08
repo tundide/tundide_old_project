@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
         if (elm.nativeElement.getAttribute('isauthenticated') === 'true') {
             this.authService.getUserCredentials().subscribe(
                 (response) => {
-                    this.authService.getSigninEvent().emit(response);
+                    this.authService.onSignin.emit(response);
                 },
                 (err) => {
                     console.log(err);

@@ -28,7 +28,7 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
       this.publicationService.getFromDatabase(params['id']).subscribe(
               data => {
                 this.property = data.obj;
-                this.publicationService.getPublicationLoadEvent().emit(data.obj);
+                this.publicationService.onPublicationLoad.emit(data.obj);
               },
               // error => console.error(error)
           );
@@ -40,6 +40,6 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
   }
 
   onReserve() {
-    this.reservationService.getReserveEvent().emit(false);
+    this.reservationService.onReserve.emit(false);
   }
 }

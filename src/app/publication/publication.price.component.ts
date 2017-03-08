@@ -13,12 +13,12 @@ export class PublicationPriceComponent implements OnInit {
   constructor(private publicationService: PublicationService) { }
 
   ngOnInit() {
-    this.publicationService.getPublicationChangeEvent().subscribe((publication) => {
+    this.publicationService.onPublicationChange.subscribe((publication) => {
       this.publication = publication;
     });
   }
 
   priceChange() {
-    this.publicationService.getPublicationChangeEvent().emit(this.publication);
+    this.publicationService.onPublicationChange.emit(this.publication);
   }
 }

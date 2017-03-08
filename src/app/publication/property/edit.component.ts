@@ -26,7 +26,7 @@ export class PropertyEditComponent implements OnInit {
   private publication: Publication;
 
   publicationChange() {
-    this.publicationService.getPublicationChangeEvent().emit(this.publication);
+    this.publicationService.onPublicationChange.emit(this.publication);
   }
 
   constructor(private publicationService: PublicationService) {
@@ -34,7 +34,7 @@ export class PropertyEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.publicationService.getPublicationChangeEvent().subscribe((publication) => {
+    this.publicationService.onPublicationChange.subscribe((publication) => {
       this.publication = publication;
     });
     // navigator.geolocation.getCurrentPosition(function (pos) {
@@ -53,7 +53,7 @@ export class PropertyEditComponent implements OnInit {
   */
   imageUploaded(event) {
     this.publication.images.push(JSON.parse(event.serverResponse)._id);
-    this.publicationService.getPublicationChangeEvent().emit(this.publication);
+    this.publicationService.onPublicationChange.emit(this.publication);
   }
 
   /**
@@ -62,6 +62,6 @@ export class PropertyEditComponent implements OnInit {
   */
   imageRemoved(id) {
     this.publication.images.splice(this.publication.images.indexOf(id), 1);
-    this.publicationService.getPublicationChangeEvent().emit(this.publication);
+    this.publicationService.onPublicationChange.emit(this.publication);
   }
 }

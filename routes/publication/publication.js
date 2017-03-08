@@ -8,6 +8,8 @@ let Service = require('../../models/service');
 let fs = require('fs');
 let extend = require('util')._extend;
 let shortid = require('shortid');
+let Success = require('../shared/success.js');
+let Error = require('../shared/error.js');
 
 // TODO:Completar ejemplos
 /**
@@ -72,61 +74,39 @@ router.post('/', isLoggedIn, function(req, res) {
         }
 
         saved.then(function(doc) {
-                res.status(200).json({
-                    message: 'Saved property',
-                    obj: doc
-                });
+
+                res.status(200).json(new Success('Saved property', doc));
             }),
             function(err) {
-                res.status(500).json({
-                    title: 'Ocurrio un error al guardar el Inmueble',
-                    error: err
-                });
+                res.status(500).json(new Error('Ocurrio un error al guardar el Inmueble', err));
             };
     });
 });
 
 // TODO: Falta agregar la documentacion
-// FIXME: Cambiar el manejo de la misma forma que se hace en el post
-router.patch('/:id', isLoggedIn, function(req, res) {
-    Property.findById(req.body.id, function(err, property) {
-        if (req.user._id !== property.user.id) {
-            res.status(500).json({
-                message: 'Esta publicaci&oacute;n no corresponde a su usuario'
-            });
-        }
+router.patch('/', isLoggedIn, function(req, res) {
 
-        if (doc) {
-            switch (req.body.type) {
-                case 1:
-                    let publicationProperty = saveProperty(req.user._id, req.body);
+    switch (req.body._type) {
+        case 'Property':
 
-                    publicationProperty.then(function(doc) {
-                        res.status(201).json({
-                            message: 'Saved property',
-                            obj: doc
-                        });
+            Property.findOneAndUpdate({ _id: req.body._id }, req.body, { upsert: true }, function(err, doc) {
+                if (err) {
+                    res.status(500).json({
+                        title: 'Ocurrio un error al guardar el Inmueble',
+                        error: err
                     });
-                    break;
-                case 2:
-                    let publicationService = saveService(req.user._id, req.body);
-
-                    publicationService.then(function(doc) {
-                        res.status(201).json({
-                            message: 'Saved service',
-                            obj: doc
-                        });
-                    });
-                    break;
-            }
+                };
 
 
-        } else {
-            res.status(201).json({
-                message: 'No se encontraron coincidencias'
+                res.status(200).json(new Success('Saved property', doc));
             });
-        }
-    });
+
+            break;
+        case 'Service':
+            let publicationService = saveService(req.body, doc);
+            saved = publicationService.update({ _id: req.body.id }, req.newData, { upsert: true });
+            break;
+    }
 });
 
 // TODO: Falta agregar la documentacion

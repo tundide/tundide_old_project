@@ -32,7 +32,7 @@ export class PublicationNewComponent {
 
     this.toastyConfig.theme = 'bootstrap';
 
-    this.publicationService.getPublicationChangeEvent().subscribe((publication) => {
+    this.publicationService.onPublicationChange.subscribe((publication) => {
       this.publicationService.saveToStorage(publication);
     });
   }
@@ -103,7 +103,7 @@ export class PublicationNewComponent {
 
     if (!inStorage || !sameType) {
       this.publicationService.saveToStorage(typeOfPublication);
-      this.publicationService.getPublicationChangeEvent().emit(typeOfPublication);
+      this.publicationService.onPublicationChange.emit(typeOfPublication);
     }
   }
 

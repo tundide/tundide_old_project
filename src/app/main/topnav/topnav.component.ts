@@ -22,7 +22,7 @@ export class TopNavComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.authService.getSigninEvent().subscribe((user) => {
+        this.authService.onSignin.subscribe((user) => {
             this.user = user;
         });
     }

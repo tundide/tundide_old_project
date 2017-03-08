@@ -79,11 +79,11 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
       this.publicationId = params['id'];
     });
 
-    this.reservationService.getReserveChangeEvent().subscribe((reservation) => {
+    this.reservationService.onReserveChange.subscribe((reservation) => {
       this.reservation = reservation;
     });
 
-    this.publicationService.getPublicationLoadEvent().subscribe((publication) => {
+    this.publicationService.onPublicationLoad.subscribe((publication) => {
       for (let i = 0; i < publication.reservations.length; i++) {
                   let reservation = publication.reservations[i];
                   let startDate = moment(reservation.startDate);
@@ -98,7 +98,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
       }
     });
 
-    this.reservationService.getReserveEvent().subscribe((confirm) => {
+    this.reservationService.onReserve.subscribe((confirm) => {
       this.modalService.open(this.modal, { size: 'lg' }).result.then((result) => {
         if (result) {
           this.reservationService.reserve(this.publicationId, this.reservation)

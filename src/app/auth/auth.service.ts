@@ -9,17 +9,13 @@ import { User } from './user.model';
  */
 @Injectable()
 export class AuthService {
-    @Output() onSignin: EventEmitter<any> = new EventEmitter();
-
-    constructor(public http: Http) { }
-
     /**
      * Event fired when user authenticated
      * @event      onSignin.
      */
-    getSigninEvent() {
-        return this.onSignin;
-    }
+    @Output() onSignin: EventEmitter<any> = new EventEmitter();
+
+    constructor(public http: Http) { }
 
     /**
      * Validate is the user is authenticated or not

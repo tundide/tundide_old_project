@@ -22,21 +22,6 @@ export class PublicationService {
      */
     @Output() onPublicationLoad: EventEmitter<any> = new EventEmitter();
 
-    /**
-     * Get publicationChangeEvent
-     * @event      onPublicationChange.
-     */
-    getPublicationChangeEvent() {
-        return this.onPublicationChange;
-    }
-
-    /**
-     * Get publicationLoadEvent
-     * @event      onPublicationLoad.
-     */
-    getPublicationLoadEvent() {
-        return this.onPublicationLoad;
-    }
     constructor(private http: Http, private errorService: ErrorService) {
         this.onPublicationChange = new EventEmitter();
     }
@@ -88,6 +73,25 @@ export class PublicationService {
         const body = JSON.stringify(publication);
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post('http://localhost:3001/publication', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Update saved publication in database
+     * @param  {Publication} publication The publication object
+     * @returns {Publication} Saved publication
+     */
+    updateToDatabase(publication: Publication) {
+        const body = JSON.stringify(publication);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.patch('http://localhost:3001/publication', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

@@ -1,4 +1,5 @@
 let express = require('express');
+let mongoose = require('mongoose');
 let router = express.Router();
 let Publication = require('../../models/publication');
 

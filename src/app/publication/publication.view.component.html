@@ -1,15 +1,49 @@
 <view-property></view-property>
-<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
+                </calendar>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Comentarios</h4>
+                    <review-view [reviews]="reviews"></review-view>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <review-new></review-new>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 <template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
-<div class="modal-header">
-    <h4 class="modal-title">Confirmar Reserva</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<publication-reserve></publication-reserve>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
-    <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
-</div>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirmar Reserva</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <publication-reserve></publication-reserve>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
+        <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
+    </div>
 </template>

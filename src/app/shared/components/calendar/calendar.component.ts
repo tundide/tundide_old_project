@@ -25,7 +25,7 @@ export class CalendarComponent {
   locale = 'es';
 
   @Input('default')
-  view = 'month';
+  view = 'day';
 
   viewDate: Date = new Date();
 

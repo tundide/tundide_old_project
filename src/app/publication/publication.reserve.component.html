@@ -9,12 +9,12 @@
         <div class="row">
             <div class="col-md-6 cod-lg-6">
                 <label for="formReason">Desde</label>
-                <date-time-picker [(date)]="reservation.startDate" (change)="reservationChange()" placeholder="No Establecido">
+                <date-time-picker [(date)]="reservation.startDate" (dateChange)="reservationChange()" placeholder="No Establecido">
                 </date-time-picker>
             </div>
             <div class="col-md-6 cod-lg-6">
                 <label for="formReason">Hasta</label>
-                <date-time-picker [(date)]="reservation.endDate" (change)="reservationChange()" placeholder="No Establecido">
+                <date-time-picker [(date)]="reservation.endDate" (dateChange)="reservationChange()" placeholder="No Establecido">
                 </date-time-picker>
             </div>
         </div>

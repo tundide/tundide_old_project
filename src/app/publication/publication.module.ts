@@ -15,6 +15,7 @@ import { ServiceMoudle } from './service/service.module';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PublicationService } from './publication.service';
 import { ReservationService } from './reservation.service';
+import { ReviewService } from './review.service';
 import { SharedModule } from '../shared/shared.module';
 import { ToastyModule } from 'ng2-toasty';
 import { WizardModule } from 'ng2-archwizard/dist';
@@ -45,7 +46,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         SharedModule.forRoot(),
         ToastyModule.forRoot()],
-    providers: [AuthGuard, PublicationService, ReservationService]
+    providers: [AuthGuard, PublicationService, ReservationService, ReviewService]
 })
 
 export class PublicationModule { }

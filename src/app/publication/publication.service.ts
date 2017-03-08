@@ -17,6 +17,12 @@ export class PublicationService {
     @Output() onPublicationChange: EventEmitter<any> = new EventEmitter();
 
     /**
+     * Event fired when publication load form Database
+     * @event      onPublicationLoad.
+     */
+    @Output() onPublicationLoad: EventEmitter<any> = new EventEmitter();
+
+    /**
      * Get publicationChangeEvent
      * @event      onPublicationChange.
      */
@@ -24,6 +30,13 @@ export class PublicationService {
         return this.onPublicationChange;
     }
 
+    /**
+     * Get publicationLoadEvent
+     * @event      onPublicationLoad.
+     */
+    getPublicationLoadEvent() {
+        return this.onPublicationLoad;
+    }
     constructor(private http: Http, private errorService: ErrorService) {
         this.onPublicationChange = new EventEmitter();
     }

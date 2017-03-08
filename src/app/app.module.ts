@@ -11,6 +11,7 @@ import { SearchModule } from './search/search.module';
 import { MainModule } from './main/main.module';
 import { PriceModule } from './price/price.module';
 import { AdminModule } from './admin/admin.module';
+import { ToastyModule } from 'ng2-toasty';
 import { APP_CONFIG, AppConfig } from './app.config';
 
 
@@ -25,7 +26,8 @@ import { APP_CONFIG, AppConfig } from './app.config';
         PriceModule,
         MainModule,
         NgbModule.forRoot(),
-        AdminModule.forRoot()
+        AdminModule.forRoot(),
+        ToastyModule.forRoot()
     ],
     providers: [
         AuthService,

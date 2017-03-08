@@ -9,8 +9,9 @@ let fs = require('fs');
 let extend = require('util')._extend;
 let shortid = require('shortid');
 
+// TODO:Completar ejemplos
 /**
- * @api {post} /save Save Publication
+ * @api {post} / Save Publication
  * @apiName publication
  * @apiGroup Publication
  * @apiExample {js} Property Example
@@ -54,7 +55,7 @@ router.post('/', isLoggedIn, function(req, res) {
         pub.title = req.body.title;
         pub.description = req.body.description;
         pub.price = req.body.price;
-        pub.review = req.body.review;
+        pub.reviews = req.body.reviews;
         pub.images = ids;
 
         let saved;

@@ -13,17 +13,17 @@
                             </ngb-carousel>
                         </div>
                         <div class="details col-md-6">
-                            <small>Pub: {{property.shortId}} / Fecha de publicaci&oacute;n: {{property.publishedDate | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
+                            <small>Pub: {{ property.shortId }} / Fecha de publicaci&oacute;n: {{ property.publishedDate | date: 'dd/MM/yyyy hh:mm:ss' }}</small>
                             <h3 class="product-title">{{property.title}}</h3>
-                            <div class="rating">
+                            <div>
                                 <div>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
+                                    <ngb-rating [readonly]="true" [max]="5" [rate]="property.reviews">
+                                        <template let-fill="fill">
+                                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                                        </template>
+                                    </ngb-rating>
                                 </div>
-                                <span class="review-no">41 rese&ntilde;as</span>
+                                <span class="review-no">{{ property.reviews.length }} rese&ntilde;as</span>
                             </div>
                             <h4 class="price">Precio: <span>${{property.price}}</span></h4>
                             <p class="vote"><strong>91%</strong> de personas le gusto este lugar! <strong>(87 votos)</strong>
@@ -157,24 +157,4 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <calendar [events]="events" day="true" week="true" month="true" default="week">
-                </calendar>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-title">Comentarios</h4>
-                    <review-view></review-view>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <review-new></review-new>
 </div>

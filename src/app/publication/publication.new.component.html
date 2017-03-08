@@ -1,4 +1,3 @@
-<ng2-toasty [position]="'top-right'"></ng2-toasty>
 <wizard #wizard>
     <wizard-step title="Que queres alguilar?">
         <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
@@ -34,7 +33,6 @@
     </wizard-step>
 
     <wizard-step title="Confirma la publicaci&oacute;n">
-        Content of Step 3
         <div class="wizard-buttons">
             <button class="btn btn-primary" type="button" previousStep>Anterior</button>
             <button class="btn btn-primary pull-right" (click)="onStepFinish()" type="button">Finalizar</button>

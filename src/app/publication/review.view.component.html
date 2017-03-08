@@ -1,4 +1,4 @@
-<ngb-carousel [interval]="10000">
+<ngb-carousel [interval]="10000" *ngIf="reviews.length > 0">
     <template ngbSlide *ngFor="let review of reviews; let i = review">
         <blockquote class="form-inline">
             <div class="form-group">
@@ -7,7 +7,7 @@
 
             <div class="form-group">
                 <p>{{ review.message }}</p>
-                <small class="form-text text-muted">Marcos Panichella</small>
+                <small class="form-text text-muted">{{ review.user.name }}</small>
             </div>
                     
         </blockquote>

@@ -5,7 +5,7 @@ import { PublicationService } from './publication.service';
 import { ReservationService } from './reservation.service';
 import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Reservation, Review } from './publication.model';
+import { Reservation } from './publication.model';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
 import * as moment from 'moment';
 
@@ -59,7 +59,6 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
   events: CalendarEvent[] = [];
 
   private reservation: Reservation = new Reservation();
-  private reviews: Review[] = [];
   private publicationId: string;
   private sub: any;
 
@@ -85,7 +84,6 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     });
 
     this.publicationService.getPublicationLoadEvent().subscribe((publication) => {
-      this.reviews = publication.reviews;
       for (let i = 0; i < publication.reservations.length; i++) {
                   let reservation = publication.reservations[i];
                   let startDate = moment(reservation.startDate);

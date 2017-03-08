@@ -26,7 +26,6 @@ export class ReviewNewComponent implements OnInit, OnDestroy {
   }
 
   saveReview() {
-    alert(this.publicationId);
     this.reviewService.rateit(this.publicationId, this.review)
       .subscribe(data => {
         this.toastyService.success({

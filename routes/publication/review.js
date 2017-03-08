@@ -42,6 +42,15 @@ router.patch('/:id', isLoggedIn, function(req, res) {
     );
 });
 
+router.get('/:id', isLoggedIn, function(req, res) {
+    Publication.findById(req.params.id).populate('reviews.user').exec(function(err, items) {
+        res.status(200).json({
+            message: 'Recover reviews correctly',
+            obj: items.reviews
+        });
+    });
+});
+
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         next();

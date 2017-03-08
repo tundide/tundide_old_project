@@ -22,6 +22,23 @@ export class ReviewService {
 
     /**
      * Rate it the publication
+     * @param  {String} id The id of publication
+     */
+    get(id: string) {
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.get('http://localhost:3001/review/' + id, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Rate it the publication
      * @param  {Review} review The review object
      */
     rateit(id: string, review: Review) {

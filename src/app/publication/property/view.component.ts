@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../publication.service';
 import { ReservationService } from '../reservation.service';
 import { Property } from './property.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'view-property',
@@ -15,8 +16,10 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   private sub: any;
   private property: Property = new Property();
+  private myPublication: Boolean = false;
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private publicationService: PublicationService,
               private reservationService: ReservationService) {
   }
@@ -28,8 +31,13 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
       this.publicationService.getFromDatabase(params['id']).subscribe(
               data => {
                 this.property = data.obj;
+                if (this.authService.user) {
+                  this.myPublication = (this.authService.user.id === data.obj.user);
+                }
+
                 this.publicationService.onPublicationLoad.emit(data.obj);
               },
+              // TODO: Ver el manejo de errores
               // error => console.error(error)
           );
     });

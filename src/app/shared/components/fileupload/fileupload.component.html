@@ -1,10 +1,10 @@
 <div class="input-group image-preview">
     <div class="btn btn-default image-preview-input"> <span class="glyphicon glyphicon-folder-open"></span> <span class="image-preview-input-title">SELECCIONAR IMAGENES</span>
-        <input type="file" accept="image/png, image/jpeg, image/gif" multiple="" (change)="changeListener($event)" name="input-file-preview" />
+        <input #fileInput type="file" accept="image/png, image/jpeg, image/gif" multiple="" (change)="changeListener($event)" name="input-file-preview" />
     </div>
 </div>
 <div class="row-fluid">
-    <div class="images" *ngFor="let file of images; let i = file" [ngStyle]="{'background-image': 'url(' + file.file + ')'}">
-        <a (click)="removeImage(file.name)" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <div class="images" *ngFor="let file of files; let i = file" [ngStyle]="{'background-image': 'url(/files/download/' + file + ')'}">
+        <a (click)="removeImage(file)" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a>
     </div>
 </div>

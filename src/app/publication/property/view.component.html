@@ -37,7 +37,7 @@
                                     <button class="add-to-cart btn btn-default" (click)="onReserve()" type="button">Reservar</button>
                                     <button class="btn btn-danger" type="button"><span class="fa fa-heart-o"></span>
                                 </button>
-                                    <button class="btn btn-primary" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
+                                    <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
                                 </button>
                                     <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
                                     <button class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
@@ -51,7 +51,11 @@
                                         <li>
                                             <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-twitter"></i> Twitter</a> </li>
                                         <li>
-                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-google-plus"></i> Google+</a> </li>
+                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

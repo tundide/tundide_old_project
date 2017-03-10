@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { DateTimePickerComponent } from './components/calendar/datetimepicker.component';
 import { FileUploadComponent } from './components/fileupload/fileupload.component';
+import { FileUploadService } from './components/fileupload/fileupload.service';
 import { CalendarModule } from 'angular-calendar';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,7 +28,8 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
         NgbDatepickerModule.forRoot(),
         NgbTimepickerModule.forRoot(),
         CalendarModule.forRoot()
-    ]
+    ],
+    providers: [FileUploadService]
 })
 
 export class SharedModule {

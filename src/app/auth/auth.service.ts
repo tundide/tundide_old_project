@@ -15,6 +15,8 @@ export class AuthService {
      */
     @Output() onSignin: EventEmitter<any> = new EventEmitter();
 
+    public user;
+
     constructor(public http: Http) { }
 
     /**
@@ -45,7 +47,8 @@ export class AuthService {
             .map((response: Response) => {
                 const result = response.json();
                 localStorage.setItem('token', result.user.google.token);
-                return new User(result.user._Id, result.user.google.name, result.user.google.email, result.user.google.token);
+                this.user = new User(result.user._id, result.user.google.name, result.user.google.email, result.user.google.token);
+                return this.user;
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }

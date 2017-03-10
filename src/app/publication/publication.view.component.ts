@@ -111,7 +111,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
               title: 'Reserva solicitada con exito.'
             });
           },
-          err => {
+          err => {// TODO: Corregir el manejo de errores
              console.log(err);
             });
         }

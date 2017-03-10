@@ -20,18 +20,18 @@ module.exports = function(mongoose) {
      * 
      */
     router.post('/upload', function(req, res) {
-        var form = new formidable.IncomingForm();
+        let form = new formidable.IncomingForm();
         form.uploadDir = __dirname + "/data";
         form.keepExtensions = true;
         form.parse(req, function(err, fields, files) {
             if (!err) {
-                var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
+                let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
                 conn.once('open', function() {
-                    var gfs = grid(conn.db, mongoose.mongo);
-                    var writestream = gfs.createWriteStream({
-                        filename: files.image.name
+                    let gfs = grid(conn.db, mongoose.mongo);
+                    let writestream = gfs.createWriteStream({
+                        filename: files.file.name
                     });
-                    fs.createReadStream(files.image.path).pipe(writestream);
+                    fs.createReadStream(files.file.path).pipe(writestream);
                     //TODO: Eliminar archivo del disco una vez subido a la base
                     writestream.on('close', function(file) {
                         res.send(file);
@@ -42,11 +42,11 @@ module.exports = function(mongoose) {
     });
 
     router.get('/download/:id', function(req, res) {
-        var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
+        let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
         conn.once('open', function() {
-            var gfs = grid(conn.db, mongoose.mongo);
+            let gfs = grid(conn.db, mongoose.mongo);
 
-            var promise = gfs.findOne({ _id: req.params.id }, function(err, file) {
+            let promise = gfs.findOne({ _id: req.params.id }, function(err, file) {
                 if (file === null) {
                     return res.status(400).send({
                         message: 'File not found'
@@ -59,6 +59,21 @@ module.exports = function(mongoose) {
                 }).pipe(res);
             });
 
+        });
+    });
+
+    router.delete('/delete/:id', function(req, res) {
+        let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
+        conn.once('open', function() {
+            let gfs = grid(conn.db, mongoose.mongo);
+
+            gfs.remove({ _id: req.params.id }, function (err) {
+                if (err) return handleError(err);
+                
+                res.status(200).json({
+                    message: 'File removed correctly'
+                });
+            });
         });
     });
 

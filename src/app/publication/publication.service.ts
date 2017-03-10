@@ -14,16 +14,29 @@ export class PublicationService {
      * Event fired when publication change
      * @event      onPublicationChange.
      */
-    @Output() onPublicationChange: EventEmitter<any> = new EventEmitter();
+    @Output() onPublicationChange: EventEmitter<any>;
+
+    /**
+     * Event fired when publication price change
+     * @event      onPublicationPriceChange.
+     */
+    @Output() onPublicationPriceChange: EventEmitter<any>;
 
     /**
      * Event fired when publication load form Database
      * @event      onPublicationLoad.
      */
-    @Output() onPublicationLoad: EventEmitter<any> = new EventEmitter();
+    @Output() onPublicationLoad: EventEmitter<any>;
 
+    public publication: Publication;
     constructor(private http: Http, private errorService: ErrorService) {
         this.onPublicationChange = new EventEmitter();
+        this.onPublicationPriceChange = new EventEmitter();
+        this.onPublicationLoad = new EventEmitter();
+
+        this.onPublicationChange.subscribe((publication) => {
+            this.publication = publication;
+        });
     }
 
     /**

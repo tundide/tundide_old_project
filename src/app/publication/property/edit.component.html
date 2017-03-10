@@ -2,8 +2,7 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Ingresa fotos de tu Inmbueble</h4>
-            <file-upload [images]="publication.images" (complete)="publicationChange($event)"></file-upload>
-            <!--<image-upload [buttonCaption]="'Seleccionar Imagenes'" [max]="6" (onFileUploadFinish)="imageUploaded($event)" (onRemove)="imageRemoved($event)" [url]="'http://localhost:3001/files/upload'" [dropBoxMessage]="'O arrastralas ac&aacute;!'"></image-upload>-->
+            <file-upload [files]="publication.images" (complete)="publicationChange($event)"></file-upload>
         </div>
     </div>
 
@@ -81,7 +80,6 @@
             <input type="numeric" id="piso" (change)="publicationChange($event)" class="form-control" />
         </div>
     </div>
-
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Con que comodidades cuenta?</h4>

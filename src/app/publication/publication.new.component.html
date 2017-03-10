@@ -7,9 +7,9 @@
         </div>
     </wizard-step>
     <wizard-step (stepEnter)="onStepWhat($event)" title="Danos un poco mas de detalle" optionalStep>
-        <form #emailDetails="ngForm">
-            <edit-property *ngIf="typeSelected=='Property'"></edit-property>
-            <edit-service *ngIf="typeSelected=='Service'"></edit-service>
+        <form #emailDetails="ngForm" *ngIf="publication">
+            <edit-property *ngIf="whatType=='Property'"></edit-property>
+            <edit-service *ngIf="whatType=='Service'"></edit-service>
             <!--
                 Cuando esten desarrollando los dos descomentarlo
                 <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>

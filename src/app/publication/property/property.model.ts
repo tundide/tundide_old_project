@@ -5,7 +5,7 @@ export class Property extends Publication {
     location: Location;
     facilities: Facilities;
     constructor() {
-        super(1);
+        super('Property');
         this.details = new Details();
         this.location = new Location();
         this.facilities = new Facilities();

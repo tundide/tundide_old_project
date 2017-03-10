@@ -2,7 +2,8 @@ import { Component, OnInit,  OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PublicationService } from './publication.service';
-import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
+import { Publication } from './publication.model';
+import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,6 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PublicationEditComponent implements OnInit, OnDestroy {
   whatType = '';
   private sub: any;
+  private publication: Publication;
 
   constructor(
     private toastyService: ToastyService,
@@ -22,34 +24,30 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     private location: Location,
     private modalService: NgbModal,
     private publicationService: PublicationService) {
+      // Si cambia algo de la publicacion tengo que recargar el modelo local
+      this.publicationService.onPublicationChange.subscribe((publication) => {
+        this.publication = publication;
+        this.publicationService.saveToStorage(publication);
+      });
+      // Si cambia el precio tengo que asignarselo al modelo
+      this.publicationService.onPublicationPriceChange.subscribe((price) => {
+        this.publication.price = price;
+        this.publicationService.onPublicationChange.emit(this.publication);
+      });
+    }
 
-    this.toastyConfig.theme = 'bootstrap';
-
-
-
-    let toastOptions: ToastOptions = {
-      msg: 'Se recupero con exito la publicaci&oacute;n',
-      showClose: true,
-      theme: 'bootstrap',
-      timeout: 5000,
-      title: 'Publicacion recuperada'
-    };
-
-    this.toastyService.success(toastOptions);
+  ngOnInit() {
+    window.scrollTo(0, 0);
 
     this.sub = this.route.params.subscribe(params => {
       this.publicationService.getFromDatabase(params['id']).subscribe(
               data => {
                 this.whatType = data.obj._type;
-                this.publicationService.saveToStorage(data.obj);
+                this.publicationService.onPublicationChange.emit(data.obj);
               },
               // error => console.error(error)
           );
     });
-  }
-
-  ngOnInit() {
-    window.scrollTo(0, 0);
   }
 
   /**
@@ -62,7 +60,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
                     this.publicationService.deleteInStorage();
 
                     this.router.navigate(['/view', data.obj._id]);
-                  },
+                  }, // TODO: Corregir el manejo de errores
                   // error => console.error(error)
               );
   }

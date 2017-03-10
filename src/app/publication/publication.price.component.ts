@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicationService } from './publication.service';
-import { Publication } from './publication.model';
 
 @Component({
   selector: 'publication-price',
@@ -8,17 +7,17 @@ import { Publication } from './publication.model';
   templateUrl: 'publication.price.component.html'
 })
 export class PublicationPriceComponent implements OnInit {
-  private publication: Publication = new Publication(0);
+  private price: Number = 0;
 
   constructor(private publicationService: PublicationService) { }
 
   ngOnInit() {
     this.publicationService.onPublicationChange.subscribe((publication) => {
-      this.publication = publication;
+      this.price = publication.price;
     });
   }
 
   priceChange() {
-    this.publicationService.onPublicationChange.emit(this.publication);
+    this.publicationService.onPublicationPriceChange.emit(this.price);
   }
 }

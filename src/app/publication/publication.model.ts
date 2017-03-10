@@ -1,10 +1,3 @@
-export enum PublicationType {
-    Property = 1,
-    Services,
-    Entreteinment,
-    Others
-}
-
 export class Review {
     score: number;
     message: string;
@@ -25,7 +18,7 @@ export class Reservation {
 }
 
 export class Publication {
-    type: PublicationType;
+    type: string;
     title: string;
     shortId: string;
     description: string;
@@ -34,7 +27,7 @@ export class Publication {
     reviews: Array<Review>;
     reservations: Array<Reservation>;
 
-    constructor(publicationType: PublicationType) {
+    constructor(publicationType: string) {
         this.title = '';
         this.shortId = '';
         this.price = 0;

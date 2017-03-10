@@ -5,6 +5,7 @@ import { PublicationService } from './publication.service';
 import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WizardComponent } from 'ng2-archwizard/dist';
+import { Publication } from './publication.model';
 import { Property } from './property/property.model';
 import { Service } from './service/service.model';
 
@@ -15,8 +16,8 @@ import { Service } from './service/service.model';
 })
 export class PublicationNewComponent {
 
-  whatType = 1;
-  typeSelected = '';
+  whatType = 'Property';
+  publication: Publication;
 
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
 
@@ -33,7 +34,13 @@ export class PublicationNewComponent {
     this.toastyConfig.theme = 'bootstrap';
 
     this.publicationService.onPublicationChange.subscribe((publication) => {
-      this.publicationService.saveToStorage(publication);
+        this.publication = publication;
+        this.publicationService.saveToStorage(publication);
+    });
+
+    this.publicationService.onPublicationPriceChange.subscribe((price) => {
+      this.publication.price = price;
+      this.publicationService.onPublicationChange.emit(this.publication);
     });
   }
 
@@ -74,37 +81,33 @@ export class PublicationNewComponent {
     let inStorage = false;
     if (this.publicationService.existsInStorage()) {
       inStorage = true;
-      let pub = this.publicationService.getFromStorage();
-      if (pub.type === this.whatType) {
+      this.publication = this.publicationService.getFromStorage();
+
+      if (this.publication.type === this.whatType) {
         sameType = true;
       }
     }
 
     if (inStorage && sameType) {
       this.toastyService.info(toastOptions);
+    }else {
+      switch (this.whatType) {
+        case 'Property':
+          this.publication = new Property();
+          break;
+        case 'Service':
+          this.publication = new Service();
+          break;
+        case 'Entreteniment':
+          this.publication = new Property();
+          break;
+        case 'Others':
+          this.publication = new Property();
+          break;
+      }
     }
 
-    let typeOfPublication;
-    switch (this.whatType) {
-      case 1:
-        this.typeSelected = 'Property';
-        typeOfPublication = new Property();
-        break;
-      case 2:
-        typeOfPublication = new Service();
-        break;
-      case 3:
-        typeOfPublication = new Property();
-        break;
-      case 4:
-        typeOfPublication = new Property();
-        break;
-    }
-
-    if (!inStorage || !sameType) {
-      this.publicationService.saveToStorage(typeOfPublication);
-      this.publicationService.onPublicationChange.emit(typeOfPublication);
-    }
+    this.publicationService.onPublicationChange.emit(this.publication);
   }
 
   /**

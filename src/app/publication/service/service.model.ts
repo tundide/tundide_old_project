@@ -6,7 +6,7 @@ export class Service extends Publication {
     location: Location;
     facilities: Facilities;
     constructor() {
-        super(2);
+        super('Service');
         this.price = 0;
         this.description = '';
         this.details = new Details();

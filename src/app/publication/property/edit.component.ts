@@ -23,20 +23,22 @@ export class PropertyEditComponent implements OnInit {
   lat = Coord.latitude;
   lon = Coord.longitude;
 
-  private publication: Publication;
+  public publication: Publication;
 
   publicationChange() {
     this.publicationService.onPublicationChange.emit(this.publication);
   }
 
   constructor(private publicationService: PublicationService) {
-    this.publication = this.publicationService.getFromStorage();
+      this.publication = this.publicationService.publication;
+
+
+      this.publicationService.onPublicationChange.subscribe((publication) => {
+        this.publication = publication;
+      });
   }
 
   ngOnInit() {
-    this.publicationService.onPublicationChange.subscribe((publication) => {
-      this.publication = publication;
-    });
     // navigator.geolocation.getCurrentPosition(function (pos) {
     //   Coord.latitude = pos.coords.latitude;
     //   Coord.longitude = pos.coords.longitude;

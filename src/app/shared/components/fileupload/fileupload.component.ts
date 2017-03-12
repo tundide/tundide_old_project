@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FileUploadService } from './fileupload.service';
 
@@ -19,32 +20,26 @@ export class FileUploadComponent {
     // TODO: Agregar documentacion
     changeListener($event: any): void {
         let fi = this.fileInput.nativeElement;
+
         if (fi.files) {
-            for (let i = 0; i < fi.files.length; i++) {
-                let fileToUpload = fi.files[i];
+            _.forEach(fi.files, (file, key) => {
                 this.fileUploadService
-                    .upload(fileToUpload)
+                    .upload(file)
                     .subscribe(res => {
                         this.files.push(res._id);
-                    });
-            }
+                });
+            });
         }
     }
 
     // TODO: Agregar metodo de borrado y metodo http delete con delete de GridFs
     removeImage(id) {
-        for ( let i = this.files.length; i--; ) {
-            if ( this.files[i] === id) {
-                this.files.splice(i, 1);
-                this.fileUploadService
-                    .delete(id)
-                    .subscribe(res => {
-                        // TODO: Ver que mensaje mandar cunado se borra
-                        console.log(res);
-                    });
-                // TODO: Ver el evento
-                // this.complete.emit(this.images);
-            }
-        }
+        this.fileUploadService
+            .delete(id)
+            .subscribe(res => {
+                _.remove(this.files, (fileId) => {
+                    return fileId === id;
+                });
+            });
     }
 }

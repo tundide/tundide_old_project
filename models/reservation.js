@@ -3,8 +3,8 @@ let Schema = mongoose.Schema;
 
 let reservationSchema = mongoose.Schema({
     approved: { type: Boolean, default: false },
-    endDate: Date,
-    startDate: Date,
+    endDate: { type: Date, default: Date.now },
+    startDate: { type: Date, default: Date.now },
     title: String,
     user: { type: Schema.Types.ObjectId, ref: 'User' }
 });

@@ -32,21 +32,30 @@ router.patch('/:id', isLoggedIn, function(req, res) {
         title: req.body.title,
         user: req.user._id
     };
-
+console.log(reservation);
+console.log(new Date(reservation.startDate));
+console.log(new Date(reservation.endDate));
     Publication.find({
         $and: [{
-            "_id": id,
-        }, {
-            $or: [{
-                "reservations.startDate": { $gte: reservation.startDate },
+            "_id": id
+        },
+        {
+                "reservations": {$ne: null}
+        },
+        {
+            $or: [
+            {
+                "reservations.startDate": { $gt: reservation.startDate },
                 "reservations.startDate": { $lt: reservation.endDate }
             }, {
-                "reservations.endDate": { $gte: reservation.startDate },
-                "reservations.end": { $lt: reservation.endDate }
+                "reservations.endDate": { $gt: reservation.startDate },
+                "reservations.endDate": { $lt: reservation.endDate }
             }]
         }]
-    }, function(error, reservations) {
-        if (reservations.length > 0) {
+    }, function(error, publications) {
+        console.log(publications.length);
+        console.log(publications[0].reservations);
+        if (publications.length > 0) {
             res.status(500).json({
                 title: 'Reserva ocupada',
                 message: 'Ya existe una reserva realizada en este horario' // TODO: Ver el manejo de mensajes hacia el cliente

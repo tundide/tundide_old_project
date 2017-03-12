@@ -17,7 +17,7 @@
                             <h3 class="product-title">{{property.title}}</h3>
                             <div>
                                 <div>
-                                    <ngb-rating [readonly]="true" [max]="5" [rate]="property.reviews">
+                                    <ngb-rating [readonly]="true" [max]="5" [rate]="starsCount">
                                         <template let-fill="fill">
                                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
                                         </template>

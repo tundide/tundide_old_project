@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let Publication = require('../../models/publication');
+let Review = require('../../models/review');
 
 /**
  * @api {patch} / Create Review
@@ -48,6 +49,21 @@ router.get('/:id', function(req, res) {
         res.status(200).json({
             message: 'Recover reviews correctly',
             obj: items.reviews
+        });
+    });
+});
+
+router.get('/score/:id', function(req, res) {
+    Publication.findById(req.params.id).exec(function(err, publication) {
+        var total = 0;
+        for(var i = 0; i < publication.reviews.length; i++) {
+            total += publication.reviews[i].score;
+        }
+        var avg = total / publication.reviews.length;
+        
+        res.status(200).json({
+            message: 'Recover reviews correctly',
+            obj: avg
         });
     });
 });

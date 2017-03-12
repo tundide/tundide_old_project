@@ -9,3 +9,5 @@ import '@angular/router';
 import 'rxjs';
 
 import 'bootstrap/dist/js/bootstrap.js';
+
+import 'lodash';

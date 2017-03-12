@@ -50,23 +50,21 @@ let Error = require('../shared/error.js');
  * 
  */
 router.post('/', isLoggedIn, function(req, res) {
-    let saved = saveImages(req.body.images);
-    saved.then(function(ids) {
         let pub = new Publication();
         pub.user = req.user._id;
         pub.title = req.body.title;
         pub.description = req.body.description;
         pub.price = req.body.price;
         pub.reviews = req.body.reviews;
-        pub.images = ids;
+        pub.images = req.body.images;
 
         let saved;
         switch (req.body.type) {
-            case 1:
+            case 'Property':
                 let publicationProperty = saveProperty(req.body, pub);
                 saved = publicationProperty.save();
                 break;
-            case 2:
+            case 'Service':
                 let publicationService = saveService(req.body, pub);
                 saved = publicationService.save();
 
@@ -74,13 +72,11 @@ router.post('/', isLoggedIn, function(req, res) {
         }
 
         saved.then(function(doc) {
-
                 res.status(200).json(new Success('Saved property', doc));
             }),
             function(err) {
                 res.status(500).json(new Error('Ocurrio un error al guardar el Inmueble', err));
             };
-    });
 });
 
 // TODO: Falta agregar la documentacion
@@ -157,61 +153,6 @@ router.get('/list/user/:status', isLoggedIn, function(req, res) {
         });
     });
 });
-
-// TODO: Falta agregar la documentacion
-// FIXME: Intentar mejorar esta chanchada
-function saveImages(images) {
-    return new Promise((resolve, reject) => {
-        let ids = [];
-
-        if (images.length == 0) {
-            resolve(ids);
-        }
-
-        let count = 0;
-        images.forEach(function(item) {
-            let base64Data = item.file.replace(/^data:image\/[a-zA-Z]{1,10};base64,/, "");
-            let fileName = __dirname + "\\" + item.name;
-            fs.writeFile(fileName, base64Data, 'base64', function(err) {
-
-                let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
-                conn.once('open', function() {
-                    let gfs = grid(conn.db, mongoose.mongo);
-
-                    let promise = gfs.findOne({ filename: fileName }, function(err, file) {
-                        if (file === null) {
-                            let writestream = gfs.createWriteStream({
-                                filename: fileName,
-                                content_type: item.contentType
-                            });
-
-                            fs.createReadStream(fileName).pipe(writestream);
-
-                            writestream.on('close', function(file) {
-                                ids.push(file._id);
-
-                                count += 1;
-
-                                fs.unlinkSync(fileName);
-
-                                if (count == images.length) {
-                                    resolve(ids);
-                                }
-                            });
-                        } else {
-                            count += 1;
-                            ids.push(file._id);
-
-                            if (count == images.length) {
-                                resolve(ids);
-                            }
-                        }
-                    });
-                });
-            });
-        });
-    });
-}
 
 // TODO: Falta agregar la documentacion
 function updateProperty(userId, publication) {

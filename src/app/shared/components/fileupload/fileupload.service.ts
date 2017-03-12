@@ -47,7 +47,7 @@ export class FileUploadService {
      */
     delete(id: string) {
         return this.http
-            .delete('/files/delete/' + name)
+            .delete('/files/delete/' + id)
             .map((response: Response) => {
                 const result = response.json();
                 return result;

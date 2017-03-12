@@ -4,6 +4,7 @@ import { PublicationService } from '../publication.service';
 import { ReservationService } from '../reservation.service';
 import { Property } from './property.model';
 import { AuthService } from '../../auth/auth.service';
+import { ReviewService } from '../review.service';
 
 @Component({
   selector: 'view-property',
@@ -21,7 +22,8 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private publicationService: PublicationService,
-              private reservationService: ReservationService) {
+              private reservationService: ReservationService,
+              private reviewService: ReviewService) {
   }
 
   ngOnInit() {
@@ -40,6 +42,11 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
               // TODO: Ver el manejo de errores
               // error => console.error(error)
           );
+
+      this.reviewService.getScore(params['id'])
+        .subscribe(data => {
+          this.starsCount = data.obj;
+      });
     });
   }
 

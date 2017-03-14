@@ -1,161 +1,148 @@
-<div class="container">
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="container-fliud">
-                    <div class="wrapper row">
-                        <div class="preview col-md-6">
-                            <ngb-carousel *ngIf="property.images.length > 0">
-                                <template *ngFor="let img of property.images; let i = img" ngbSlide>
-                                <img class="mx-auto" src="http://localhost:3001/files/download/{{img}}" alt="Random first slide">
+<div class="card">
+    <div class="container-fliud">
+        <div class="wrapper row">
+            <div class="preview col-md-6">
+                <ngb-carousel *ngIf="property.images.length > 0">
+                    <template *ngFor="let img of property.images; let i = img" ngbSlide>
+                    <img class="mx-auto" src="http://localhost:3001/files/download/{{img}}" alt="Random first slide">
+                </template>
+                </ngb-carousel>
+            </div>
+            <div class="details col-md-6">
+                <small>Pub: {{ property.shortId }} / Fecha de publicaci&oacute;n: {{ property.publishedDate | date: 'dd/MM/yyyy hh:mm:ss' }}</small>
+                <h3 class="product-title">{{property.title}}</h3>
+                <div>
+                    <div>
+                        <ngb-rating [readonly]="true" [max]="5" [rate]="publicationAverage.score">
+                            <template let-fill="fill">
+                                <span class="star" [class.filled]="fill === 100">&#9733;</span>
                             </template>
-                            </ngb-carousel>
-                        </div>
-                        <div class="details col-md-6">
-                            <small>Pub: {{ property.shortId }} / Fecha de publicaci&oacute;n: {{ property.publishedDate | date: 'dd/MM/yyyy hh:mm:ss' }}</small>
-                            <h3 class="product-title">{{property.title}}</h3>
-                            <div>
-                                <div>
-                                    <ngb-rating [readonly]="true" [max]="5" [rate]="starsCount">
-                                        <template let-fill="fill">
-                                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                                        </template>
-                                    </ngb-rating>
-                                </div>
-                                <span class="review-no">{{ property.reviews.length }} rese&ntilde;as</span>
-                            </div>
-                            <h4 class="price">Precio: <span>${{property.price}}</span></h4>
-                            <p class="vote"><strong>91%</strong> de personas le gusto este lugar! <strong>(87 votos)</strong>
-                            </p>
-                            <h5 class="sizes">Tama&ntilde;o:
-                                <span class="size" data-toggle="tooltip" title="Metros Cuadrados">40 m2</span>
-                            </h5>
-                            <div class="action">
-                                <div class="btn-group" role="group" aria-label="Third group">
+                        </ngb-rating>
+                    </div>
+                    <span class="review-no">{{ property.reviews.length }} rese&ntilde;as</span>
+                </div>
+                <h4 class="price">Precio: <span>${{property.price}}</span></h4>
+                <p class="vote"><strong>{{publicationAverage.like | number : '1.0-0'}}%</strong> de personas le gusto este lugar! <strong>({{ property.reviews.length }} votos)</strong>
+                </p>
+                <h5 class="sizes">Tama&ntilde;o:
+                    <span class="size" data-toggle="tooltip" title="Metros Cuadrados">40 m2</span>
+                </h5>
+                <div class="action">
+                    <div class="btn-group" role="group" aria-label="Third group">
 
-                                    <button class="add-to-cart btn btn-default" (click)="onReserve()" type="button">Reservar</button>
-                                    <button class="btn btn-danger" type="button"><span class="fa fa-heart-o"></span>
-                                </button>
-                                    <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
-                                </button>
-                                    <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
-                                    <button class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
-                                </button>
-                                    <button dropdown="" class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-share-alt"></span>
-                                </button>
-                                    <ul aria-labelledby="single-button" class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-twitter"></i> Twitter</a> </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <button class="add-to-cart btn btn-default" (click)="onReserve()" type="button">Reservar</button>
+                        <button class="btn btn-danger" type="button"><span class="fa fa-heart-o"></span>
+                    </button>
+                        <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
+                    </button>
+                        <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
+                        <button class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
+                    </button>
+                        <button dropdown="" class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-share-alt"></span>
+                    </button>
+                        <ul aria-labelledby="single-button" class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-twitter"></i> Twitter</a> </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-title">Comodidades</h4>
-                    <div *ngIf="property.facilities">
-                        <p *ngIf="property.facilities.internet" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Internet</span>
-                        </p>
-                        <p *ngIf="property.facilities.airconditioning" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Aire acondicionado</span>
-                        </p>
-                        <p *ngIf="property.facilities.elevator" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Ascensor</span>
-                        </p>
-                        <p *ngIf="property.facilities.heating" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Calefacci&oacute;n</span>
-                        </p>
-                        <p *ngIf="property.facilities.reception" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Recepci&oacute;n</span>
-                        </p>
-                        <p *ngIf="property.facilities.security" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Seguridad</span>
-                        </p>
-                        <p *ngIf="property.facilities.powerunit" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Grupo Electrogeno</span>
-                        </p>
-                        <p *ngIf="property.facilities.phone" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Telefono</span>
-                        </p>
-                        <p *ngIf="property.facilities.gas" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Gas Natural</span>
-                        </p>
-                        <p *ngIf="property.facilities.water" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Agua Corriente</span>
-                        </p>
-                        <p *ngIf="property.facilities.lobby" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Sala de Espera</span>
-                        </p>
-                        <p *ngIf="property.facilities.buffet" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Cafeteria</span>
-                        </p>
-                        <p *ngIf="property.facilities.ramp" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Rampa de acceso</span>
-                        </p>
-                        <p *ngIf="property.facilities.openingtothestreet" class="card-text">
-                            <span><i class="fa fa-check" aria-hidden="true"></i>Apertura puerta de calle</span>
-                        </p>
-                    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-lg-4">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Comodidades</h4>
+                <div *ngIf="property.facilities">
+                    <p *ngIf="property.facilities.internet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Internet</span>
+                    </p>
+                    <p *ngIf="property.facilities.airconditioning" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Aire acondicionado</span>
+                    </p>
+                    <p *ngIf="property.facilities.elevator" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Ascensor</span>
+                    </p>
+                    <p *ngIf="property.facilities.heating" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Calefacci&oacute;n</span>
+                    </p>
+                    <p *ngIf="property.facilities.reception" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Recepci&oacute;n</span>
+                    </p>
+                    <p *ngIf="property.facilities.security" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Seguridad</span>
+                    </p>
+                    <p *ngIf="property.facilities.powerunit" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Grupo Electrogeno</span>
+                    </p>
+                    <p *ngIf="property.facilities.phone" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Telefono</span>
+                    </p>
+                    <p *ngIf="property.facilities.gas" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Gas Natural</span>
+                    </p>
+                    <p *ngIf="property.facilities.water" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Agua Corriente</span>
+                    </p>
+                    <p *ngIf="property.facilities.lobby" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Sala de Espera</span>
+                    </p>
+                    <p *ngIf="property.facilities.buffet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Cafeteria</span>
+                    </p>
+                    <p *ngIf="property.facilities.ramp" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Rampa de acceso</span>
+                    </p>
+                    <p *ngIf="property.facilities.openingtothestreet" class="card-text">
+                        <span><i class="fa fa-check" aria-hidden="true"></i>Apertura puerta de calle</span>
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">Descripcion</h4>
-                            <p class="card-text" [innerHTML]="property.description">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">Direcci&oacute;n</h4>
+    </div>
+    <div class="col-md-8 col-lg-8">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Descripcion</h4>
+                <p class="card-text" [innerHTML]="property.description">
+                </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Direcci&oacute;n</h4>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img class="card-img-top" height="200" width="320" src="http://cdn.newsapi.com.au/image/v1/0a0ceda4bda18e664ffac1a8fa86a7d1" alt="Card image cap">
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="card-text">
-                                        Cecilia Grierson 445
-                                    </p>
-                                    <p class="card-text">
-                                        Capital Federal, Buenos Aires
-                                    </p>
-                                    <p class="card-text">
-                                        Móvil: 1555555555
-                                    </p>
-                                    <p class="card-text">
-                                        Teléfono: 47555555
-                                    </p>
-                                    <p class="card-text">
-                                        <a href="http://www.pepe.com">http://www.pepe.com</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="card-img-top" height="200" width="320" src="http://cdn.newsapi.com.au/image/v1/0a0ceda4bda18e664ffac1a8fa86a7d1" alt="Card image cap">
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-text">
+                            Cecilia Grierson 445
+                        </p>
+                        <p class="card-text">
+                            Capital Federal, Buenos Aires
+                        </p>
+                        <p class="card-text">
+                            Móvil: 1555555555
+                        </p>
+                        <p class="card-text">
+                            Teléfono: 47555555
+                        </p>
+                        <p class="card-text">
+                            <a href="http://www.pepe.com">http://www.pepe.com</a>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -19,15 +19,14 @@
 
         <div class="col-md-2 px-2">
             <div class="card-block px-2">
-                <div class="rating">
-                    <div class="stars">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div>
-                    <span class="review-no">41 rese&ntilde;as</span>
+                <div *ngIf="review">
+                    <ngb-rating [readonly]="true" [max]="5" [rate]="review.score">
+                        <template let-fill="fill">
+                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                        </template>
+                    </ngb-rating>
+                    <br />
+                    <span class="review-no">{{ review.length }} rese&ntilde;as</span>
                 </div>
             </div>
         </div>

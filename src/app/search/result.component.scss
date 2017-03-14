@@ -1,3 +1,9 @@
+@import "../_custom.scss";
+
+.container {
+    margin: 2em;
+}
+
 .card {
     margin: 5px;
 }
@@ -17,4 +23,13 @@
     border: 2px solid darkgray;
     color: #000;
     text-shadow: 1px 1px 0 #fff;
+}
+
+.star {
+    font-size: 1.5rem;
+    color: $gray-lighter;
+}
+
+.filled {
+    color: #F5CD00;
 }

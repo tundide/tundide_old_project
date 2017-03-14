@@ -109,30 +109,47 @@ router.patch('/', isLoggedIn, function(req, res) {
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id, function(err, doc) {
         if (doc) {
-            switch (doc._type) {
-                case 'Property':
-                    Property.findById(req.params.id, function(err, doc) {
-                        res.status(201).json({
-                            message: 'Recovered correctly',
-                            obj: doc
-                        });
-                    });
-                    break;
-                case 'Service':
-                    Service.findById(req.params.id, function(err, doc) {
-                        res.status(201).json({
-                            message: 'Recovered correctly',
-                            obj: doc
-                        });
-                    });
-                    break;
-            }
+            res.status(200).json({
+                message: 'Recovered correctly',
+                obj: doc
+            });
         } else {
             res.status(201).json({
                 message: 'No se encontraron coincidencias'
             });
         }
     });
+    // Publication.findById(req.params.id, function(err, doc) {
+    //     if (doc) {
+    //         res.status(200).json({
+    //             message: 'Recovered correctly',
+    //             obj: doc
+    //         });
+    //         // switch (doc._type) {
+    //         //     case 'Property':
+    //         //         Property.findById(req.params.id, function(err, doc) {
+    //         //             doc._doc.scoree=1;
+    //         //             res.status(201).json({
+    //         //                 message: 'Recovered correctly',
+    //         //                 obj: doc
+    //         //             });
+    //         //         });
+    //         //         break;
+    //         //     case 'Service':
+    //         //         Service.findById(req.params.id, function(err, doc) {
+    //         //             res.status(201).json({
+    //         //                 message: 'Recovered correctly',
+    //         //                 obj: doc
+    //         //             });
+    //         //         });
+    //         //         break;
+    //         // }
+    //     } else {
+    //         res.status(201).json({
+    //             message: 'No se encontraron coincidencias'
+    //         });
+    //     }
+    // });
 });
 
 // TODO: Falta agregar la documentacion

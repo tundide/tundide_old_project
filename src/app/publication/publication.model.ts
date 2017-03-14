@@ -17,7 +17,13 @@ export class Reservation {
     approved: boolean;
 }
 
+export class Average {
+    like: number;
+    score: number;
+}
+
 export class Publication {
+    average: Average;
     type: string;
     title: string;
     shortId: string;
@@ -28,6 +34,7 @@ export class Publication {
     reservations: Array<Reservation>;
 
     constructor(publicationType: string) {
+        this.average = new Average();
         this.title = '';
         this.shortId = '';
         this.price = 0;

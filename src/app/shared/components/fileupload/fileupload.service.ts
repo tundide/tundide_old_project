@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ErrorService } from '../../../errors/error.service';
 import { Observable } from 'rxjs';
@@ -9,16 +9,8 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class FileUploadService {
-    /**
-     * Event fired Upload is Complete
-     * @event      onUploadComplete.
-     */
-    @Output() onUploadComplete: EventEmitter<any> = new EventEmitter();
-
     constructor(private http: Http,
-                private errorService: ErrorService) {
-        this.onUploadComplete = new EventEmitter();
-    }
+                private errorService: ErrorService) {}
 
     // TODO: Corregir documentacion
     /**

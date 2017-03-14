@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FileUploadService } from './fileupload.service';
 
 @Component({
@@ -11,10 +11,24 @@ export class FileUploadComponent {
     @Input()
     files: Array<String>;
 
+    /**
+     * Event fired when Upload is Complete
+     * @event      onUploadComplete.
+     */
+    @Output() onUploadComplete: EventEmitter<any> = new EventEmitter();
+
+    /**
+     * Event fired where Delete is Complete
+     * @event      onDeleteComplete.
+     */
+    @Output() onDeleteComplete: EventEmitter<any> = new EventEmitter();
+
     @ViewChild('fileInput') fileInput;
 
     constructor(public elementRef: ElementRef,
                 public fileUploadService: FileUploadService) {
+        this.onUploadComplete = new EventEmitter();
+        this.onDeleteComplete = new EventEmitter();
     }
 
     // TODO: Agregar documentacion
@@ -26,7 +40,8 @@ export class FileUploadComponent {
                 this.fileUploadService
                     .upload(file)
                     .subscribe(res => {
-                        this.files.push(res._id);
+                    this.onUploadComplete.emit();
+                    this.files.push(res._id);
                 });
             });
         }
@@ -37,6 +52,7 @@ export class FileUploadComponent {
         this.fileUploadService
             .delete(id)
             .subscribe(res => {
+                this.onDeleteComplete.emit();
                 _.remove(this.files, (fileId) => {
                     return fileId === id;
                 });

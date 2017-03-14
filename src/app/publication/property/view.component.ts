@@ -13,7 +13,7 @@ import { ReviewService } from '../review.service';
 })
 export class PropertyViewComponent implements OnInit, OnDestroy {
 
-  starsCount: number;
+  publicationAverage: any;
 
   private sub: any;
   private property: Property = new Property();
@@ -24,6 +24,10 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
               private publicationService: PublicationService,
               private reservationService: ReservationService,
               private reviewService: ReviewService) {
+                this.publicationAverage = {
+                  like: 0,
+                  score: 0
+                };
   }
 
   ngOnInit() {
@@ -45,7 +49,7 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
       this.reviewService.getScore(params['id'])
         .subscribe(data => {
-          this.starsCount = data.obj;
+          this.publicationAverage = data.obj;
       });
     });
   }

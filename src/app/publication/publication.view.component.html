@@ -1,39 +1,20 @@
 <view-property></view-property>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
-                </calendar>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-title">Comentarios</h4>
-                    <review-view></review-view>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <review-new></review-new>
-            </div>
-        </div>
+<div class="card">
+    <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
+    </calendar>
+</div>
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">Comentarios</h4>
+        <review-view></review-view>
     </div>
 </div>
 
-
-
-
-
-
-
-
+<!--TEMPORAL SOLO PARA PRUEBAS-->
+<div class="card">
+    <review-new></review-new>
+</div>
+<!--TEMPORAL SOLO PARA PRUEBAS-->
 <template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title">Confirmar Reserva</h4>

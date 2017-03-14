@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Ingresa fotos de tu Inmbueble</h4>
-            <file-upload [files]="publication.images" (complete)="publicationChange($event)"></file-upload>
+            <file-upload [files]="publication.images" (onUploadComplete)="publicationChange($event)" (onDeleteComplete)="publicationChange($event)"></file-upload>
         </div>
     </div>
 

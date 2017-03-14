@@ -6,6 +6,7 @@ import { SearchComponent } from './search.component';
 import { ResultComponent } from './result.component';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AppConfig } from '../app.config';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [SearchComponent, ResultComponent],
@@ -13,6 +14,7 @@ import { AppConfig } from '../app.config';
     imports: [FormsModule,
         RouterModule,
         CommonModule,
+        NgbModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: AppConfig.mapsKey
         })

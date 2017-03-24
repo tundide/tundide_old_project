@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Reservation } from './publication.model';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 import {
   CalendarEvent,
@@ -84,18 +85,17 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     });
 
     this.publicationService.onPublicationLoad.subscribe((publication) => {
-      for (let i = 0; i < publication.reservations.length; i++) {
-                  let reservation = publication.reservations[i];
-                  let startDate = moment(reservation.startDate);
-                  let endDate = moment(reservation.endDate);
-                  this.calendar.addEvent({
-                    actions: this.actions,
-                    color: (reservation.approved ? colors.green : colors.yellow),
-                    end: endDate.toDate(),
-                    start: startDate.toDate(),
-                    title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
-                  });
-      }
+      _.forEach(publication.reservations, (reservation, key) => {
+        let startDate = moment(reservation.startDate);
+        let endDate = moment(reservation.endDate);
+        this.calendar.addEvent({
+          actions: this.actions,
+          color: (reservation.approved ? colors.green : colors.yellow),
+          end: endDate.toDate(),
+          start: startDate.toDate(),
+          title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
+        });
+      });
     });
 
     this.reservationService.onReserve.subscribe((confirm) => {

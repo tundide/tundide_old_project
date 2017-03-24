@@ -44,4 +44,20 @@ export class ReservationService {
                 return Observable.throw(error.json());
             });
     }
+
+    /**
+     * List all reservations of User
+     */
+    list() {
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.get('http://localhost:3001/reservation/', {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

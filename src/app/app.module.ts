@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { ErrorService } from './errors/error.service';
 import { PublicationModule } from './publication/publication.module';
+import { BudgetModule } from './budget/budget.module';
 import { SearchModule } from './search/search.module';
 import { MainModule } from './main/main.module';
 import { PriceModule } from './price/price.module';
@@ -22,6 +23,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
         routing,
         AuthModule,
         PublicationModule,
+        BudgetModule,
         SearchModule,
         PriceModule,
         MainModule,

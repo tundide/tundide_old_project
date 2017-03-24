@@ -13,6 +13,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { routing } from './admin.routing';
 import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
+import { ReservationService } from '../publication/reservation.service';
 
 @NgModule({
     declarations: [AdminComponent,
@@ -32,7 +33,8 @@ import { DataTableModule } from 'angular2-datatable';
         RouterModule,
         CommonModule,
         DataTableModule,
-        SharedModule.forRoot()]
+        SharedModule.forRoot()],
+    providers: [ReservationService]
 })
 
 export class AdminModule {

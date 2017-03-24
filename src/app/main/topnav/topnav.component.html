@@ -9,6 +9,9 @@
             <li class="nav-item highlight">
                 <a class="nav-link" [routerLink]="['/publication']" href="#">Publica ahora</a>
             </li>
+            <li *ngIf="user" class="nav-item">
+                <a class="nav-link" [routerLink]="['/budget']" href="#">Solicitar presupuesto</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/price']" href="#">Precios</a>
             </li>

@@ -2,6 +2,8 @@ let express = require('express');
 let passport = require('passport');
 let router = express.Router();
 let User = require('../../models/user');
+let Success = require('../shared/success.js');
+let Error = require('../shared/error.js');
 
 require('./passport')(passport);
 
@@ -14,23 +16,15 @@ module.exports = function(passport) {
      * @apiSuccess {Object} User with Id - Name - Email - Token.
      * 
      */
-    router.get('/userdata', function(req, res) {
-        if (res.locals.isAuthenticated) {
-            User.findById(req.user, function(err, fulluser) {
-                if (err)
-                    return res.status(500).json({
-                        error: err
-                    });
-
-                res.status(200).json({
-                    user: fulluser
+    router.get('/userdata', isLoggedIn, function(req, res) {
+        User.findById(req.user, function(err, fulluser) {
+            if (err)
+                return res.status(500).json({
+                    error: err
                 });
-            });
-        } else {
-            return res.status(500).json({
-                error: 'Unauthorized'
-            });
-        }
+
+            res.status(200).json(new Success("User recovered correctly", fulluser));
+        });
     });
 
     /**
@@ -69,6 +63,14 @@ module.exports = function(passport) {
             failureRedirect: '/#/login'
         })(request, response);
     });
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            return res.status(500).json(new Error('Unauthorized'));
+        }
+    };
 
     return router;
 };

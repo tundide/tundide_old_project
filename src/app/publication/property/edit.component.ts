@@ -25,7 +25,7 @@ export class PropertyEditComponent implements OnInit {
 
   public publication: Publication;
 
-  publicationChange() {
+  publicationChange(event) {
     this.publicationService.onPublicationChange.emit(this.publication);
   }
 

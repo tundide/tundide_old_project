@@ -46,8 +46,8 @@ export class AuthService {
         return this.http.get('http://localhost:3001/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
-                localStorage.setItem('token', result.user.google.token);
-                this.user = new User(result.user._id, result.user.google.name, result.user.google.email, result.user.google.token);
+                localStorage.setItem('token', result.obj.google.token);
+                this.user = new User(result.obj._id, result.obj.google.name, result.obj.google.email, result.obj.google.token);
                 return this.user;
             })
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));

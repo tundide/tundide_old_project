@@ -2,6 +2,8 @@ let express = require('express');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Review = require('../../models/review');
+let Success = require('../shared/success.js');
+let Error = require('../shared/error.js');
 
 /**
  * @api {patch} / Create Review
@@ -21,7 +23,6 @@ let Review = require('../../models/review');
  * }
  * 
  */
-// FIXME: Cambiar el manejo de la misma forma que se hace en el post
 router.patch('/:id', isLoggedIn, function(req, res) {
     let review = {
         score: req.body.score,
@@ -35,9 +36,7 @@ router.patch('/:id', isLoggedIn, function(req, res) {
             if (err) {
                 throw err;
             } else {
-                res.status(200).json({
-                    message: 'Rate it correctly'
-                });
+                res.status(200).json(new Success('Rate it correctly'));
             }
         }
     );
@@ -46,32 +45,26 @@ router.patch('/:id', isLoggedIn, function(req, res) {
 // TODO: Agregar documentacion del metodo
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id).populate('reviews.user').exec(function(err, items) {
-        res.status(200).json({
-            message: 'Recover reviews correctly',
-            obj: items.reviews
-        });
+        res.status(200).json(new Success('Recover reviews correctly', items.reviews));
     });
 });
 
 router.get('/score/:id', function(req, res) {
     Publication.findById(req.params.id).exec(function(err, publication) {
-        var scoreAvg = 0;
-        var likeAvg = 0;
-        for(var i = 0; i < publication.reviews.length; i++) {
+        let scoreAvg = 0;
+        let likeAvg = 0;
+        for (let i = 0; i < publication.reviews.length; i++) {
             scoreAvg += publication.reviews[i].score;
             likeAvg += (publication.reviews[i].score >= 3 ? 100 : 0);
         }
-        var score = scoreAvg / publication.reviews.length;
-        var like = likeAvg / publication.reviews.length;
-        
-        res.status(200).json({
-            message: 'Recover score correctly',
-            obj: {
-                'score': score,
-                'like': like,
-                'length': publication.reviews.length
-            }
-        });
+        let score = scoreAvg / publication.reviews.length;
+        let like = likeAvg / publication.reviews.length;
+
+        res.status(200).json(new Success('Recover score correctly', {
+            'score': score,
+            'like': like,
+            'length': publication.reviews.length
+        }));
     });
 });
 
@@ -79,9 +72,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        return res.status(500).json({
-            error: 'Unauthorized'
-        });
+        return res.status(500).json(new Error('Unauthorized'));
     }
 };
 

@@ -25,7 +25,7 @@ let userSchema = mongoose.Schema({
         expiration: Date
     },
     billing: {},
-    local: {
+    jwt: {
         email: String,
         password: String,
         attempts: Number

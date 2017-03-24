@@ -2,6 +2,9 @@
     "auth": {
         "secret": "sessionSecretKey",
         "maxAge": 2419200000,
+        "jwt": {
+            "secret": "MyS3cr3tK3Y"
+        },
         "facebookAuth": {
             "clientID": "your-secret-clientID-here",
             "clientSecret": "your-client-secret-here",

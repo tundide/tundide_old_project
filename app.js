@@ -12,6 +12,7 @@ let session = require('express-session');
 let flash = require('connect-flash');
 let mongoose = require('mongoose');
 let MongoStore = require('connect-mongo')(session);
+let cors = require('cors');
 let configAuth = require('./appConfig.json');
 
 mongoose.connect('mongodb://127.0.0.1:27017/tundide', function(err) {
@@ -28,6 +29,7 @@ app.set('view engine', 'hbs');
 app.use(favicon(path.join(__dirname, 'public', '/favicon/favicon.ico')));
 app.use(logger('dev'));
 app.use(compression());
+app.use(cors({ origin: 'http://localhost:3001' }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 app.use(cookieParser(configAuth.auth.secret));
@@ -48,6 +50,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 
+
 app.use(function(req, res, next) {
     res.locals.isAuthenticated = req.isAuthenticated();
     next();
@@ -55,13 +58,6 @@ app.use(function(req, res, next) {
 
 let routes = require('./routes/routes');
 routes(app, passport, mongoose);
-
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
-    next();
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

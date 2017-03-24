@@ -46,7 +46,17 @@ export class AuthService {
         return this.http.get('http://localhost:3001/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
-                localStorage.setItem('token', result.obj.google.token);
+
+                let token = '';
+                // TODO: Agregar los tokens que faltan
+                if (result.obj.jwt) {
+                    token = result.obj.jwt.token;
+                } else if (result.obj.google) {
+                    token = result.obj.google.token;
+                }
+
+                localStorage.setItem('token', token);
+
                 this.user = new User(result.obj._id, result.obj.google.name, result.obj.google.email, result.obj.google.token);
                 return this.user;
             })

@@ -3,6 +3,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { User } from './user.model';
 import { ErrorService } from '../errors/error.service';
+import {Md5} from 'ts-md5/dist/md5';
 
 /**
  * Manage user authentication and session.
@@ -74,7 +75,7 @@ export class AuthService {
     signin(email: string, password: string) {
         let usr = {
             email: email,
-            password: password
+            password:  Md5.hashStr(password)
         };
 
         const body = JSON.stringify(usr);
@@ -82,7 +83,7 @@ export class AuthService {
         return this.http.post('http://localhost:3001/auth/signin', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
-                localStorage.setItem('token', result.token);
+                localStorage.setItem('token', result.obj.token);
                 return result;
             })
             .catch((error: Response) => {

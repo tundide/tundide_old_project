@@ -1,20 +1,10 @@
-let passportJWT = require("passport-jwt");
-let ExtractJwt = passportJWT.ExtractJwt;
-let JwtStrategy = passportJWT.Strategy;
 let LinkedinStrategy = require('passport-linkedin').Strategy;
 let FacebookStrategy = require('passport-facebook').Strategy;
 let TwitterStrategy = require('passport-twitter').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
-let jwt = require('jsonwebtoken');
 let configAuth = require('../../appConfig.json');
 let cache = require('memory-cache');
 let User = require('../../models/user');
-let Error = require('../shared/error');
-
-let params = {
-    secretOrKey: configAuth.auth.jwt.secret,
-    jwtFromRequest: ExtractJwt.fromAuthHeader()
-};
 
 module.exports = function(passport) {
 
@@ -27,19 +17,6 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
-
-    passport.use(new JwtStrategy(params, function(payload, done) {
-        User.findById(payload.id, function(err, user) {
-            if (err)
-                return done(err);
-
-            if (user) {
-                return done(null, user);
-            } else {
-                res.sendStatus(401);
-            }
-        });
-    }));
 
     passport.use(new GoogleStrategy({
             clientID: configAuth.auth.googleAuth.clientID,

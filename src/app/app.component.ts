@@ -58,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy  {
 
     ngOnInit() {
         this.errorService.errorOccurred.subscribe((error) => {
+            console.log(error);
             let toastOptions: ToastOptions = {
             msg: error.message,
             showClose: true,

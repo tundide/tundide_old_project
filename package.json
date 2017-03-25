@@ -73,6 +73,7 @@
     "shortid": "^2.2.8",
     "systemjs": "^0.19.41",
     "systemjs-builder": "0.15.33",
+    "ts-md5": "^1.2.0",
     "typings": "^2.1.0",
     "zone.js": "^0.7.4"
   },

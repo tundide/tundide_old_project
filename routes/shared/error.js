@@ -1,6 +1,6 @@
-module.exports = function Error(title, error) {
+module.exports = function Error(title, message) {
     return {
         title: title,
-        error: error
+        message: message
     };
 };

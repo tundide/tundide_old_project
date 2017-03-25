@@ -8,10 +8,11 @@ let User = require('../../models/user');
 let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
 let session = require('./session');
-require('./passport')(passport);
+require('./strategies')(passport);
 
 
 module.exports = function(passport) {
+
     /**
      * @api {get} /userdata Request User information
      * @apiName auth
@@ -59,6 +60,20 @@ module.exports = function(passport) {
 
     });
 
+    /**
+     * @api {post} /signin Signin User with JWT
+     * @apiName auth
+     * @apiGroup Auth
+     * 
+     * @apiExample {js} Signin Example
+     * {
+     * 	"email":"user@mail.com",
+     *  "password": 'fc3b322ab12bb56b7db9ddc0eabab261'
+     * }
+     * 
+     * @apiSuccess {String} Return JWT Token.
+     * 
+     */
     router.post("/signin", function(req, res) {
         if (req.body.email && req.body.password) {
             let email = req.body.email;
@@ -70,19 +85,56 @@ module.exports = function(passport) {
                 },
                 function(err, user) {
                     if (user) {
-                        let token = jwt.sign(user.id, configAuth.auth.jwt.secret);
-                        cache.put('sessions_j' + user.jwt.token, user);
-                        res.json({
-                            token: 'j' + token
-                        });
+                        let token = 'j' + jwt.sign(user.id, configAuth.auth.jwt.secret);
+                        cache.put('sessions_' + token, user);
+                        res.json(new Success('Token created successful', {
+                            token: token
+                        }));
                     } else {
-                        res.sendStatus(401);
+                        res.status(401).json(new Error('Usuario no autorizado', 'El nombre de usuario o contrase&ntilde;a es invalido.'));
                     }
                 }
             );
         } else {
-            res.sendStatus(401);
+            res.status(401).json(new Error('Usuario no autorizado', 'Debe ingresar el usuario y contrase&ntilde;a'));
         }
+    });
+
+    /**
+     * @api {post} /signout Signout User with JWT
+     * @apiName auth
+     * @apiGroup Auth
+     * 
+     * @apiExample {js} Signout Example
+     * {
+     * 	"name":"Name",
+     *  "jwt": {
+     *              "email": "user@mail.com",
+     *              "password": "fc3b322ab12bb56b7db9ddc0eabab261"
+     *          }
+     * }
+     * 
+     * @apiSuccess {String} Return JWT Token.
+     * 
+     */
+    router.post("/signout", function(req, res) {
+        let user = new User();
+        user.name = req.body.name;
+
+        let token = jwt.sign(req.body.jwt.email, configAuth.auth.jwt.secret);
+
+        user.jwt = {
+            'email': req.body.jwt.email,
+            'password': req.body.jwt.password,
+            'token': token
+        };
+
+        saved = user.save();
+        // TODO: Enviar email para que confirme la cuenta, no es necesario para los que vienen por OAUTH por que ya vienen desde un email valido
+
+        res.json(new Success('Token created successful', {
+            token: token
+        }));
     });
 
     /**
@@ -95,7 +147,7 @@ module.exports = function(passport) {
      */
     router.get('/logout', function(req, res) {
         req.logOut();
-        req.session.destroy(function(err) {
+        req.session.destroy(function() {
             res.redirect('/');
         });
     });
@@ -127,11 +179,6 @@ module.exports = function(passport) {
                 return res.status(401).json(info);
             }
         })(req, res, next);
-
-        // passport.authenticate('google', {
-        //     successRedirect: '/#/?t=g' + req.user.google.token,
-        //     failureRedirect: '/#/login'
-        // })(req, res);
     });
 
     return router;

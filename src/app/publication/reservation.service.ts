@@ -33,7 +33,8 @@ export class ReservationService {
      */
     reserve(id: string, reservation: Reservation) {
         const body = JSON.stringify(reservation);
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.patch('http://localhost:3001/reservation/' + id, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -49,7 +50,8 @@ export class ReservationService {
      * List all reservations of User
      */
     list() {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.get('http://localhost:3001/reservation/', {headers: headers})
             .map((response: Response) => {
                 const result = response.json();

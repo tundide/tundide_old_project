@@ -28,6 +28,7 @@ let userSchema = mongoose.Schema({
     jwt: {
         email: String,
         password: String,
+        token: String,
         attempts: Number
     },
     facebook: {

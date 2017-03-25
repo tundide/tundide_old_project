@@ -7,6 +7,7 @@ let TwitterStrategy = require('passport-twitter').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let jwt = require('jsonwebtoken');
 let configAuth = require('../../appConfig.json');
+let cache = require('memory-cache');
 let User = require('../../models/user');
 let Error = require('../shared/error');
 
@@ -53,7 +54,9 @@ module.exports = function(passport) {
                         return done(err);
 
                     if (user) {
+                        cache.put('sessions_g' + user.google.token, user);
                         return done(null, user);
+
                     } else {
                         let newUser = new User();
 
@@ -66,38 +69,11 @@ module.exports = function(passport) {
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
+                            cache.put('sessions_g' + user.google.token, newUser);
                             return done(null, newUser);
                         });
                     }
                 });
             });
         }));
-
-    return {
-        authorize: function(req, res, next) {
-            let type = req.headers.authorization.substring(0, 1);
-            let token = req.headers.authorization.substring(1, req.headers.authorization.length);
-
-            switch (type) {
-                case 'g':
-                    // FIXME: Validar contra la base o otra cosa
-                    next();
-                    // if (req.isAuthenticated()) {
-                    //     next();
-                    // } else {
-                    //     return res.status(401).json(new Error('Unauthorized'));
-                    // }
-                    break;
-                case 'j':
-                    jwt.verify(token, configAuth.auth.jwt.secret, function(err, decoded) {
-                        if (err) {
-                            return res.status(401).json(new Error('Usuario no autorizado', 'No se encuentra autorizado para realizar esta operacion'));
-                        } else {
-                            next();
-                        }
-                    });
-                    break;
-            }
-        }
-    };
 };

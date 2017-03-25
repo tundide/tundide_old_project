@@ -25,7 +25,8 @@ export class ReviewService {
      * @param  {String} id The id of publication
      */
     get(id: string) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.get('http://localhost:3001/review/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -42,7 +43,8 @@ export class ReviewService {
      * @param  {String} id The id of publication
      */
     getScore(id: string) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.get('http://localhost:3001/review/score/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -60,7 +62,8 @@ export class ReviewService {
      */
     rateit(id: string, review: Review) {
         const body = JSON.stringify(review);
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.patch('http://localhost:3001/review/' + id, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();

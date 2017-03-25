@@ -10,6 +10,7 @@ let extend = require('util')._extend;
 let shortid = require('shortid');
 let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
+let session = require('../auth/session');
 
 // TODO:Completar ejemplos
 /**
@@ -49,7 +50,7 @@ let Error = require('../shared/error.js');
  * }
  * 
  */
-router.post('/', isLoggedIn, function(req, res) {
+router.post('/', session.authorize, function(req, res) {
     let pub = new Publication();
     pub.user = req.user._id;
     pub.title = req.body.title;
@@ -80,7 +81,7 @@ router.post('/', isLoggedIn, function(req, res) {
 });
 
 // TODO: Falta agregar la documentacion
-router.patch('/', isLoggedIn, function(req, res) {
+router.patch('/', session.authorize, function(req, res) {
 
     switch (req.body._type) {
         case 'Property':
@@ -162,7 +163,7 @@ router.get('/find/:query', function(req, res) {
     });
 });
 
-router.get('/list/user/:status', isLoggedIn, function(req, res) {
+router.get('/list/user/:status', session.authorize, function(req, res) {
     Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
         res.status(201).json({
             message: 'Recovered correctly',
@@ -199,13 +200,5 @@ function saveService(publication, publicationModel) {
 
     return p;
 }
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(401).json(new Error('Usuario no autorizado', 'No se encuentra autorizado para realizar esta operacion'));
-    }
-};
 
 module.exports = router;

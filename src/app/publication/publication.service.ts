@@ -84,7 +84,8 @@ export class PublicationService {
      */
     saveToDatabase(publication: Publication) {
         const body = JSON.stringify(publication);
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.post('http://localhost:3001/publication', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -103,7 +104,8 @@ export class PublicationService {
      */
     updateToDatabase(publication: Publication) {
         const body = JSON.stringify(publication);
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.patch('http://localhost:3001/publication', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -121,7 +123,8 @@ export class PublicationService {
      * @returns {Publication} Saved publication
      */
     getFromDatabase(id: string) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.get('http://localhost:3001/publication/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
@@ -139,7 +142,8 @@ export class PublicationService {
      * @returns {Array.<Publication>} Saved publications
      */
     findIntoDatabase(query: any) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
         return this.http.get('http://localhost:3001/publication/find/' + JSON.stringify(query), {headers: headers})
             .map((response: Response) => {
@@ -158,7 +162,8 @@ export class PublicationService {
      * @returns {Array.<Publication>} Saved publications
      */
     listUserIntoDatabase(status: number) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
         return this.http.get('http://localhost:3001/publication/list/user/' + status, {headers: headers})
             .map((response: Response) => {

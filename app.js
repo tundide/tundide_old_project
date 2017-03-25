@@ -14,6 +14,8 @@ let mongoose = require('mongoose');
 let MongoStore = require('connect-mongo')(session);
 let cors = require('cors');
 let configAuth = require('./appConfig.json');
+let cache = require('memory-cache');
+let _ = require('lodash');
 
 mongoose.connect('mongodb://127.0.0.1:27017/tundide', function(err) {
     if (err) {
@@ -52,6 +54,13 @@ app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 
 
 app.use(function(req, res, next) {
+    if (req.headers.authorization) {
+        let session = cache.get('sessions_' + req.headers.authorization);
+
+        req.user = session;
+    }
+
+
     res.locals.isAuthenticated = req.isAuthenticated();
     next();
 });

@@ -1,14 +1,14 @@
 let express = require('express');
 let passport = require('passport');
-// let jwt = require("jwt-simple");
+let cache = require('memory-cache');
 let jwt = require('jsonwebtoken');
 let router = express.Router();
 let configAuth = require('../../appConfig.json');
 let User = require('../../models/user');
 let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
-let pass = require('./passport')(passport);
-
+let session = require('./session');
+require('./passport')(passport);
 
 
 module.exports = function(passport) {
@@ -20,7 +20,7 @@ module.exports = function(passport) {
      * @apiSuccess {Object} User with Id - Name - Email - Token.
      * 
      */
-    router.get('/userdata', pass.authorize, function(req, res) {
+    router.get('/userdata', session.authorize, function(req, res) {
         let type = req.headers.authorization.substring(0, 1);
         let token = req.headers.authorization.substring(1, req.headers.authorization.length);
 
@@ -71,9 +71,9 @@ module.exports = function(passport) {
                 function(err, user) {
                     if (user) {
                         let token = jwt.sign(user.id, configAuth.auth.jwt.secret);
-
+                        cache.put('sessions_j' + user.jwt.token, user);
                         res.json({
-                            token: token
+                            token: 'j' + token
                         });
                     } else {
                         res.sendStatus(401);

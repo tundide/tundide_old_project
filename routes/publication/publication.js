@@ -50,33 +50,33 @@ let Error = require('../shared/error.js');
  * 
  */
 router.post('/', isLoggedIn, function(req, res) {
-        let pub = new Publication();
-        pub.user = req.user._id;
-        pub.title = req.body.title;
-        pub.description = req.body.description;
-        pub.price = req.body.price;
-        pub.reviews = req.body.reviews;
-        pub.images = req.body.images;
+    let pub = new Publication();
+    pub.user = req.user._id;
+    pub.title = req.body.title;
+    pub.description = req.body.description;
+    pub.price = req.body.price;
+    pub.reviews = req.body.reviews;
+    pub.images = req.body.images;
 
-        let saved;
-        switch (req.body.type) {
-            case 'Property':
-                let publicationProperty = saveProperty(req.body, pub);
-                saved = publicationProperty.save();
-                break;
-            case 'Service':
-                let publicationService = saveService(req.body, pub);
-                saved = publicationService.save();
+    let saved;
+    switch (req.body.type) {
+        case 'Property':
+            let publicationProperty = saveProperty(req.body, pub);
+            saved = publicationProperty.save();
+            break;
+        case 'Service':
+            let publicationService = saveService(req.body, pub);
+            saved = publicationService.save();
 
-                break;
-        }
+            break;
+    }
 
-        saved.then(function(doc) {
-                res.status(200).json(new Success('Saved property', doc));
-            }),
-            function(err) {
-                res.status(500).json(new Error('Ocurrio un error al guardar el Inmueble', err));
-            };
+    saved.then(function(doc) {
+            res.status(200).json(new Success('Saved property', doc));
+        }),
+        function(err) {
+            res.status(500).json(new Error('Ocurrio un error al guardar el Inmueble', err));
+        };
 });
 
 // TODO: Falta agregar la documentacion
@@ -204,9 +204,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        return res.status(500).json({
-            error: 'Unauthorized'
-        });
+        return res.status(401).json(new Error('Usuario no autorizado', 'No se encuentra autorizado para realizar esta operacion'));
     }
 };
 

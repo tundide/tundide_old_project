@@ -2,6 +2,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { User } from './user.model';
+import { ErrorService } from '../errors/error.service';
 
 /**
  * Manage user authentication and session.
@@ -17,7 +18,7 @@ export class AuthService {
 
     public user;
 
-    constructor(public http: Http) { }
+    constructor(public http: Http, private errorService: ErrorService) { }
 
     /**
      * Validate is the user is authenticated or not
@@ -40,26 +41,53 @@ export class AuthService {
      * Get User Credentials
      * @returns       Objet "User" with UserId - Name - Email - Token.
      */
-    getUserCredentials(): Observable<User> {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+    getUserCredentials(token: string): Observable<User> {
+        let headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
 
         return this.http.get('http://localhost:3001/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
 
-                let token = '';
+                // let token = '';
                 // TODO: Agregar los tokens que faltan
-                if (result.obj.jwt) {
-                    token = result.obj.jwt.token;
-                } else if (result.obj.google) {
-                    token = result.obj.google.token;
-                }
 
-                localStorage.setItem('token', token);
+                // if (result.obj.google) {
+                //     token = result.obj.google.token;
+                // }
 
-                this.user = new User(result.obj._id, result.obj.google.name, result.obj.google.email, result.obj.google.token);
+                // localStorage.setItem('token', 'google ' + token);
+
+                this.user = new User(result.obj.name, result.obj.email, result.obj.token);
                 return this.user;
             })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Signin with JWT
+     * @param  {Publication} publication The publication object
+     * @returns {Publication} Saved publication
+     */
+    signin(email: string, password: string) {
+        let usr = {
+            email: email,
+            password: password
+        };
+
+        const body = JSON.stringify(usr);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.post('http://localhost:3001/auth/signin', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                localStorage.setItem('token', result.token);
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
     }
 }

@@ -132,9 +132,7 @@ module.exports = function(passport) {
         saved = user.save();
         // TODO: Enviar email para que confirme la cuenta, no es necesario para los que vienen por OAUTH por que ya vienen desde un email valido
 
-        res.json(new Success('Token created successful', {
-            token: token
-        }));
+        res.json(new Success('Token created successful'));
     });
 
     /**

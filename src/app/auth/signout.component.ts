@@ -1,4 +1,6 @@
 import { Component  } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'signout',
@@ -6,5 +8,20 @@ import { Component  } from '@angular/core';
   templateUrl: 'signout.component.html'
 })
 export class SignoutComponent {
+  name: string;
+  email: string;
   password: string;
+
+  constructor(private authService: AuthService,
+              private router: Router) { }
+
+  submitForm(form: any): void {
+    // TODO: Validar los datos de formulario
+    this.authService.signout(form.name, form.email, form.password).subscribe(
+        data => {
+                this.router.navigate(['/auth/confirm']);
+              },
+              error => console.error(error)
+              );
+  }
 }

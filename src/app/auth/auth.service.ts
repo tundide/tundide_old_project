@@ -69,8 +69,8 @@ export class AuthService {
 
     /**
      * Signin with JWT
-     * @param  {Publication} publication The publication object
-     * @returns {Publication} Saved publication
+     * @param  {string} email email of the user
+     * @param  {string} password password of the user
      */
     signin(email: string, password: string) {
         let usr = {
@@ -84,6 +84,34 @@ export class AuthService {
             .map((response: Response) => {
                 const result = response.json();
                 localStorage.setItem('token', result.obj.token);
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Signout with JWT
+     * @param  {string} name Name of the user
+     * @param  {string} email email of the user
+     * @param  {string} password password of the user
+     */
+    signout(name: string, email: string, password: string) {
+        let usr = {
+            jwt: {
+                email:  email,
+                password:  Md5.hashStr(password)
+            },
+            name: name
+        };
+
+        const body = JSON.stringify(usr);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.post('http://localhost:3001/auth/signout', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
                 return result;
             })
             .catch((error: Response) => {

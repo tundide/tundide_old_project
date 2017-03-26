@@ -17,6 +17,12 @@ export class AuthService {
      */
     @Output() onSignin: EventEmitter<any> = new EventEmitter();
 
+    /**
+     * Event fired when user logout
+     * @event      onLogout.
+     */
+    @Output() onLogout: EventEmitter<any> = new EventEmitter();
+
     public user;
 
     constructor(public http: Http, private errorService: ErrorService) { }
@@ -26,9 +32,7 @@ export class AuthService {
      * @returns      True or False.
      */
     loggedIn() {
-        /**
-         * @todo Validar que el token no se haya vencido
-         */
+        // TODO: Validar que el token no se haya vencido
         let token = localStorage.getItem('token');
 
         if (token) {
@@ -113,6 +117,22 @@ export class AuthService {
             .map((response: Response) => {
                 const result = response.json();
                 return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Logout User
+     */
+    logout() {
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.get('http://localhost:3001/auth/logout', {headers: headers})
+            .map((response: Response) => {
+                localStorage.removeItem('token');
+                return response;
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

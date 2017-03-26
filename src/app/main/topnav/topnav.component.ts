@@ -14,17 +14,27 @@ export class TopNavComponent implements OnInit {
 
     isCollapsed = true;
     user;
-// TODO: Cambiar el Cerrar Session para que elimie el token de localStorage y redirija
+
     constructor(private router: Router,
                 private authService: AuthService) { }
 
-    Search() {
+    search() {
         this.router.navigate(['/search', { b: this.searchWord }]);
     }
 
+    logout() {
+        this.authService.logout().subscribe(() => {
+            this.router.navigate(['/']);
+            this.authService.onLogout.emit();
+        });
+    }
     ngOnInit() {
         this.authService.onSignin.subscribe((user) => {
             this.user = user;
+        });
+
+        this.authService.onLogout.subscribe(() => {
+            this.user = null;
         });
     }
 

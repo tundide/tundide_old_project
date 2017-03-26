@@ -12,8 +12,8 @@ let Error = require('../shared/error.js');
 
 module.exports = function(mongoose) {
     /**
-     * @api {post} /upload Upload files and save into database
-     * @apiName files
+     * @api {post} /upload Upload file
+     * @apiName upload
      * @apiGroup Files
      *
      * @apiSuccess {Object} Images uploaded details.
@@ -24,7 +24,7 @@ module.exports = function(mongoose) {
      * }
      * 
      */
-    router.post('/upload', function(req, res) {
+    router.post('/', function(req, res) {
         let form = new formidable.IncomingForm();
         form.uploadDir = __dirname + "/data";
         form.keepExtensions = true;
@@ -65,7 +65,17 @@ module.exports = function(mongoose) {
         });
     });
 
-    router.get('/download/:id', function(req, res) {
+    /**
+     * @api {get} /download/:id Download file
+     * @apiName download
+     * @apiGroup Files
+     * 
+     * @apiParam {Number} id Id of the file
+     * 
+     * @apiSuccess {Binary} Binary File.
+     * 
+     */
+    router.get('/:id', function(req, res) {
         let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);
@@ -84,7 +94,15 @@ module.exports = function(mongoose) {
         });
     });
 
-    router.delete('/delete/:id', function(req, res) {
+    /**
+     * @api {delete} /delete/:id Delete file
+     * @apiName delete
+     * @apiGroup Files
+     * 
+     * @apiParam {Number} id Id of the file
+     *
+     */
+    router.delete('/:id', function(req, res) {
         let conn = mongoose.createConnection('mongodb://127.0.0.1:27017/tundide');
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);

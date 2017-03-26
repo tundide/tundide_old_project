@@ -22,7 +22,7 @@ export class FileUploadService {
         input.append('file', fileToUpload);
 
         return this.http
-            .post('/files/upload', input)
+            .post('/files', input)
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -39,7 +39,7 @@ export class FileUploadService {
      */
     delete(id: string) {
         return this.http
-            .delete('/files/delete/' + id)
+            .delete('/files/' + id)
             .map((response: Response) => {
                 const result = response.json();
                 return result;

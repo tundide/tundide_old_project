@@ -5,19 +5,19 @@ import { ErrorService } from '../errors/error.service';
 import { Observable } from 'rxjs';
 
 /**
- * Manage reviews
- * @module ReviewService
+ * Manage favorites
+ * @module FavoriteService
  */
 @Injectable()
-export class ReviewService {
+export class FavoriteService {
     /**
-     * Event fired when rate the publication
-     * @event      onRateIt.
+     * Event fired when add publicatino to favorites
+     * @event      onFavoriteAdd.
      */
-    @Output() onRateIt: EventEmitter<any> = new EventEmitter();
+    @Output() onFavoriteAdd: EventEmitter<any> = new EventEmitter();
 
     constructor(private http: Http, private errorService: ErrorService) {
-        this.onRateIt = new EventEmitter();
+        this.onFavoriteAdd = new EventEmitter();
     }
 
     /**
@@ -39,13 +39,13 @@ export class ReviewService {
     }
 
     /**
-     * Get score averge of Publication
+     * Get favorite averge of Publication
      * @param  {String} id The id of publication
      */
-    getScore(id: string) {
+    getFavorite(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/review/score/' + id, {headers: headers})
+        return this.http.get('http://localhost:3001/favorite/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -58,10 +58,9 @@ export class ReviewService {
 
     /**
      * Rate it the publication
-     * @param  {String} id The id of publication
      * @param  {Review} review The review object
      */
-    rateit(id: string, review: Review) {
+    saveFavorite(id: string) {
         const body = JSON.stringify(review);
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});

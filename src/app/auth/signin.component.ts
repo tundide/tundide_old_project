@@ -7,13 +7,10 @@ import { AuthService } from './auth.service';
   templateUrl: 'signin.component.html'
 })
 export class SigninComponent {
-  email: string;
-  password: string;
-
   constructor(private authService: AuthService) { }
 
-  onSubmit() {
-    this.authService.signin(this.email, this.password).subscribe(
+  submitForm(form: any): void {
+    this.authService.signin(form.email, form.password).subscribe(
         data => {
                 window.location.href = '/';
                 console.log(data);
@@ -21,5 +18,4 @@ export class SigninComponent {
               error => console.error(error)
               );
   }
-
 }

@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="row-fluid">
-    <div class="images" *ngFor="let file of files; let i = file" [ngStyle]="{'background-image': 'url(/files/download/' + file + ')'}">
+    <div class="images" *ngFor="let file of files; let i = file" [ngStyle]="{'background-image': 'url(/files/' + file + ')'}">
         <a (click)="removeImage(file)" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a>
     </div>
 </div>

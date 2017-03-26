@@ -7,9 +7,12 @@ let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
 
 /**
- * @api {patch} / Create Reserve
- * @apiName reservation
- * @apiGroup Publication
+ * @api {patch} /:id Save reservation
+ * @apiName savereservation
+ * @apiGroup Reservation
+ * 
+ * @apiParam {int} id Id of publication
+ * 
  * @apiExample {js} Reserve Example
  * {
  *     "endDate": "1988-05-01 08:00:00",
@@ -25,7 +28,6 @@ let Error = require('../shared/error.js');
  * }
  * 
  */
-// FIXME: Cambiar el manejo de la misma forma que se hace en el post
 router.patch('/:id', isLoggedIn, function(req, res) {
     let id = new mongoose.Types.ObjectId(req.params.id);
 
@@ -76,9 +78,10 @@ router.patch('/:id', isLoggedIn, function(req, res) {
 });
 
 /**
- * @api {get} / Get all reservations of user
- * @apiName reservation
- * @apiGroup Publication
+ * @api {get} / Get reservations
+ * @apiName getreservation
+ * @apiDescription Get reservations from authenticated user
+ * @apiGroup Reservation
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
@@ -96,7 +99,7 @@ router.patch('/:id', isLoggedIn, function(req, res) {
  * }
  * 
  */
-router.get('', isLoggedIn, function(req, res) {
+router.get('/', isLoggedIn, function(req, res) {
     Publication.find({
         "user": req.user._id
     }, function(error, publications) {

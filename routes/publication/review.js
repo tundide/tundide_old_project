@@ -6,9 +6,12 @@ let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
 
 /**
- * @api {patch} / Create Review
- * @apiName review
- * @apiGroup Publication
+ * @api {patch} /:id Save Review
+ * @apiName savereview
+ * @apiGroup Review
+ * 
+ * @apiParam {int} id Id of publication
+ * 
  * @apiExample {js} Review Example
  * {
  *     "score": "3",
@@ -42,13 +45,53 @@ router.patch('/:id', isLoggedIn, function(req, res) {
     );
 });
 
-// TODO: Agregar documentacion del metodo
+/**
+ * @api {get} /:id Get reviews
+ * @apiName getreviews
+ * @apiGroup Review
+ * 
+ * @apiParam {int} id Id of publication
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *   "message": "Recover reviews correctly",
+ *   "obj": [
+ *     {
+ *       "_id": "58c4a29e54eb8a335c293ab0",
+ *       "score": 4,
+ *       "message": "Messege of review",
+ *       "user": User
+ *     }
+ *   ]
+ * }
+ * 
+ */
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id).populate('reviews.user').exec(function(err, items) {
         res.status(200).json(new Success('Recover reviews correctly', items.reviews));
     });
 });
 
+/**
+ * @api {get} /score/:id Get score
+ * @apiName getscore
+ * @apiGroup Review
+ * 
+ * @apiParam {int} id Id of publication
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *   "message": "Recover score correctly",
+ *   "obj": {
+ *     "score": 2.7777777777778,
+ *     "like": 44.444444444444,
+ *     "length": 36
+ *   }
+ * }
+ * 
+ */
 router.get('/score/:id', function(req, res) {
     Publication.findById(req.params.id).exec(function(err, publication) {
         let scoreAvg = 0;

@@ -14,8 +14,8 @@ let session = require('../auth/session');
 
 // TODO:Completar ejemplos
 /**
- * @api {post} / Save Publication
- * @apiName publication
+ * @api {post} / Save publication
+ * @apiName savepublication
  * @apiGroup Publication
  * @apiExample {js} Property Example
  * {
@@ -80,7 +80,13 @@ router.post('/', session.authorize, function(req, res) {
         };
 });
 
-// TODO: Falta agregar la documentacion
+// TODO: Completar documentacion y ejemplos
+/**
+ * @api {patch} / Update publication
+ * @apiName delete
+ * @apiGroup Publication
+ * 
+ */
 router.patch('/', session.authorize, function(req, res) {
 
     switch (req.body._type) {
@@ -106,7 +112,15 @@ router.patch('/', session.authorize, function(req, res) {
     }
 });
 
-// TODO: Falta agregar la documentacion
+// TODO: Completar documentacion y ejemplos
+/**
+ * @api {get} / Get publication
+ * @apiName getpublication
+ * @apiGroup Publication
+ * 
+ * @apiParam {Number} id Id of the publication
+ * 
+ */
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id, function(err, doc) {
         if (doc) {
@@ -153,7 +167,15 @@ router.get('/:id', function(req, res) {
     // });
 });
 
-// TODO: Falta agregar la documentacion
+// TODO: Completar documentacion y ejemplos
+/**
+ * @api {get} /find/:query Find publication
+ * @apiName getpublicationbyquery
+ * @apiGroup Publication
+ * 
+ * @apiParam {String} query Query to search publication
+ * 
+ */
 router.get('/find/:query', function(req, res) {
     Publication.find(JSON.parse(req.params.query), function(err, publications) {
         res.status(201).json({
@@ -163,6 +185,19 @@ router.get('/find/:query', function(req, res) {
     });
 });
 
+// TODO: Completar documentacion y ejemplos
+/**
+ * @api {get} /list/user/:status List publication
+ * @apiName getpublicationbystatus
+ * @apiGroup Publication
+ * 
+ * @apiParam {int} status Status to get ()
+ * @apiParamExample {int} Active publication example:
+ *    id:1
+ * @apiParamExample {int} Paused publication example:
+ *    id:2
+ * 
+ */
 router.get('/list/user/:status', session.authorize, function(req, res) {
     Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
         res.status(201).json({

@@ -15,7 +15,7 @@ module.exports = function(passport) {
 
     /**
      * @api {get} /userdata Request User information
-     * @apiName auth
+     * @apiName getuserdata
      * @apiGroup Auth
      * 
      * @apiSuccess {Object} User with Id - Name - Email - Token.
@@ -62,13 +62,13 @@ module.exports = function(passport) {
 
     /**
      * @api {post} /signin Signin User with JWT
-     * @apiName auth
+     * @apiName signin
      * @apiGroup Auth
      * 
      * @apiExample {js} Signin Example
      * {
-     * 	"email":"user@mail.com",
-     *  "password": 'fc3b322ab12bb56b7db9ddc0eabab261'
+     *   "email": "user@mail.com",
+     *   "password": "fc3b322ab12bb56b7db9ddc0eabab261"
      * }
      * 
      * @apiSuccess {String} Return JWT Token.
@@ -102,16 +102,16 @@ module.exports = function(passport) {
 
     /**
      * @api {post} /signout Signout User with JWT
-     * @apiName auth
+     * @apiName signout
      * @apiGroup Auth
      * 
      * @apiExample {js} Signout Example
      * {
-     * 	"name":"Name",
-     *  "jwt": {
-     *              "email": "user@mail.com",
-     *              "password": "fc3b322ab12bb56b7db9ddc0eabab261"
-     *          }
+     *   "name": "Name",
+     *   "jwt": {
+     *     "email": "user@mail.com",
+     *     "password": "fc3b322ab12bb56b7db9ddc0eabab261"
+     *   }
      * }
      * 
      * @apiSuccess {String} Return JWT Token.
@@ -137,7 +137,7 @@ module.exports = function(passport) {
 
     /**
      * @api {get} /logout Logout User
-     * @apiName auth
+     * @apiName logout
      * @apiGroup Auth
      * 
      * @apiSuccess Redirect to home page.
@@ -152,7 +152,7 @@ module.exports = function(passport) {
 
     /**
      * @api {get} /google Get Passport authentication
-     * @apiName auth
+     * @apiName google
      * @apiGroup Auth
      * 
      */
@@ -163,7 +163,7 @@ module.exports = function(passport) {
 
     /**
      * @api {get} /google/callback Redirect after google authentication 
-     * @apiName auth
+     * @apiName googleCallback
      * @apiGroup Auth
      * 
      */

@@ -8,10 +8,6 @@ import { AuthService } from './auth.service';
   templateUrl: 'signout.component.html'
 })
 export class SignoutComponent {
-  name: string;
-  email: string;
-  password: string;
-
   constructor(private authService: AuthService,
               private router: Router) { }
 

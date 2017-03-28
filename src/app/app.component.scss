@@ -4,3 +4,12 @@
 @import "/node_modules/angular-calendar/dist/css/angular-calendar.css";
 @import "/node_modules/ng2-toasty/style.css";
 @import "/node_modules/ng2-toasty/style-bootstrap.css";
+
+/*** Hack para tener el <a> como link sin tener href ***/
+
+a:not([href]) {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none
+}

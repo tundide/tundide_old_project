@@ -24,10 +24,10 @@ export class FavoriteService {
      * Get the reviews of the publication
      * @param  {String} id The id of publication
      */
-    getFavorite(id: string) {
+    exists(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/favorite/' + id, {headers: headers})
+        return this.http.get('http://localhost:3001/favorite/exists/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -42,7 +42,7 @@ export class FavoriteService {
      * Save publication as favorite
      * @param  {String} id The id of publication
      */
-    saveFavorite(id: string) {
+    save(id: string) {
         const body = JSON.stringify({publicationId: id});
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
@@ -61,7 +61,7 @@ export class FavoriteService {
      * Delete publication as favorite
      * @param  {String} id The id of publication
      */
-    deleteFavorite(id: string) {
+    delete(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
         return this.http.delete('http://localhost:3001/favorite/' + id, {headers: headers})

@@ -6,6 +6,10 @@ let passport = require('passport');
 
 module.exports = {
     authorize: function(req, res, next) {
+        if (!req.headers.authorization) {
+            return res.status(401).json(new Error('No se estan enviando las credenciales', 'Para poder transaccionar debe proveer el token de autenticacion en la cabecera del pedido'));
+        }
+
         let type = req.headers.authorization.substring(0, 1);
         let token = req.headers.authorization.substring(1, req.headers.authorization.length);
 

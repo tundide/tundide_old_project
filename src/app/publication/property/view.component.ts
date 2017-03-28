@@ -60,10 +60,9 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
           this.publicationAverage = data.obj;
       });
 
-      this.favoriteService.getFavorite(params['id'])
+      this.favoriteService.exists(params['id'])
         .subscribe(data => {
-          console.log(data.obj);
-          this.favoriteAdded = (data.obj.length > 0);
+          this.favoriteAdded = data.obj;
       });
     });
   }
@@ -74,12 +73,12 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   onFavoriteChange(added: Boolean) {
     if (added) {
-      this.favoriteService.deleteFavorite(this.publicationId)
+      this.favoriteService.delete(this.publicationId)
         .subscribe(data => {
           this.favoriteAdded = false;
       });
     } else {
-      this.favoriteService.saveFavorite(this.publicationId)
+      this.favoriteService.save(this.publicationId)
         .subscribe(data => {
           this.favoriteAdded = true;
       });

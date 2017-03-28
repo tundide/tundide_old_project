@@ -24,11 +24,23 @@ let session = require('../auth/session');
  * }
  * 
  */
-router.get('/:id', session.authorize, function(req, res) {
-    // req.params.id
-    User.findById(req.user._id).exec(function(err, user) {
-        res.status(200).json(new Success('Recover favorites correctly', user.favorites));
-    });
+router.get('/exists/:id', session.authorize, function(req, res) {
+    let publicationId = new mongoose.Types.ObjectId(req.params.id);
+
+    User.find({
+            _id: req.user._id,
+            favorites: {
+                $in: [publicationId]
+            }
+        },
+        function(err, data) {
+            if (err) {
+                throw err;
+            } else {
+                res.status(200).json(new Success('Recover favorites correctly', (data.length > 0)));
+            }
+        }
+    );
 });
 
 /**

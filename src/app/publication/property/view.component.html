@@ -4,7 +4,7 @@
             <div class="preview col-md-6">
                 <ngb-carousel *ngIf="property.images.length > 0">
                     <template *ngFor="let img of property.images; let i = img" ngbSlide>
-                    <img class="mx-auto" src="http://localhost:3001/files/download/{{img}}" alt="Random first slide">
+                    <img class="mx-auto" src="http://localhost:3001/files/{{img}}" alt="Random first slide">
                 </template>
                 </ngb-carousel>
             </div>
@@ -31,12 +31,14 @@
                     <div class="btn-group" role="group" aria-label="Third group">
 
                         <button class="add-to-cart btn btn-default" (click)="onReserve()" type="button">Reservar</button>
-                        <button class="btn btn-danger" type="button"><span class="fa fa-heart-o"></span>
+                        <button *ngIf="user" class="btn btn-danger" (click)="onFavoriteChange(favoriteAdded)" type="button">
+                        <span *ngIf="!favoriteAdded" class="fa fa-heart-o"></span>
+                        <span *ngIf="favoriteAdded" class="fa fa-heart"></span>
                     </button>
                         <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
                     </button>
                         <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
-                        <button class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
+                        <button *ngIf="user" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
                     </button>
                         <button dropdown="" class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-share-alt"></span>
                     </button>

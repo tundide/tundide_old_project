@@ -5,6 +5,7 @@ import { ReservationService } from '../reservation.service';
 import { Property } from './property.model';
 import { AuthService } from '../../auth/auth.service';
 import { ReviewService } from '../review.service';
+import { FavoriteService } from '../favorite.service';
 
 @Component({
   selector: 'view-property',
@@ -14,16 +15,20 @@ import { ReviewService } from '../review.service';
 export class PropertyViewComponent implements OnInit, OnDestroy {
 
   publicationAverage: any;
+  public favoriteAdded: Boolean = false;
 
   private sub: any;
   private property: Property = new Property();
   private myPublication: Boolean = false;
+  private publicationId: string;
+  private user;
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private publicationService: PublicationService,
               private reservationService: ReservationService,
-              private reviewService: ReviewService) {
+              private reviewService: ReviewService,
+              private favoriteService: FavoriteService) {
                 this.publicationAverage = {
                   like: 0,
                   score: 0
@@ -32,8 +37,11 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     window.scrollTo(0, 0);
+    this.user = this.authService.user;
 
     this.sub = this.route.params.subscribe(params => {
+      this.publicationId = params['id'];
+
       this.publicationService.getFromDatabase(params['id']).subscribe(
               data => {
                 this.property = data.obj;
@@ -51,11 +59,31 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.publicationAverage = data.obj;
       });
+
+      this.favoriteService.getFavorite(params['id'])
+        .subscribe(data => {
+          console.log(data.obj);
+          this.favoriteAdded = (data.obj.length > 0);
+      });
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  onFavoriteChange(added: Boolean) {
+    if (added) {
+      this.favoriteService.deleteFavorite(this.publicationId)
+        .subscribe(data => {
+          this.favoriteAdded = false;
+      });
+    } else {
+      this.favoriteService.saveFavorite(this.publicationId)
+        .subscribe(data => {
+          this.favoriteAdded = true;
+      });
+    }
   }
 
   onReserve() {

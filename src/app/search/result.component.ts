@@ -17,7 +17,7 @@ export class ResultComponent implements OnInit {
   ngOnInit() {
     // FIXME: Corregir las rutas dinamicas
     if (this.publication.images.length) {
-      this.imageUrl = 'http://localhost:3001/files/download/' + this.publication.images[0];
+      this.imageUrl = 'http://localhost:3001/files/' + this.publication.images[0];
     }else {
       this.imageUrl = 'http://localhost:3001/images/noimagen.png';
     }

@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { Review } from './publication.model';
+// import { Review } from './publication.model';
 import { ErrorService } from '../errors/error.service';
 import { Observable } from 'rxjs';
 
@@ -24,24 +24,6 @@ export class FavoriteService {
      * Get the reviews of the publication
      * @param  {String} id The id of publication
      */
-    get(id: string) {
-        let token = localStorage.getItem('token');
-        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/review/' + id, {headers: headers})
-            .map((response: Response) => {
-                const result = response.json();
-                return result;
-            })
-            .catch((error: Response) => {
-                this.errorService.handleError(error.json());
-                return Observable.throw(error.json());
-            });
-    }
-
-    /**
-     * Get favorite averge of Publication
-     * @param  {String} id The id of publication
-     */
     getFavorite(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
@@ -57,14 +39,32 @@ export class FavoriteService {
     }
 
     /**
-     * Rate it the publication
-     * @param  {Review} review The review object
+     * Save publication as favorite
+     * @param  {String} id The id of publication
      */
     saveFavorite(id: string) {
-        const body = JSON.stringify(review);
+        const body = JSON.stringify({publicationId: id});
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.patch('http://localhost:3001/review/' + id, body, {headers: headers})
+        return this.http.patch('http://localhost:3001/favorite', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Delete publication as favorite
+     * @param  {String} id The id of publication
+     */
+    deleteFavorite(id: string) {
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
+        return this.http.delete('http://localhost:3001/favorite/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

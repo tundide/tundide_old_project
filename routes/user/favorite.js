@@ -5,6 +5,7 @@ let Publication = require('../../models/publication');
 let User = require('../../models/user');
 let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
+let session = require('../auth/session');
 
 /**
  * @api {get} / Get favorites
@@ -23,7 +24,8 @@ let Error = require('../shared/error.js');
  * }
  * 
  */
-router.get('/:id', isLoggedIn, function(req, res) {
+router.get('/:id', session.authorize, function(req, res) {
+    // req.params.id
     User.findById(req.user._id).exec(function(err, user) {
         res.status(200).json(new Success('Recover favorites correctly', user.favorites));
     });
@@ -45,7 +47,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
  * }
  * 
  */
-router.patch('/', isLoggedIn, function(req, res) {
+router.patch('/', session.authorize, function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.body.publicationId);
 
     User.update({ _id: req.user._id }, { $push: { "favorites": publicationId } }, { safe: true, upsert: true },
@@ -60,9 +62,10 @@ router.patch('/', isLoggedIn, function(req, res) {
 });
 
 /**
- * @api {delete} / Remove favorite
+ * @api {delete} /:id Remove favorite
  * @apiName removefavorite
  * @apiGroup Favorite
+ * @apiParam {Number} id Id of the publication
  * @apiExample {js} Remove favorite
  * {
  * 	"publicationId": "58c4967f61b0e63ea4b57391"
@@ -75,8 +78,8 @@ router.patch('/', isLoggedIn, function(req, res) {
  * }
  * 
  */
-router.delete('/', isLoggedIn, function(req, res) {
-    let publicationId = new mongoose.Types.ObjectId(req.body.publicationId);
+router.delete('/:id', session.authorize, function(req, res) {
+    let publicationId = new mongoose.Types.ObjectId(req.params.id);
 
     User.update({ _id: req.user._id }, { $pull: { "favorites": publicationId } }, { safe: true, upsert: true },
         function(err) {
@@ -88,13 +91,5 @@ router.delete('/', isLoggedIn, function(req, res) {
         }
     );
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(500).json(new Error('Unauthorized'));
-    }
-};
 
 module.exports = router;

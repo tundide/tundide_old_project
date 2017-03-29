@@ -7,6 +7,7 @@ import { BillingComponent } from './billing/billing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PublicationActiveComponent } from './publication/active.component';
 import { PublicationPausedComponent } from './publication/paused.component';
+import { PublicationFavoriteComponent } from './publication/favorite.component';
 import { AlertComponent } from './settings/alert.component';
 import { ScheduleComponent } from './settings/schedule.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -23,11 +24,13 @@ import { ReservationService } from '../publication/reservation.service';
         AlertComponent,
         ScheduleComponent,
         PublicationActiveComponent,
-        PublicationPausedComponent],
+        PublicationPausedComponent,
+        PublicationFavoriteComponent],
     exports: [AdminComponent,
                 SidebarComponent,
                 PublicationActiveComponent,
-                PublicationPausedComponent],
+                PublicationPausedComponent,
+                PublicationFavoriteComponent],
     imports: [routing,
         FormsModule,
         RouterModule,

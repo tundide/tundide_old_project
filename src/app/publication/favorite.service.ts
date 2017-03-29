@@ -24,6 +24,24 @@ export class FavoriteService {
      * Get the reviews of the publication
      * @param  {String} id The id of publication
      */
+    get() {
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
+        return this.http.get('http://localhost:3001/favorite/', {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Get the reviews of the publication
+     * @param  {String} id The id of publication
+     */
     exists(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});

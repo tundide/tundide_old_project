@@ -9,15 +9,43 @@ let session = require('../auth/session');
 
 /**
  * @api {get} / Get favorites
- * @apiName getfavorites
+ * @apiName getfavorite
  * @apiDescription Get all favorites from authenticated user
+ * @apiGroup Favorite
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "Recover favorites correctly",
+ * 	"obj": [
+ * 		[Publication]
+ * 	]
+ * }
+ * 
+ */
+router.get('/', session.authorize, function(req, res) {
+    User.findById(req.user._id,
+        function(err, data) {
+            if (err) {
+                throw err;
+            } else {
+                res.status(200).json(new Success('Recover favorites correctly', data.favorites));
+            }
+        }
+    ).populate('favorites');
+});
+
+/**
+ * @api {get} /exists/:id Exists favorite
+ * @apiName existsfavorite
+ * @apiDescription Check if exist a favorite from authenticated user
  * @apiGroup Favorite
  * @apiParam {Number} id Id of the publication
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "Recover favorites correctly",
+ * 	"message": "Check if exist favorite correctly",
  * 	"obj": [
  * 		"58c4967f61b0e63ea4b57392"
  * 	]
@@ -37,7 +65,7 @@ router.get('/exists/:id', session.authorize, function(req, res) {
             if (err) {
                 throw err;
             } else {
-                res.status(200).json(new Success('Recover favorites correctly', (data.length > 0)));
+                res.status(200).json(new Success('Check if exist favorite correctly', (data.length > 0)));
             }
         }
     );

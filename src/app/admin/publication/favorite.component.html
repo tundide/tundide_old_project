@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="container">
             <div class="hgroup mb20">
-                <h1>Publicaciones Activas</h1>
+                <h1>Publicaciones Favoritas</h1>
             </div>
             <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
                 <thead>
@@ -23,11 +23,8 @@
                         <td>{{pub.shortId}}</td>
                         <td>{{pub.title}}</td>
                         <td>
-                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
-                                <span class="fa fa-pencil-square-o"></span>
-                            </button>
-                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
-                                <span class="fa fa-pause"></span>
+                            <button class="btn btn-primary" [routerLink]="['/view',pub._id]" type="button">
+                                <span class="fa fa-search"></span>
                             </button>
                         </td>
                     </tr>

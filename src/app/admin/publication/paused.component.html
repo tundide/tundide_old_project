@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="container">
             <div class="hgroup mb20">
-                <h1>Publicaciones Activas</h1>
+                <h1>Publicaciones Pausadas</h1>
             </div>
             <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
                 <thead>
@@ -25,6 +25,9 @@
                         <td>
                             <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
                                 <span class="fa fa-pencil-square-o"></span>
+                            </button>
+                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
+                                <span class="fa fa-play"></span>
                             </button>
                         </td>
                     </tr>

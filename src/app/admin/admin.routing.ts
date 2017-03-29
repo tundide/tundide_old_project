@@ -7,6 +7,7 @@ import { AdminComponent } from './admin.component';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { PublicationActiveComponent } from './publication/active.component';
 import { PublicationPausedComponent } from './publication/paused.component';
+import { PublicationFavoriteComponent } from './publication/favorite.component';
 
 const routes: Routes = [
     {
@@ -41,6 +42,11 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 component: PublicationPausedComponent,
                 path: 'paused'
+            },
+            {
+                canActivate: [AuthGuard],
+                component: PublicationFavoriteComponent,
+                path: 'favorite'
             }
         ],
         component: AdminComponent,

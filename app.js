@@ -14,7 +14,7 @@ let mongoose = require('mongoose');
 let MongoStore = require('connect-mongo')(session);
 let cors = require('cors');
 let configAuth = require('./appConfig.json');
-let cache = require('memory-cache');
+let User = require('./models/user');
 let _ = require('lodash');
 
 mongoose.connect('mongodb://127.0.0.1:27017/tundide', function(err) {
@@ -35,17 +35,6 @@ app.use(cors({ origin: 'http://localhost:3001' }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 app.use(cookieParser(configAuth.auth.secret));
-
-app.use(session({
-    secret: configAuth.auth.secret,
-    cookie: {
-        maxAge: configAuth.auth.maxAge
-    },
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -55,14 +44,16 @@ app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 
 app.use(function(req, res, next) {
     if (req.headers.authorization) {
-        let session = cache.get('sessions_' + req.headers.authorization);
+        let token = req.headers.authorization.split(' ')[1];
+        User.findOne({ 'authentication.token': token }, function(error, result) {
+            if (error) return;
 
-        req.user = session;
+            req.user = result;
+            next();
+        });
+    } else {
+        next();
     }
-
-
-    res.locals.isAuthenticated = req.isAuthenticated();
-    next();
 });
 
 let routes = require('./routes/routes');

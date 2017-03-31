@@ -133,7 +133,7 @@ router.get('/:id', function(req, res) {
                 message: 'No se encontraron coincidencias'
             });
         }
-    });
+    }).populate('user');
     // Publication.findById(req.params.id, function(err, doc) {
     //     if (doc) {
     //         res.status(200).json({

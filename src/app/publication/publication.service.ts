@@ -29,11 +29,13 @@ export class PublicationService {
     @Output() onPublicationLoad: EventEmitter<any>;
 
     public publication: Publication;
+
+    private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
     constructor(private http: Http, private errorService: ErrorService) {
         this.onPublicationChange = new EventEmitter();
         this.onPublicationPriceChange = new EventEmitter();
         this.onPublicationLoad = new EventEmitter();
-
         this.onPublicationChange.subscribe((publication) => {
             this.publication = publication;
         });
@@ -86,7 +88,7 @@ export class PublicationService {
         const body = JSON.stringify(publication);
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3001/publication', body, {headers: headers})
+        return this.http.post(this.host + '/publication', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -106,7 +108,7 @@ export class PublicationService {
         const body = JSON.stringify(publication);
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.patch('http://localhost:3001/publication', body, {headers: headers})
+        return this.http.patch(this.host + '/publication', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -125,7 +127,7 @@ export class PublicationService {
     getFromDatabase(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/publication/' + id, {headers: headers})
+        return this.http.get(this.host + '/publication/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -145,7 +147,7 @@ export class PublicationService {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
-        return this.http.get('http://localhost:3001/publication/find/' + JSON.stringify(query), {headers: headers})
+        return this.http.get(this.host + '/publication/find/' + JSON.stringify(query), {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -165,7 +167,7 @@ export class PublicationService {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
-        return this.http.get('http://localhost:3001/publication/list/user/' + status, {headers: headers})
+        return this.http.get(this.host + '/publication/list/user/' + status, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

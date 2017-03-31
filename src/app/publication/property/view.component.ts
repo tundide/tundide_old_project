@@ -4,6 +4,7 @@ import { PublicationService } from '../publication.service';
 import { ReservationService } from '../reservation.service';
 import { Property } from './property.model';
 import { AuthService } from '../../auth/auth.service';
+import { AdvertiserService } from '../../advertiser/advertiser.service';
 import { ReviewService } from '../review.service';
 import { FavoriteService } from '../favorite.service';
 
@@ -25,6 +26,7 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
+              private advertiserService: AdvertiserService,
               private publicationService: PublicationService,
               private reservationService: ReservationService,
               private reviewService: ReviewService,
@@ -87,5 +89,9 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   onReserve() {
     this.reservationService.onReserve.emit(false);
+  }
+
+  onContactAdvertiser() {
+    this.advertiserService.onContactAdvertiser.emit();
   }
 }

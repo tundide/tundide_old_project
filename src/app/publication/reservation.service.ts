@@ -22,6 +22,8 @@ export class ReservationService {
      */
     @Output() onReserveChange: EventEmitter<any> = new EventEmitter();
 
+    private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
     constructor(private http: Http, private errorService: ErrorService) {
         this.onReserve = new EventEmitter();
         this.onReserveChange = new EventEmitter();
@@ -35,7 +37,7 @@ export class ReservationService {
         const body = JSON.stringify(reservation);
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.patch('http://localhost:3001/reservation/' + id, body, {headers: headers})
+        return this.http.patch(this.host + '/reservation/' + id, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -52,7 +54,7 @@ export class ReservationService {
     list() {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/reservation/', {headers: headers})
+        return this.http.get(this.host + '/reservation/', {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

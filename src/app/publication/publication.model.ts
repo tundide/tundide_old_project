@@ -32,6 +32,7 @@ export class Publication {
     images: Array<string>;
     reviews: Array<Review>;
     reservations: Array<Reservation>;
+    user: any;
 
     constructor(publicationType: string) {
         this.average = new Average();

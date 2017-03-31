@@ -16,6 +16,8 @@ export class ReviewService {
      */
     @Output() onRateIt: EventEmitter<any> = new EventEmitter();
 
+    private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
     constructor(private http: Http, private errorService: ErrorService) {
         this.onRateIt = new EventEmitter();
     }
@@ -27,7 +29,7 @@ export class ReviewService {
     get(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/review/' + id, {headers: headers})
+        return this.http.get(this.host + '/review/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -45,7 +47,7 @@ export class ReviewService {
     getScore(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/review/score/' + id, {headers: headers})
+        return this.http.get(this.host + '/review/score/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -65,7 +67,7 @@ export class ReviewService {
         const body = JSON.stringify(review);
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.patch('http://localhost:3001/review/' + id, body, {headers: headers})
+        return this.http.patch(this.host + '/review/' + id, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

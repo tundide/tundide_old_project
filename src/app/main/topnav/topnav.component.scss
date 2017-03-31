@@ -2,3 +2,8 @@
 li.highlight a {
     color: $green-light ! important;
 }
+
+i.news {
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}

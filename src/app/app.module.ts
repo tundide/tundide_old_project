@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
+import { SocketService } from './shared/socket.service';
 import { ErrorService } from './errors/error.service';
 import { PublicationModule } from './publication/publication.module';
 import { BudgetModule } from './budget/budget.module';
@@ -33,6 +34,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
     ],
     providers: [
         AuthService,
+        SocketService,
         ErrorService,
         { provide: APP_CONFIG, useValue: AppConfig }
     ]

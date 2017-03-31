@@ -8,7 +8,17 @@ let bcrypt = require('bcrypt-nodejs');
 let Schema = mongoose.Schema;
 
 let userSchema = mongoose.Schema({
+    authentication: {
+        id: String,
+        username: String,
+        token: String,
+        password: String,
+        attempts: Number
+    },
+    shortId: String,
+    socketId: String,
     name: String,
+    email: String,
     lastAccess: Date,
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Publication' }],
     reservations: [{
@@ -24,32 +34,7 @@ let userSchema = mongoose.Schema({
         publicationsAvailable: Number,
         expiration: Date
     },
-    billing: {},
-    jwt: {
-        email: String,
-        password: String,
-        token: String,
-        attempts: Number
-    },
-    facebook: {
-        id: String,
-        token: String,
-        email: String,
-        name: String
-    },
-    twitter: {
-        id: String,
-        token: String,
-        displayName: String,
-        username: String
-    },
-    google: {
-        id: String,
-        token: String,
-        email: String,
-        name: String
-    }
-
+    billing: {}
 });
 
 /**

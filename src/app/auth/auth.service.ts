@@ -3,6 +3,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { User } from './user.model';
 import { ErrorService } from '../errors/error.service';
+import { SocketService } from '../shared/socket.service';
 import {Md5} from 'ts-md5/dist/md5';
 
 /**
@@ -25,7 +26,12 @@ export class AuthService {
 
     public user;
 
-    constructor(public http: Http, private errorService: ErrorService) { }
+    private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
+    constructor(public http: Http,
+                private errorService: ErrorService,
+                private socketService: SocketService,
+                ) { }
 
     /**
      * Validate is the user is authenticated or not
@@ -49,7 +55,7 @@ export class AuthService {
     getUserCredentials(token: string): Observable<User> {
         let headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
 
-        return this.http.get('http://localhost:3001/auth/userdata', { headers: headers })
+        return this.http.get(this.host + '/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
 
@@ -61,7 +67,7 @@ export class AuthService {
                 // }
 
                 // localStorage.setItem('token', 'google ' + token);
-
+                this.socketService.connectSocket(result.obj.shortId);
                 this.user = new User(result.obj.name, result.obj.email, result.obj.token);
                 return this.user;
             })
@@ -84,7 +90,7 @@ export class AuthService {
 
         const body = JSON.stringify(usr);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3001/auth/signin', body, {headers: headers})
+        return this.http.post(this.host + '/auth/signin', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 localStorage.setItem('token', result.obj.token);
@@ -113,7 +119,7 @@ export class AuthService {
 
         const body = JSON.stringify(usr);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3001/auth/signout', body, {headers: headers})
+        return this.http.post(this.host + '/auth/signout', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -128,15 +134,8 @@ export class AuthService {
      * Logout User
      */
     logout() {
-        const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/auth/logout', {headers: headers})
-            .map((response: Response) => {
-                localStorage.removeItem('token');
-                return response;
-            })
-            .catch((error: Response) => {
-                this.errorService.handleError(error.json());
-                return Observable.throw(error.json());
-            });
+        localStorage.removeItem('token');
+        this.socketService.logout(this.user.shortId);
+        this.onLogout.emit();
     }
 }

@@ -1,6 +1,5 @@
 let express = require('express');
 let passport = require('passport');
-let cache = require('memory-cache');
 let jwt = require('jsonwebtoken');
 let router = express.Router();
 let configAuth = require('../../appConfig.json');
@@ -8,6 +7,8 @@ let User = require('../../models/user');
 let Success = require('../shared/success.js');
 let Error = require('../shared/error.js');
 let session = require('./session');
+let shortid = require('shortid');
+
 require('./strategies')(passport);
 
 
@@ -22,35 +23,41 @@ module.exports = function(passport) {
      * 
      */
     router.get('/userdata', session.authorize, function(req, res) {
-        let type = req.headers.authorization.substring(0, 1);
-        let token = req.headers.authorization.substring(1, req.headers.authorization.length);
+        let authorization = req.headers.authorization.split(' ');
+        let type = authorization[0];
+        let token = authorization[1];
 
         switch (type) {
-            case 'g':
-                User.findOne({ 'google.token': token }, function(err, fulluser) {
+            case 'google':
+                User.findOne({ 'authentication.token': token }, function(err, fulluser) {
+                    if (!fulluser) {
+                        return res.status(500).json(new Error('Usuario inexistente', 'No existe ningun usuario con las credenciales enviadas.'));
+                    }
                     if (err)
-                        return res.status(500).json(new Error('Unauthorized', err));
+                        return res.status(401).json(new Error('Unauthorized', err));
 
                     res.status(200).json(new Success("User recovered correctly", {
                         'name': fulluser.name,
-                        'token': fulluser.google.token,
-                        'email': fulluser.google.email
+                        'token': fulluser.authentication.token,
+                        'username': fulluser.authentication.username,
+                        'shortId': fulluser.shortId
                     }));
                 });
                 break;
-            case 'j':
+            case 'jwt':
                 jwt.verify(token, configAuth.auth.jwt.secret, function(err, decoded) {
                     if (err) {
                         return res.status(401).json(new Error('Unauthorized', err.message));
                     } else {
-                        User.findById(decoded, function(err, fulluser) {
+                        User.findOne({ 'authentication.token': token }, function(err, fulluser) {
                             if (err)
                                 return res.status(500).json(new Error('Unauthorized', err));
 
                             res.status(200).json(new Success("User recovered correctly", {
                                 'name': fulluser.name,
-                                'token': fulluser.jwt.token,
-                                'email': fulluser.jwt.email
+                                'token': fulluser.authentication.token,
+                                'username': fulluser.authentication.username,
+                                'shortId': fulluser.shortId
                             }));
                         });
                     }
@@ -79,14 +86,13 @@ module.exports = function(passport) {
             let email = req.body.email;
             let password = req.body.password;
             User.findOne({
-                    $and: [{ "jwt.email": email },
-                        { "jwt.password": password }
+                    $and: [{ "authentication.username": email },
+                        { "authentication.password": password }
                     ]
                 },
                 function(err, user) {
                     if (user) {
-                        let token = 'j' + jwt.sign(user.id, configAuth.auth.jwt.secret);
-                        cache.put('sessions_' + token, user);
+                        let token = 'jwt ' + jwt.sign(user.shortId, configAuth.auth.jwt.secret);
                         res.json(new Success('Token created successful', {
                             token: token
                         }));
@@ -120,11 +126,12 @@ module.exports = function(passport) {
     router.post("/signout", function(req, res) {
         let user = new User();
         user.name = req.body.name;
+        user.shortId = 'USJ-' + shortid.generate();
 
-        let token = jwt.sign(req.body.jwt.email, configAuth.auth.jwt.secret);
+        let token = jwt.sign(user.shortId, configAuth.auth.jwt.secret);
 
-        user.jwt = {
-            'email': req.body.jwt.email,
+        user.authentication = {
+            'username': req.body.jwt.email,
             'password': req.body.jwt.password,
             'token': token
         };
@@ -144,10 +151,7 @@ module.exports = function(passport) {
      * 
      */
     router.get('/logout', function(req, res) {
-        req.logOut();
-        req.session.destroy(function() {
-            res.redirect('/');
-        });
+        res.redirect('/');
     });
 
     /**
@@ -172,7 +176,7 @@ module.exports = function(passport) {
             if (err) { return next(err); }
 
             if (user) {
-                res.redirect('http://localhost:3001/#/?t=g' + user.google.token);
+                res.redirect('http://localhost:3001/#/?t=google ' + user.authentication.token);
             } else {
                 return res.status(401).json(info);
             }

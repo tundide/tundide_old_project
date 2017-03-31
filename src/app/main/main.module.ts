@@ -6,6 +6,7 @@ import { TopNavComponent } from './topnav/topnav.component';
 import { FooterComponent } from './footer/footer.component';
 import { HttpModule } from '@angular/http';
 import { HomeComponent } from './home/home.component';
+import { SocketService } from '../shared/socket.service';
 
 @NgModule({
     declarations: [HomeComponent,
@@ -22,7 +23,8 @@ import { HomeComponent } from './home/home.component';
         HttpModule,
         RouterModule,
         FormsModule
-    ]
+    ],
+    providers: [SocketService]
 })
 
 export class MainModule {}

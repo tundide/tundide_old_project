@@ -13,7 +13,6 @@ export class SigninComponent {
     this.authService.signin(form.email, form.password).subscribe(
         data => {
                 window.location.href = '/';
-                console.log(data);
               },
               error => console.error(error)
               );

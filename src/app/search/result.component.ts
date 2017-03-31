@@ -12,14 +12,16 @@ export class ResultComponent implements OnInit {
   private review;
   private imageUrl;
 
+  private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
   constructor(private reviewService: ReviewService) { }
 
   ngOnInit() {
     // FIXME: Corregir las rutas dinamicas
     if (this.publication.images.length) {
-      this.imageUrl = 'http://localhost:3001/files/' + this.publication.images[0];
+      this.imageUrl = this.host + '/files/' + this.publication.images[0];
     }else {
-      this.imageUrl = 'http://localhost:3001/images/noimagen.png';
+      this.imageUrl = this.host + '/images/noimagen.png';
     }
 
     this.reviewService.getScore(this.publication._id)

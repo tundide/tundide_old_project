@@ -5,6 +5,7 @@
  */
 
 let app = require('../app');
+let socket = require('../socket');
 let debug = require('debug')('tundide:server');
 let http = require('http');
 
@@ -20,6 +21,8 @@ app.set('port', port);
  */
 
 let server = http.createServer(app);
+
+socket(server);
 
 /**
  * Listen on provided port, on all network interfaces.

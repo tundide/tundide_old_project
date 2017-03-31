@@ -16,6 +16,8 @@ export class FavoriteService {
      */
     @Output() onFavoriteAdd: EventEmitter<any> = new EventEmitter();
 
+    private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+
     constructor(private http: Http, private errorService: ErrorService) {
         this.onFavoriteAdd = new EventEmitter();
     }
@@ -27,7 +29,7 @@ export class FavoriteService {
     get() {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/favorite/', {headers: headers})
+        return this.http.get(this.host + '/favorite/', {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -45,7 +47,7 @@ export class FavoriteService {
     exists(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.get('http://localhost:3001/favorite/exists/' + id, {headers: headers})
+        return this.http.get(this.host + '/favorite/exists/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -64,7 +66,7 @@ export class FavoriteService {
         const body = JSON.stringify({publicationId: id});
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.patch('http://localhost:3001/favorite', body, {headers: headers})
+        return this.http.patch(this.host + '/favorite', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -82,7 +84,7 @@ export class FavoriteService {
     delete(id: string) {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
-        return this.http.delete('http://localhost:3001/favorite/' + id, {headers: headers})
+        return this.http.delete(this.host + '/favorite/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;

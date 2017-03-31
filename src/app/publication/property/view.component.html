@@ -38,7 +38,7 @@
                         <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
                     </button>
                         <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
-                        <button *ngIf="user" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
+                        <button *ngIf="user" (click)="onContactAdvertiser()" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
                     </button>
                         <button dropdown="" class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-share-alt"></span>
                     </button>

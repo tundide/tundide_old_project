@@ -3,9 +3,11 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from './publication.service';
 import { ReservationService } from './reservation.service';
+import { SocketService } from '../shared/socket.service';
+import { AdvertiserService } from '../advertiser/advertiser.service';
 import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Reservation } from './publication.model';
+import { Publication, Reservation } from './publication.model';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -43,6 +45,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
   @ViewChild('calendar') calendar: CalendarComponent;
   @ViewChild('confirmaReservation') modal: NgbModal;
+  @ViewChild('messageToTheAdvertiser') modalAdvertiser: NgbModal;
 
   actions: CalendarEventAction[] = [{
     label: '<i class="fa fa-fw fa-phone"></i>',
@@ -61,7 +64,9 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
   private reservation: Reservation = new Reservation();
   private publicationId: string;
+  private publication: Publication;
   private sub: any;
+  private message: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,6 +74,8 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     private toastyConfig: ToastyConfig,
     private location: Location,
     private modalService: NgbModal,
+    private advertiserService: AdvertiserService,
+    private socketService: SocketService,
     private reservationService: ReservationService,
     private publicationService: PublicationService) {
 
@@ -96,6 +103,8 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
           title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
         });
       });
+
+      this.publication = publication;
     });
 
     this.reservationService.onReserve.subscribe((confirm) => {
@@ -114,6 +123,26 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
           err => {// TODO: Corregir el manejo de errores
              console.log(err);
             });
+        }
+      });
+    });
+
+    this.advertiserService.onContactAdvertiser.subscribe((confirm) => {
+      this.modalService.open(this.modalAdvertiser, { size: 'lg' }).result.then((result) => {
+        if (result) {
+
+          this.socketService.sendMessage({
+            message: this.message,
+            toSocketId: this.publication.user.shortId
+          });
+
+          this.toastyService.success({
+            msg: 'El mensaje se envio correctamente al anunciante',
+            showClose: true,
+            theme: 'bootstrap',
+            timeout: 5000,
+            title: 'Mensaje enviado con exito.'
+          });
         }
       });
     });

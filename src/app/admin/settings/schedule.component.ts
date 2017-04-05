@@ -56,23 +56,22 @@ export class ScheduleComponent implements OnInit {
 
     ngOnInit() {
           this.reservationService.list()
-            .subscribe(data => {
-                    _.forEach(data.obj, (reservation, key) => {
-                        let startDate = moment(reservation.startDate);
-                        let endDate = moment(reservation.endDate);
-                        this.calendar.addEvent({
-                            actions: this.actions,
-                            color: (reservation.approved ? colors.green : colors.yellow),
-                            end: endDate.toDate(),
-                            start: startDate.toDate(),
-                            title: reservation.shortId + ' - (' + startDate.format('HH:mm') + '-'
-                            + endDate.format('HH:mm') + ') ' + reservation.title
+            .subscribe(res => {
+                    if (res) {
+                        _.forEach(res.data, (reservation, key) => {
+                            let startDate = moment(reservation.startDate);
+                            let endDate = moment(reservation.endDate);
+                            this.calendar.addEvent({
+                                actions: this.actions,
+                                color: (reservation.approved ? colors.green : colors.yellow),
+                                end: endDate.toDate(),
+                                start: startDate.toDate(),
+                                title: reservation.shortId + ' - (' + startDate.format('HH:mm') + '-'
+                                + endDate.format('HH:mm') + ') ' + reservation.title
+                            });
                         });
-                    });
-                },
-                err => {// TODO: Corregir el manejo de errores
-                    console.log(err);
-            });
+                    }
+                });
     };
 
     eventCalled() {

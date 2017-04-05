@@ -6,9 +6,8 @@ let fs = require('fs');
 let router = express.Router();
 let path = require('path');
 let Jimp = require("jimp");
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
-
+let filesResponse = require('../../config/response').files;
+let Response = require('../shared/response.js');
 
 module.exports = function(mongoose) {
     /**
@@ -50,15 +49,15 @@ module.exports = function(mongoose) {
                                 });
                                 fs.createReadStream(files.file.path).pipe(writestream);
 
-                                //TODO: Eliminar archivo del disco una vez subido a la base
                                 writestream.on('close', function(file) {
                                     fs.unlink(files.file.path);
-                                    console.log(file);
                                     res.send(file);
                                 });
                             });
                     }).catch(function(err) {
-                        console.error(err);
+                        return res.status(filesResponse.internalservererror.status).json(
+                            new Response(filesResponse.internalservererror.default, err)
+                        );
                     });
                 });
             }
@@ -82,7 +81,9 @@ module.exports = function(mongoose) {
 
             let promise = gfs.findOne({ _id: req.params.id }, function(err, file) {
                 if (file === null) {
-                    return res.status(400).send(new Error('File not found'));
+                    return res.status(filesResponse.notfound.status).json(
+                        new Response(filesResponse.notfound.default)
+                    );
                 }
                 res.setHeader('content-type', file.contentType);
 
@@ -108,9 +109,14 @@ module.exports = function(mongoose) {
             let gfs = grid(conn.db, mongoose.mongo);
 
             gfs.remove({ _id: req.params.id }, function(err) {
-                if (err) return handleError(err);
+                if (err)
+                    return res.status(filesResponse.internalservererror.status).json(
+                        new Response(filesResponse.internalservererror.default, err)
+                    );
 
-                res.status(200).json(new Success('File removed correctly'));
+                return res.status(filesResponse.success.status).json(
+                    new Response(filesResponse.success.deleteSuccessfully)
+                );
             });
         });
     });

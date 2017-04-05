@@ -12,10 +12,11 @@ export class PublicationActiveComponent implements OnInit {
     constructor(private publicationService: PublicationService) {}
     ngOnInit() {
         this.publicationService.listUserIntoDatabase(1).subscribe(
-                data => {
-                this.publications = data.obj;
-                },
-                // error => console.error(error)
+                res => {
+                    if (res) {
+                        this.publications = res.data;
+                    }
+                }
             );
     }
 }

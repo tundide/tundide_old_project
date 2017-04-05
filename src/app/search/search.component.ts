@@ -22,10 +22,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       let exp = {$or: [{'title': {'$regex': this.stringBuscado, $options: 'i'}},
                       {'description': {'$regex': this.stringBuscado, $options: 'i'}}]};
       this.publicationService.findIntoDatabase(exp).subscribe(
-              data => {
-                this.publications = data.obj;
-              },
-              // error => console.error(error)
+              res => {
+                this.publications = res.data;
+              }
           );
     });
   }

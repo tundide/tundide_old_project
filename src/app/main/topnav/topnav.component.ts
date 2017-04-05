@@ -32,16 +32,12 @@ export class TopNavComponent implements OnInit {
         this.authService.logout();
         this.router.navigate(['/']);
     }
-    ngOnInit() {
-        this.authService.onSignin.subscribe((user) => {
-            this.user = user;
 
-            this.connection = this.socketService.receiveMessages().subscribe(response => {
-                // TODO: Agregar esta informacion en el menu de mensajes
-                this.messages.push({
-                    'message': response.message
-                });
-            });
+    ngOnInit() {
+        this.user = this.authService.getUserCredentials();
+
+        this.authService.onUserDataLoad.subscribe((user) => {
+            this.user = user;
         });
 
         this.authService.onLogout.subscribe(() => {

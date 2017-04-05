@@ -3,8 +3,9 @@ let mongoose = require('mongoose');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Reservation = require('../../models/reservation');
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
+let reservationResponse = require('../../config/response').reservation;
+let Response = require('../shared/response.js');
+let session = require('../auth/session');
 
 /**
  * @api {patch} /:id Save reservation
@@ -28,7 +29,7 @@ let Error = require('../shared/error.js');
  * }
  * 
  */
-router.patch('/:id', isLoggedIn, function(req, res) {
+router.patch('/:id', session.authorize, function(req, res) {
     let id = new mongoose.Types.ObjectId(req.params.id);
 
     let reservation = {
@@ -61,15 +62,21 @@ router.patch('/:id', isLoggedIn, function(req, res) {
         console.log(publications.length);
         console.log(publications[0].reservations);
         if (publications.length > 0) {
-            res.status(500).json(new Error('Reserva ocupada', 'Ya existe una reserva realizada en este horario')); // TODO: Ver el manejo de mensajes hacia el cliente
+            res.status(reservationResponse.unprocessableentity.status).json(
+                new Response(reservationResponse.unprocessableentity.alreadyBooked)
+            );
         } else {
             Publication.findByIdAndUpdate(
                 req.params.id, { $push: { "reservations": reservation } }, { safe: true, upsert: true },
                 function(err) {
                     if (err) {
-                        throw err;
+                        res.status(reservationResponse.internalservererror.status).json(
+                            new Response(reservationResponse.internalservererror.database, err)
+                        );
                     } else {
-                        res.status(200).json(new Success('Reserved correctly'));
+                        res.status(reservationResponse.successcreated.status).json(
+                            new Response(reservationResponse.successcreated.updatedSuccessfully)
+                        );
                     }
                 }
             );
@@ -99,7 +106,7 @@ router.patch('/:id', isLoggedIn, function(req, res) {
  * }
  * 
  */
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', session.authorize, function(req, res) {
     Publication.find({
         "user": req.user._id
     }, function(error, publications) {
@@ -112,16 +119,16 @@ router.get('/', isLoggedIn, function(req, res) {
             });
         });
 
-        res.status(200).json(new Success('Reservations list correctly', reservations));
+        if (reservations.length > 0) {
+            return res.status(reservationResponse.success.status).json(
+                new Response(reservationResponse.success.retrievedSuccessfully, reservations)
+            );
+        } else {
+            return res.status(reservationResponse.successnocontent.status).json(
+                new Response(reservationResponse.successnocontent.reservationNotExist)
+            );
+        }
     });
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(500).json(new Error('Unauthorized'));
-    }
-};
 
 module.exports = router;

@@ -16,8 +16,7 @@ export class SignoutComponent {
     this.authService.signout(form.name, form.email, form.password).subscribe(
         data => {
                 this.router.navigate(['/auth/confirm']);
-              },
-              error => console.error(error)
-              );
+              }
+    );
   }
 }

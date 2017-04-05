@@ -4,6 +4,8 @@ import { AuthService } from './auth/auth.service';
 import { ErrorService } from './errors/error.service';
 import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { Subscription } from 'rxjs/Rx';
+import { User } from './auth/user.model';
+import { SocketService } from './shared/socket.service';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -12,59 +14,58 @@ import { Subscription } from 'rxjs/Rx';
     templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy  {
-    isauthenticated;
     private subscription: Subscription;
+    private user: User;
 
     constructor(elm: ElementRef,
         private route: ActivatedRoute,
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
         private errorService: ErrorService,
-        private authService: AuthService) {
+        private authService: AuthService,
+        private socketService: SocketService) {
         this.toastyConfig.theme = 'bootstrap';
-
-            this.subscription = route.queryParams.subscribe(
-                (queryParam: any) => {
-                    let token: string;
-                    if (queryParam['t']) {
-                        token = queryParam['t'];
-                        localStorage.setItem('token', queryParam['t']);
-                    }else if (localStorage.getItem('token')) {
-                        token = localStorage.getItem('token');
-                    }
-                    if (token) {
-                        this.authService.getUserCredentials(token).subscribe(
-                            (response) => {
-                                window.location.href = '/#/';
-                                this.authService.onSignin.emit(response);
-                            },
-                            (err) => {
-                                console.log(err);
-                            });
-                    }
-                }
-            );
-
-        // if (elm.nativeElement.getAttribute('isauthenticated') === 'true') {
-        //     this.authService.getUserCredentials().subscribe(
-        //         (response) => {
-        //             this.authService.onSignin.emit(response);
-        //         },
-        //         (err) => {
-        //             console.log(err);
-        //         });
-        // }
+        // this.subscription = route.queryParams.subscribe(
+        //     (queryParam: any) => {
+        //         if (queryParam['t']) {
+        //             window.location.href = '/#/';
+        //         }
+        //     }
+        // );
     }
 
     ngOnInit() {
+        let token: string;
+        this.subscription = this.route.queryParams.subscribe(
+            (queryParam: any) => {
+                if (queryParam['t']) {
+                    token = queryParam['t'];
+                    window.location.href = '/#/';
+                    localStorage.setItem('token', queryParam['t']);
+                } else {
+                    token = localStorage.getItem('token');
+                }
+
+                if (token) {
+                    this.authService.loadUserData(token).subscribe(
+                        (user) => {
+                            sessionStorage.setItem('user', JSON.stringify(user));
+                            this.user = user;
+                            this.socketService.connectSocket(user.shortId);
+                            this.authService.onUserDataLoad.emit(user);
+                        });
+                }
+        });
+
+
+
         this.errorService.errorOccurred.subscribe((error) => {
-            console.log(error);
             let toastOptions: ToastOptions = {
             msg: error.message,
             showClose: true,
             theme: 'bootstrap',
             timeout: 5000,
-            title: error.title
+            title: 'Ocurrio un error'
             };
 
             this.toastyService.error(toastOptions);

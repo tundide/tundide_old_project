@@ -1,0 +1,37 @@
+{
+	"tags":
+	{
+		"allowUnknownTags" : true
+	},
+	"plugins":[
+		 "plugins/markdown"
+		,"/Users/mpani/AppData/Roaming/npm/node_modules/tsdoc/template/plugins/TSDoc.js"
+	],
+	"opts":
+	{
+		"template"	:"/Users/mpani/AppData/Roaming/npm/node_modules/tsdoc/template",
+		"recurse"	:"true"
+	},
+	"templates" : {
+		"cleverLinks"     : false,
+		"monospaceLinks"  : false
+	},
+	"source":
+	{
+		"includePattern": "(\\.d)?\\.ts$"
+	},
+	"markdown"  : {
+		"parser"   : "gfm",
+		"hardwrap" : true
+	},
+	"tsdoc":{
+		"source"		:"/TeamProjects/tundide/src/",
+		"destination"	:"/TeamProjects/tundide/docs",
+		"tutorials"		:"",
+		"systemName"	: "tundide",
+		"footer"		: "",
+		"copyright"		: "tundide Copyright © 2017 mpani.",
+		"outputSourceFiles" : true,
+		"commentsOnly": true
+	}
+}

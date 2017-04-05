@@ -169,8 +169,8 @@ export class PublicationService {
 
         return this.http.get(this.host + '/publication/list/user/' + status, {headers: headers})
             .map((response: Response) => {
-                const result = response.json();
-                return result;
+                    const result = response.json();
+                    return result;
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

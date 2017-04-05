@@ -41,11 +41,10 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.params.subscribe(params => {
       this.publicationService.getFromDatabase(params['id']).subscribe(
-              data => {
-                this.whatType = data.obj._type;
-                this.publicationService.onPublicationChange.emit(data.obj);
-              },
-              // error => console.error(error)
+              res => {
+                this.whatType = res.data._type;
+                this.publicationService.onPublicationChange.emit(res.data);
+              }
           );
     });
   }
@@ -56,12 +55,11 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
   onSaveChanges() {
     let publication = this.publicationService.getFromStorage();
     this.publicationService.updateToDatabase(publication).subscribe(
-                  data => {
+                  res => {
                     this.publicationService.deleteInStorage();
 
-                    this.router.navigate(['/view', data.obj._id]);
-                  }, // TODO: Corregir el manejo de errores
-                  // error => console.error(error)
+                    this.router.navigate(['/view', res.data._id]);
+                  }
               );
   }
 

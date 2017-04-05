@@ -12,10 +12,11 @@ export class PublicationPausedComponent implements OnInit {
     constructor(private publicationService: PublicationService) {}
     ngOnInit() {
         this.publicationService.listUserIntoDatabase(2).subscribe(
-                data => {
-                this.publications = data.obj;
-                },
-                // error => console.error(error)
+                res => {
+                    if (res) {
+                        this.publications = res.data;
+                    };
+                }
             );
     }
 }

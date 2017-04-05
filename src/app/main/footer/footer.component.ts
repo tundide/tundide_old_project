@@ -10,5 +10,4 @@ declare var $: JQueryStatic;
 
 export class FooterComponent {
     constructor(private router: Router) { }
-
 }

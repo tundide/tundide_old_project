@@ -24,7 +24,11 @@ export class AuthService {
      */
     @Output() onLogout: EventEmitter<any> = new EventEmitter();
 
-    public user;
+    /**
+     * Event fired when user data is loaded
+     * @event      onUserDataLoad.
+     */
+    @Output() onUserDataLoad: EventEmitter<any> = new EventEmitter();
 
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
@@ -49,32 +53,32 @@ export class AuthService {
     }
 
     /**
-     * Get User Credentials
+     * Load User Data on start page
      * @returns       Objet "User" with UserId - Name - Email - Token.
      */
-    getUserCredentials(token: string): Observable<User> {
+    loadUserData(token: string): Observable<User> {
         let headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
 
         return this.http.get(this.host + '/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
 
-                // let token = '';
-                // TODO: Agregar los tokens que faltan
-
-                // if (result.obj.google) {
-                //     token = result.obj.google.token;
-                // }
-
-                // localStorage.setItem('token', 'google ' + token);
-                this.socketService.connectSocket(result.obj.shortId);
-                this.user = new User(result.obj.name, result.obj.email, result.obj.token);
-                return this.user;
+                return new User(result.data.name, result.data.username, result.data.shortId);
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
                 return Observable.throw(error.json());
             });
+    }
+
+    /**
+     * Get User Credentials from SessionStorage
+     * @returns       Objet "User" with UserId - Name - Email - Token.
+     */
+    getUserCredentials() {
+        let userJson = sessionStorage.getItem('user');
+
+        return JSON.parse(userJson);
     }
 
     /**
@@ -93,7 +97,7 @@ export class AuthService {
         return this.http.post(this.host + '/auth/signin', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
-                localStorage.setItem('token', result.obj.token);
+                localStorage.setItem('token', result.data);
                 return result;
             })
             .catch((error: Response) => {
@@ -134,8 +138,10 @@ export class AuthService {
      * Logout User
      */
     logout() {
+        let user = this.getUserCredentials();
+        this.socketService.logout(user.shortId);
         localStorage.removeItem('token');
-        this.socketService.logout(this.user.shortId);
+        sessionStorage.removeItem('user');
         this.onLogout.emit();
     }
 }

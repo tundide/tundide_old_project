@@ -4,10 +4,10 @@ let jwt = require('jsonwebtoken');
 let router = express.Router();
 let configAuth = require('../../appConfig.json');
 let User = require('../../models/user');
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
 let session = require('./session');
 let shortid = require('shortid');
+let authenticationResponse = require('../../config/response').authentication;
+let Response = require('../shared/response.js');
 
 require('./strategies')(passport);
 
@@ -26,45 +26,65 @@ module.exports = function(passport) {
         let authorization = req.headers.authorization.split(' ');
         let type = authorization[0];
         let token = authorization[1];
-
+        let user;
         switch (type) {
             case 'google':
                 User.findOne({ 'authentication.token': token }, function(err, fulluser) {
                     if (!fulluser) {
-                        return res.status(500).json(new Error('Usuario inexistente', 'No existe ningun usuario con las credenciales enviadas.'));
+                        return res.status(authenticationResponse.forbidden.status).json(
+                            new Response(authenticationResponse.forbidden.unauthorized)
+                        );
                     }
                     if (err)
-                        return res.status(401).json(new Error('Unauthorized', err));
+                        return res.status(authenticationResponse.internalservererror.status).json(
+                            new Response(authenticationResponse.internalservererror.default, err)
+                        );
 
-                    res.status(200).json(new Success("User recovered correctly", {
+                    let userObj = {
                         'name': fulluser.name,
                         'token': fulluser.authentication.token,
                         'username': fulluser.authentication.username,
                         'shortId': fulluser.shortId
-                    }));
+                    };
+
+                    return res.status(authenticationResponse.success.status).json(
+                        new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
+                    );
                 });
                 break;
             case 'jwt':
                 jwt.verify(token, configAuth.auth.jwt.secret, function(err, decoded) {
                     if (err) {
-                        return res.status(401).json(new Error('Unauthorized', err.message));
+                        return res.status(authenticationResponse.internalservererror.status).json(
+                            new Response(authenticationResponse.internalservererror.default, err)
+                        );
                     } else {
                         User.findOne({ 'authentication.token': token }, function(err, fulluser) {
+                            if (!fulluser) {
+                                return res.status(authenticationResponse.forbidden.status).json(
+                                    new Response(authenticationResponse.forbidden.unauthorized)
+                                );
+                            }
                             if (err)
-                                return res.status(500).json(new Error('Unauthorized', err));
+                                return res.status(authenticationResponse.internalservererror.status).json(
+                                    new Response(authenticationResponse.internalservererror.default)
+                                );
 
-                            res.status(200).json(new Success("User recovered correctly", {
+                            let userObj = {
                                 'name': fulluser.name,
                                 'token': fulluser.authentication.token,
                                 'username': fulluser.authentication.username,
                                 'shortId': fulluser.shortId
-                            }));
+                            };
+
+                            return res.status(authenticationResponse.success.status).json(
+                                new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
+                            );
                         });
                     }
                 });
                 break;
         }
-
     });
 
     /**
@@ -82,28 +102,38 @@ module.exports = function(passport) {
      * 
      */
     router.post("/signin", function(req, res) {
-        if (req.body.email && req.body.password) {
-            let email = req.body.email;
-            let password = req.body.password;
-            User.findOne({
-                    $and: [{ "authentication.username": email },
-                        { "authentication.password": password }
-                    ]
-                },
-                function(err, user) {
-                    if (user) {
-                        let token = 'jwt ' + jwt.sign(user.shortId, configAuth.auth.jwt.secret);
-                        res.json(new Success('Token created successful', {
-                            token: token
-                        }));
-                    } else {
-                        res.status(401).json(new Error('Usuario no autorizado', 'El nombre de usuario o contrase&ntilde;a es invalido.'));
-                    }
-                }
+        if (!req.body.email) {
+            return res.status(authenticationResponse.badrequest.status).json(
+                new Response(authenticationResponse.badrequest.userEmpty)
             );
-        } else {
-            res.status(401).json(new Error('Usuario no autorizado', 'Debe ingresar el usuario y contrase&ntilde;a'));
         }
+
+        if (!req.body.password) {
+            return res.status(authenticationResponse.badrequest.status).json(
+                new Response(authenticationResponse.badrequest.passwordEmpty)
+            );
+        }
+
+        User.findOne({
+                $and: [{ "authentication.username": req.body.email },
+                    { "authentication.password": req.body.password }
+                ]
+            },
+            function(err, user) {
+                if (user) {
+                    let token = 'jwt ' + jwt.sign(user.shortId, configAuth.auth.jwt.secret);
+
+                    return res.status(authenticationResponse.success.status).json(
+                        new Response(authenticationResponse.success.loginSuccessfully, token)
+                    );
+                } else {
+                    return res.status(authenticationResponse.unauthorized.status).json(
+                        new Response(authenticationResponse.unauthorized.credentialInvalid)
+                    );
+                }
+            }
+        );
+
     });
 
     /**
@@ -139,7 +169,9 @@ module.exports = function(passport) {
         saved = user.save();
         // TODO: Enviar email para que confirme la cuenta, no es necesario para los que vienen por OAUTH por que ya vienen desde un email valido
 
-        res.json(new Success('Token created successful'));
+        return res.status(authenticationResponse.successcreated.status).json(
+            new Response(authenticationResponse.successcreated.signoutSuccessfully)
+        );
     });
 
     /**
@@ -178,7 +210,9 @@ module.exports = function(passport) {
             if (user) {
                 res.redirect('http://localhost:3001/#/?t=google ' + user.authentication.token);
             } else {
-                return res.status(401).json(info);
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
             }
         })(req, res, next);
     });

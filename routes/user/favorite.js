@@ -2,9 +2,9 @@ let express = require('express');
 let mongoose = require('mongoose');
 let router = express.Router();
 let User = require('../../models/user');
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
 let session = require('../auth/session');
+let favoriteResponse = require('../../config/response').favorite;
+let Response = require('../shared/response.js');
 
 /**
  * @api {get} / Get favorites
@@ -26,9 +26,18 @@ router.get('/', session.authorize, function(req, res) {
     User.findById(req.user._id,
         function(err, data) {
             if (err) {
-                res.status(500).json(new Error('Ocurrio un error al obtener los favoritos', err));
+                return res.status(favoriteResponse.internalservererror.status).json(
+                    new Response(favoriteResponse.internalservererror.database, err)
+                );
+            };
+            if (data) {
+                return res.status(favoriteResponse.success.status).json(
+                    new Response(favoriteResponse.success.retrievedSuccessfully, data.favorites)
+                );
             } else {
-                res.status(200).json(new Success('Recover favorites correctly', data.favorites));
+                return res.status(favoriteResponse.successnocontent.status).json(
+                    new Response(favoriteResponse.successnocontent.favoriteNotExist)
+                );
             }
         }
     ).populate('favorites');
@@ -62,9 +71,18 @@ router.get('/exists/:id', session.authorize, function(req, res) {
         },
         function(err, data) {
             if (err) {
-                res.status(500).json(new Error('Ocurrio un error al comprobar la existencia de un favorito', err));
+                return res.status(favoriteResponse.internalservererror.status).json(
+                    new Response(favoriteResponse.internalservererror.database, err)
+                );
+            };
+            if (data) {
+                return res.status(favoriteResponse.success.status).json(
+                    new Response(favoriteResponse.success.retrievedSuccessfully, (data.length > 0))
+                );
             } else {
-                res.status(200).json(new Success('Check if exist favorite correctly', (data.length > 0)));
+                return res.status(favoriteResponse.successnocontent.status).json(
+                    new Response(favoriteResponse.successnocontent.favoriteNotExist)
+                );
             }
         }
     );
@@ -92,9 +110,13 @@ router.patch('/', session.authorize, function(req, res) {
     User.update({ _id: req.user._id }, { $push: { "favorites": publicationId } }, { safe: true, upsert: true },
         function(err) {
             if (err) {
-                res.status(500).json(new Error('Ocurrio un error al guardar el favorito', err));
+                return res.status(favoriteResponse.internalservererror.status).json(
+                    new Response(favoriteResponse.internalservererror.database, err)
+                );
             } else {
-                res.status(200).json(new Success('Favorite added correctly'));
+                return res.status(favoriteResponse.successcreated.status).json(
+                    new Response(favoriteResponse.successcreated.addedSuccessfully)
+                );
             }
         }
     );
@@ -123,9 +145,13 @@ router.delete('/:id', session.authorize, function(req, res) {
     User.update({ _id: req.user._id }, { $pull: { "favorites": publicationId } }, { safe: true, upsert: true },
         function(err) {
             if (err) {
-                res.status(500).json(new Error('Ocurrio un error al eliminar el favorito', err));
+                return res.status(favoriteResponse.internalservererror.status).json(
+                    new Response(favoriteResponse.internalservererror.database, err)
+                );
             } else {
-                res.status(200).json(new Success('Favorite removed correctly'));
+                return res.status(favoriteResponse.successnocontent.status).json(
+                    new Response(favoriteResponse.successnocontent.favoriteDeleted)
+                );
             }
         }
     );

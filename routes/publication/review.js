@@ -2,8 +2,9 @@ let express = require('express');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Review = require('../../models/review');
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
+let reviewResponse = require('../../config/response').review;
+let Response = require('../shared/response.js');
+let session = require('../auth/session');
 
 /**
  * @api {patch} /:id Save Review
@@ -26,7 +27,7 @@ let Error = require('../shared/error.js');
  * }
  * 
  */
-router.patch('/:id', isLoggedIn, function(req, res) {
+router.patch('/:id', session.authorize, function(req, res) {
     let review = {
         score: req.body.score,
         message: req.body.message,
@@ -37,9 +38,13 @@ router.patch('/:id', isLoggedIn, function(req, res) {
         req.params.id, { $push: { "reviews": review } }, { safe: true, upsert: true },
         function(err) {
             if (err) {
-                throw err;
+                res.status(reviewResponse.internalservererror.status).json(
+                    new Response(reviewResponse.internalservererror.database, err)
+                );
             } else {
-                res.status(200).json(new Success('Rate it correctly'));
+                res.status(reviewResponse.success.status).json(
+                    new Response(reviewResponse.success.updatedSuccessfully)
+                );
             }
         }
     );
@@ -69,7 +74,20 @@ router.patch('/:id', isLoggedIn, function(req, res) {
  */
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id).populate('reviews.user').exec(function(err, items) {
-        res.status(200).json(new Success('Recover reviews correctly', items.reviews));
+        if (err) {
+            return res.status(reviewResponse.internalservererror.status).json(
+                new Response(reviewResponse.internalservererror.database, err)
+            );
+        };
+        if (items) {
+            return res.status(reviewResponse.success.status).json(
+                new Response(reviewResponse.success.retrievedSuccessfully, items.reviews)
+            );
+        } else {
+            return res.status(reviewResponse.successnocontent.status).json(
+                new Response(reviewResponse.successnocontent.reviewNotExist)
+            );
+        }
     });
 });
 
@@ -103,20 +121,26 @@ router.get('/score/:id', function(req, res) {
         let score = scoreAvg / publication.reviews.length;
         let like = likeAvg / publication.reviews.length;
 
-        res.status(200).json(new Success('Recover score correctly', {
-            'score': score,
-            'like': like,
-            'length': publication.reviews.length
-        }));
+        if (err) {
+            return res.status(reviewResponse.internalservererror.status).json(
+                new Response(reviewResponse.internalservererror.database, err)
+            );
+        };
+        if (publication) {
+            let recoveredScore = {
+                'score': score,
+                'like': like,
+                'length': publication.reviews.length
+            };
+            return res.status(reviewResponse.success.status).json(
+                new Response(reviewResponse.success.retrievedSuccessfully, recoveredScore)
+            );
+        } else {
+            return res.status(reviewResponse.successnocontent.status).json(
+                new Response(reviewResponse.successnocontent.reviewNotExist)
+            );
+        }
     });
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(500).json(new Error('Unauthorized'));
-    }
-};
 
 module.exports = router;

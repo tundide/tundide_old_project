@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
+import { UserResolver } from './auth/user.resolver';
 import { SocketService } from './shared/socket.service';
 import { ErrorService } from './errors/error.service';
 import { PublicationModule } from './publication/publication.module';
@@ -36,6 +37,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
         AuthService,
         SocketService,
         ErrorService,
+        UserResolver,
         { provide: APP_CONFIG, useValue: AppConfig }
     ]
 })

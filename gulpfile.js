@@ -19,7 +19,7 @@ const apidoc = require('gulp-apidoc');
 // });
 
 gulp.task('doc', function(done) {
-    runSequence('jsdoc', 'typedoc', 'apidoc', function() {
+    runSequence('jsdoc', 'tsdoc', 'apidoc', function() {
         log('Documentation Complete');
         done();
     });
@@ -31,7 +31,7 @@ gulp.task('jsdoc', function(cb) {
         .pipe(jsdoc(config, cb));
 });
 
-gulp.task("typedoc", function() {
+gulp.task("tsdoc", function() {
     return gulp
         .src(["src/**/*.ts", "!**/*.aot.ts"])
         .pipe(typedoc({

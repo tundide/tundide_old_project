@@ -1,4 +1,4 @@
-<view-property></view-property>
+<view-property *ngIf="user" user="user"></view-property>
 <div class="card">
     <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
     </calendar>

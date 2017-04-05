@@ -17,7 +17,6 @@ export class ResultComponent implements OnInit {
   constructor(private reviewService: ReviewService) { }
 
   ngOnInit() {
-    // FIXME: Corregir las rutas dinamicas
     if (this.publication.images.length) {
       this.imageUrl = this.host + '/files/' + this.publication.images[0];
     }else {
@@ -25,8 +24,8 @@ export class ResultComponent implements OnInit {
     }
 
     this.reviewService.getScore(this.publication._id)
-      .subscribe(data => {
-        this.review = data.obj;
+      .subscribe(res => {
+        this.review = res.data;
     });
   }
 }

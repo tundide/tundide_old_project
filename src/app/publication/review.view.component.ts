@@ -21,8 +21,8 @@ export class ReviewViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.reviewService.get(params['id'])
-        .subscribe(data => {
-          this.reviews = data.obj;
+        .subscribe(res => {
+          this.reviews = res.data;
       });
     });
   }

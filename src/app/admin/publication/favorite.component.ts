@@ -12,10 +12,11 @@ export class PublicationFavoriteComponent implements OnInit {
     constructor(private favoriteService: FavoriteService) {}
     ngOnInit() {
         this.favoriteService.get().subscribe(
-                data => {
-                this.publications = data.obj;
-                },
-                // error => console.error(error)
+                res => {
+                    if (res) {
+                        this.publications = res.data;
+                    }
+                }
             );
     }
 }

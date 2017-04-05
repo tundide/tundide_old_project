@@ -1,16 +1,14 @@
 let express = require('express');
 let mongoose = require('mongoose');
-let grid = require('gridfs-stream');
 let router = express.Router();
 let Publication = require('../../models/publication');
 let Property = require('../../models/property');
 let Service = require('../../models/service');
-let fs = require('fs');
 let extend = require('util')._extend;
 let shortid = require('shortid');
-let Success = require('../shared/success.js');
-let Error = require('../shared/error.js');
 let session = require('../auth/session');
+let publicationResponse = require('../../config/response').publication;
+let Response = require('../shared/response.js');
 
 // TODO:Completar ejemplos
 /**
@@ -73,10 +71,14 @@ router.post('/', session.authorize, function(req, res) {
     }
 
     saved.then(function(doc) {
-            res.status(200).json(new Success('Saved property', doc));
+            res.status(publicationResponse.successcreated.status).json(
+                new Response(publicationResponse.successcreated.publicatedSuccessfully, doc)
+            );
         }),
         function(err) {
-            res.status(500).json(new Error('Ocurrio un error al guardar el Inmueble', err));
+            res.status(publicationResponse.internalservererror.status).json(
+                new Response(publicationResponse.internalservererror.database, err)
+            );
         };
 });
 
@@ -94,14 +96,14 @@ router.patch('/', session.authorize, function(req, res) {
 
             Property.findOneAndUpdate({ _id: req.body._id }, req.body, { upsert: true }, function(err, doc) {
                 if (err) {
-                    res.status(500).json({
-                        title: 'Ocurrio un error al guardar el Inmueble',
-                        error: err
-                    });
+                    return res.status(publicationResponse.internalservererror.status).json(
+                        new Response(publicationResponse.internalservererror.database, err)
+                    );
                 };
 
-
-                res.status(200).json(new Success('Saved property', doc));
+                return res.status(publicationResponse.successcreated.status).json(
+                    new Response(publicationResponse.successcreated.publicatedSuccessfully, doc)
+                );
             });
 
             break;
@@ -123,48 +125,21 @@ router.patch('/', session.authorize, function(req, res) {
  */
 router.get('/:id', function(req, res) {
     Publication.findById(req.params.id, function(err, doc) {
+        if (err) {
+            return res.status(publicationResponse.internalservererror.status).json(
+                new Response(publicationResponse.internalservererror.database, err)
+            );
+        };
         if (doc) {
-            res.status(200).json({
-                message: 'Recovered correctly',
-                obj: doc
-            });
+            return res.status(publicationResponse.success.status).json(
+                new Response(publicationResponse.success.retrievedSuccessfully, doc)
+            );
         } else {
-            res.status(201).json({
-                message: 'No se encontraron coincidencias'
-            });
+            return res.status(publicationResponse.successnocontent.status).json(
+                new Response(publicationResponse.successnocontent.publicationNotExist)
+            );
         }
-    }).populate('user');
-    // Publication.findById(req.params.id, function(err, doc) {
-    //     if (doc) {
-    //         res.status(200).json({
-    //             message: 'Recovered correctly',
-    //             obj: doc
-    //         });
-    //         // switch (doc._type) {
-    //         //     case 'Property':
-    //         //         Property.findById(req.params.id, function(err, doc) {
-    //         //             doc._doc.scoree=1;
-    //         //             res.status(201).json({
-    //         //                 message: 'Recovered correctly',
-    //         //                 obj: doc
-    //         //             });
-    //         //         });
-    //         //         break;
-    //         //     case 'Service':
-    //         //         Service.findById(req.params.id, function(err, doc) {
-    //         //             res.status(201).json({
-    //         //                 message: 'Recovered correctly',
-    //         //                 obj: doc
-    //         //             });
-    //         //         });
-    //         //         break;
-    //         // }
-    //     } else {
-    //         res.status(201).json({
-    //             message: 'No se encontraron coincidencias'
-    //         });
-    //     }
-    // });
+    }); // .populate('user'); NO AGREGAR POR QUE SE PUBLICAN TODOS LOS DATOS DEL USUARIO
 });
 
 // TODO: Completar documentacion y ejemplos
@@ -178,10 +153,20 @@ router.get('/:id', function(req, res) {
  */
 router.get('/find/:query', function(req, res) {
     Publication.find(JSON.parse(req.params.query), function(err, publications) {
-        res.status(201).json({
-            message: 'Recovered correctly',
-            obj: publications
-        });
+        if (err) {
+            return res.status(publicationResponse.internalservererror.status).json(
+                new Response(publicationResponse.internalservererror.database, err)
+            );
+        };
+        if (publications.length > 0) {
+            return res.status(publicationResponse.success.status).json(
+                new Response(publicationResponse.success.retrievedSuccessfully, publications)
+            );
+        } else {
+            return res.status(publicationResponse.successnocontent.status).json(
+                new Response(publicationResponse.successnocontent.publicationNotExist)
+            );
+        }
     });
 });
 
@@ -200,20 +185,22 @@ router.get('/find/:query', function(req, res) {
  */
 router.get('/list/user/:status', session.authorize, function(req, res) {
     Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
-        res.status(201).json({
-            message: 'Recovered correctly',
-            obj: publications
-        });
+        if (err) {
+            return res.status(publicationResponse.internalservererror.status).json(
+                new Response(publicationResponse.internalservererror.database, err)
+            );
+        };
+        if (publications.length > 0) {
+            return res.status(publicationResponse.success.status).json(
+                new Response(publicationResponse.success.retrievedSuccessfully, publications)
+            );
+        } else {
+            return res.status(publicationResponse.successnocontent.status).json(
+                new Response(publicationResponse.successnocontent.publicationNotExist)
+            );
+        }
     });
 });
-
-// TODO: Falta agregar la documentacion
-function updateProperty(userId, publication) {
-    Property.findByIdAndUpdate(id, { $set: { size: 'large' } }, { new: true }, function(err, prop) {
-        if (err) return handleError(err);
-        res.send(prop);
-    });
-}
 
 // TODO: Falta agregar la documentacion
 function saveProperty(publication, publicationModel) {

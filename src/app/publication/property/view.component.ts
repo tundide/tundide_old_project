@@ -1,4 +1,4 @@
-import { Component, OnInit,  OnDestroy } from '@angular/core';
+import { Component, Input, OnInit,  OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../publication.service';
 import { ReservationService } from '../reservation.service';
@@ -18,11 +18,13 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
   publicationAverage: any;
   public favoriteAdded: Boolean = false;
 
+  @Input()
+  public user;
+
   private sub: any;
   private property: Property = new Property();
   private myPublication: Boolean = false;
   private publicationId: string;
-  private user;
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
@@ -39,33 +41,32 @@ export class PropertyViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    this.user = this.authService.user;
 
     this.sub = this.route.params.subscribe(params => {
       this.publicationId = params['id'];
 
       this.publicationService.getFromDatabase(params['id']).subscribe(
-              data => {
-                this.property = data.obj;
-                if (this.authService.user) {
-                  this.myPublication = (this.authService.user.id === data.obj.user);
+              res => {
+                this.property = res.data;
+                if (this.user) {
+                  this.myPublication = (this.user.shortId === res.data.user.shortId);
                 }
 
-                this.publicationService.onPublicationLoad.emit(data.obj);
-              },
-              // TODO: Ver el manejo de errores
-              // error => console.error(error)
+                this.publicationService.onPublicationLoad.emit(res.data);
+              }
           );
 
       this.reviewService.getScore(params['id'])
-        .subscribe(data => {
-          this.publicationAverage = data.obj;
+        .subscribe(res => {
+          this.publicationAverage = res.data;
       });
 
-      this.favoriteService.exists(params['id'])
-        .subscribe(data => {
-          this.favoriteAdded = data.obj;
-      });
+      if (this.user) {
+        this.favoriteService.exists(params['id'])
+                .subscribe(res => {
+                  this.favoriteAdded = res.data;
+              });
+      };
     });
   }
 

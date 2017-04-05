@@ -9,6 +9,8 @@ import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Publication, Reservation } from './publication.model';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/user.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -67,6 +69,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
   private publication: Publication;
   private sub: any;
   private message: string;
+  private user: User;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,9 +79,15 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     private modalService: NgbModal,
     private advertiserService: AdvertiserService,
     private socketService: SocketService,
+    private authService: AuthService,
     private reservationService: ReservationService,
     private publicationService: PublicationService) {
 
+    this.user = this.authService.getUserCredentials();
+
+    this.authService.onUserDataLoad.subscribe((user) => {
+        this.user = user;
+    });
       this.toastyConfig.theme = 'bootstrap';
     }
 
@@ -119,10 +128,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
               timeout: 5000,
               title: 'Reserva solicitada con exito.'
             });
-          },
-          err => {// TODO: Corregir el manejo de errores
-             console.log(err);
-            });
+          });
         }
       });
     });
@@ -133,7 +139,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
           this.socketService.sendMessage({
             message: this.message,
-            toSocketId: this.publication.user.shortId
+            toSocketId: this.publication.user
           });
 
           this.toastyService.success({

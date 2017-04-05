@@ -1,0 +1,258 @@
+{
+    "authentication": {
+        "code": 1000,
+        "success": {
+            "status": 200,
+            "loginSuccessfully": {
+                "status": "accepted",
+                "message": "Logueado correctamente"
+            },
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Usuario recuperado correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "signoutSuccessfully": {
+                "status": "accepted",
+                "message": "Usuario creado correctamente"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "default": { "code": 1400, "error": "request error", "message": "Hay errores en el request enviado" },
+            "userEmpty": { "code": 1401, "error": "parameter username can not be null/empty", "message": "El campo 'Usuario' no puede estar vacio" },
+            "passwordEmpty": { "code": 1402, "error": "parameter password can not be null/empty", "message": "El campo 'Contrase&ntilde;a' no puede estar vacio" }
+        },
+        "unauthorized": {
+            "status": 401,
+            "credentialInvalid": { "code": 1403, "error": "invalid username or password", "message": "El usuario o contrase&ntilde;a es inv&aacute;lido" }
+        },
+        "forbidden": {
+            "status": 403,
+            "unauthorized": { "error": "user unauthorized", "message": "Usuario no autorizado" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 1500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "saveerror": { "code": 1501, "error": "Mongoose Save Error", "message": "Ocurrio un error al guardar el mensaje" }
+        }
+    },
+    "files": {
+        "code": 2000,
+        "success": {
+            "status": 200,
+            "deleteSuccessfully": {
+                "status": "accepted",
+                "message": "Archivo eliminado correctamente"
+            },
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Archivo recuperado correctamente"
+            }
+        },
+        "notfound": {
+            "status": 404,
+            "default": { "code": 2400, "error": "file not found", "message": "Archivo no encotrado" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 2500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" }
+        }
+    },
+    "publication": {
+        "code": 3000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Publicaci&oacute;n recuperada correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "publicatedSuccessfully": {
+                "status": "accepted",
+                "message": "Publicaci&oacute;n creada correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "publicationNotExist": {
+                "status": "accepted",
+                "message": "Publicaci&oacute;n no encontrada"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "titleEmpty": { "code": 3401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
+            "descriptionEmpty": { "code": 3402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 3500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "database": { "code": 3501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    },
+    "reservation": {
+        "code": 4000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Reservaci&oacute;n recuperada correctamente"
+            },
+            "updatedSuccessfully": {
+                "status": "accepted",
+                "message": "Reservaci&oacute;n actualizada correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "reservedSuccessfully": {
+                "status": "accepted",
+                "message": "Reservaci&oacute;n creada correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "reservationNotExist": {
+                "status": "accepted",
+                "message": "Reservaci&oacute;n no encontrada"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "titleEmpty": { "code": 4401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
+            "descriptionEmpty": { "code": 4402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+        },
+        "unprocessableentity": {
+            "status": 422,
+            "alreadyBooked": { "code": 4401, "error": "Schedule already booked", "message": "Ya existe una reserva realizada en este horario" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    },
+    "review": {
+        "code": 5000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Rese&ntilde;a recuperada correctamente"
+            },
+            "updatedSuccessfully": {
+                "status": "accepted",
+                "message": "Rese&ntilde;a actualizada correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "reservedSuccessfully": {
+                "status": "accepted",
+                "message": "Rese&ntilde;a creada correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "reviewNotExist": {
+                "status": "accepted",
+                "message": "Rese&ntilde;a no encontrada"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "titleEmpty": { "code": 4401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
+            "descriptionEmpty": { "code": 4402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    },
+    "favorite": {
+        "code": 6000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Favorito recuperado correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "addedSuccessfully": {
+                "status": "accepted",
+                "message": "Favorito creado correctamente"
+            },
+            "updatedSuccessfully": {
+                "status": "accepted",
+                "message": "Favorito actualizado correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "favoriteNotExist": {
+                "status": "accepted",
+                "message": "Favorito no encontrado"
+            },
+            "favoriteDeleted": {
+                "status": "accepted",
+                "message": "Favorito eliminado correctamente"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "titleEmpty": { "code": 4401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
+            "descriptionEmpty": { "code": 4402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    },
+    "message": {
+        "code": 7000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Mensaje recuperado correctamente"
+            }
+        },
+        "successcreated": {
+            "status": 201,
+            "savedSuccessfully": {
+                "status": "accepted",
+                "message": "Mensaje creado correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "messageNotExist": {
+                "status": "accepted",
+                "message": "Mensaje no encontrado"
+            },
+            "messageDeleted": {
+                "status": "accepted",
+                "message": "Mensaje eliminado correctamente"
+            }
+        },
+        "badrequest": {
+            "status": 400,
+            "titleEmpty": { "code": 4401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
+            "descriptionEmpty": { "code": 4402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+        },
+        "internalservererror": {
+            "status": 500,
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    }
+}

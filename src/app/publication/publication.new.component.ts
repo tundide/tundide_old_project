@@ -116,12 +116,11 @@ export class PublicationNewComponent {
   onStepFinish() {
     let publication = this.publicationService.getFromStorage();
     this.publicationService.saveToDatabase(publication).subscribe(
-                  data => {
+                  res => {
                     this.publicationService.deleteInStorage();
 
-                    this.router.navigate(['/view', data.obj._id]);
-                  },
-                  // error => console.error(error)
+                    this.router.navigate(['/view', res.data._id]);
+                  }
               );
   }
   /**

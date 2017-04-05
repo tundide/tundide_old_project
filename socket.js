@@ -20,7 +20,7 @@ module.exports = function(server) {
             if (data.message === '') {
                 io.to(socket.id).emit(`sendMessageResponse`, `El mensaje no puede estar vacio`);
             } else {
-                User.findOne({ shortId: data.toSocketId }, function(error, result) {
+                User.findById(data.toSocketId, function(error, result) {
                     if (error) return;
                     let user = result;
                     io.to(user.socketId).emit(`sendMessageResponse`, data);

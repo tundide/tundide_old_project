@@ -1,4 +1,4 @@
-<view-property *ngIf="user" user="user"></view-property>
+<view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite"></view-property>
 <div class="card">
     <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
     </calendar>

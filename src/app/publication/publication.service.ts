@@ -22,12 +22,6 @@ export class PublicationService {
      */
     @Output() onPublicationPriceChange: EventEmitter<any>;
 
-    /**
-     * Event fired when publication load form Database
-     * @event      onPublicationLoad.
-     */
-    @Output() onPublicationLoad: EventEmitter<any>;
-
     public publication: Publication;
 
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
@@ -35,7 +29,6 @@ export class PublicationService {
     constructor(private http: Http, private errorService: ErrorService) {
         this.onPublicationChange = new EventEmitter();
         this.onPublicationPriceChange = new EventEmitter();
-        this.onPublicationLoad = new EventEmitter();
         this.onPublicationChange.subscribe((publication) => {
             this.publication = publication;
         });

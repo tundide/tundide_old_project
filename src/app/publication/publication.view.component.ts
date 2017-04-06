@@ -5,11 +5,13 @@ import { PublicationService } from './publication.service';
 import { ReservationService } from './reservation.service';
 import { SocketService } from '../shared/socket.service';
 import { AdvertiserService } from '../advertiser/advertiser.service';
+import { ReviewService } from './review.service';
 import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Publication, Reservation } from './publication.model';
 import { CalendarComponent } from '../shared/components/calendar/calendar.component';
 import { AuthService } from '../auth/auth.service';
+import { FavoriteService } from './favorite.service';
 import { User } from '../auth/user.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -66,10 +68,12 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
   private reservation: Reservation = new Reservation();
   private publicationId: string;
-  private publication: Publication;
   private sub: any;
   private message: string;
+  private publication: Publication;
+  private publicationAverage: any;
   private user: User;
+  private favorite: Boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -81,39 +85,65 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     private socketService: SocketService,
     private authService: AuthService,
     private reservationService: ReservationService,
-    private publicationService: PublicationService) {
+    private reviewService: ReviewService,
+    private publicationService: PublicationService,
+    private favoriteService: FavoriteService) {
+      this.user = this.authService.getUserCredentials();
 
-    this.user = this.authService.getUserCredentials();
+      this.authService.onUserDataLoad.subscribe((user) => {
+          this.user = user;
+      });
 
-    this.authService.onUserDataLoad.subscribe((user) => {
-        this.user = user;
-    });
       this.toastyConfig.theme = 'bootstrap';
     }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.publicationId = params['id'];
+
+      this.publicationService.getFromDatabase(params['id']).subscribe(
+              res => {
+                this.publication = res.data;
+
+                _.forEach(this.publication.reservations, (reservation, key) => {
+                  let startDate = moment(reservation.startDate);
+                  let endDate = moment(reservation.endDate);
+                  this.calendar.addEvent({
+                    actions: this.actions,
+                    color: (reservation.approved ? colors.green : colors.yellow),
+                    end: endDate.toDate(),
+                    start: startDate.toDate(),
+                    title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
+                  });
+                });
+              }
+          );
+
+      if (this.user) {
+        this.favoriteService.exists(params['id'])
+            .subscribe(res => {
+                this.favorite = res.data;
+            });
+      }
+
+      this.reviewService.getScore(params['id'])
+        .subscribe(res => {
+          this.publicationAverage = res.data;
+      });
+    });
+
+    this.favoriteService.onFavoriteChange.subscribe((added) => {
+      if (added) {
+        this.favoriteService.delete(this.publicationId)
+          .subscribe();
+      } else {
+        this.favoriteService.save(this.publicationId)
+          .subscribe();
+      }
     });
 
     this.reservationService.onReserveChange.subscribe((reservation) => {
       this.reservation = reservation;
-    });
-
-    this.publicationService.onPublicationLoad.subscribe((publication) => {
-      _.forEach(publication.reservations, (reservation, key) => {
-        let startDate = moment(reservation.startDate);
-        let endDate = moment(reservation.endDate);
-        this.calendar.addEvent({
-          actions: this.actions,
-          color: (reservation.approved ? colors.green : colors.yellow),
-          end: endDate.toDate(),
-          start: startDate.toDate(),
-          title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
-        });
-      });
-
-      this.publication = publication;
     });
 
     this.reservationService.onReserve.subscribe((confirm) => {

@@ -11,15 +11,15 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class FavoriteService {
     /**
-     * Event fired when add publicatino to favorites
-     * @event      onFavoriteAdd.
+     * Event fired when favorite change
+     * @event      onFavoriteChange.
      */
-    @Output() onFavoriteAdd: EventEmitter<any> = new EventEmitter();
+    @Output() onFavoriteChange: EventEmitter<any> = new EventEmitter();
 
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
     constructor(private http: Http, private errorService: ErrorService) {
-        this.onFavoriteAdd = new EventEmitter();
+        this.onFavoriteChange = new EventEmitter();
     }
 
     /**

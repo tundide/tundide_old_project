@@ -1,4 +1,4 @@
-<view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite"></view-property>
+<view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite" (onRequestReservation)="requestReservation($event)" (onFavoriteChange)="favoriteChange($event)"></view-property>
 <div class="card">
     <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
     </calendar>
@@ -22,7 +22,7 @@
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <publication-reserve></publication-reserve>
+    <publication-reserve *ngIf="reservation" [reservation]="reservation" (change)="changeReservation($event)"></publication-reserve>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
         <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>

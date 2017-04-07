@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Publication } from './publication.model';
 import { ErrorService } from '../errors/error.service';
@@ -10,28 +10,9 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class PublicationService {
-    /**
-     * Event fired when publication change
-     * @event      onPublicationChange.
-     */
-    @Output() onPublicationChange: EventEmitter<any>;
-
-    /**
-     * Event fired when publication price change
-     * @event      onPublicationPriceChange.
-     */
-    @Output() onPublicationPriceChange: EventEmitter<any>;
-
-    public publication: Publication;
-
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
     constructor(private http: Http, private errorService: ErrorService) {
-        this.onPublicationChange = new EventEmitter();
-        this.onPublicationPriceChange = new EventEmitter();
-        this.onPublicationChange.subscribe((publication) => {
-            this.publication = publication;
-        });
     }
 
     /**

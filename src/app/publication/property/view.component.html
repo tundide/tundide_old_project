@@ -4,7 +4,7 @@
             <div class="preview col-md-6">
                 <ngb-carousel *ngIf="property.images.length > 0">
                     <template *ngFor="let img of property.images; let i = img" ngbSlide>
-                    <img class="mx-auto" src="http://localhost:3001/files/{{img}}" alt="Random first slide">
+                    <img class="mx-auto" src="/files/{{img}}" alt="Random first slide">
                 </template>
                 </ngb-carousel>
             </div>
@@ -29,8 +29,8 @@
                 </h5>
                 <div class="action">
                     <div class="btn-group" role="group" aria-label="Third group">
-                        <button class="add-to-cart btn btn-default" (click)="onReserve()" type="button">Reservar</button>
-                        <button *ngIf="user" class="btn btn-danger" (click)="onFavoriteChange(favorite)" type="button">
+                        <button class="add-to-cart btn btn-default" (click)="Reserve()" type="button">Reservar</button>
+                        <button *ngIf="user" class="btn btn-danger" (click)="favoriteChange(favorite)" type="button">
                         <span *ngIf="!favorite && user" class="fa fa-heart-o"></span>
                         <span *ngIf="favorite && user" class="fa fa-heart"></span>
                     </button>

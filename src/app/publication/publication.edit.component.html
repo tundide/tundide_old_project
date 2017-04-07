@@ -1,11 +1,11 @@
-<edit-property *ngIf="whatType=='Property'"></edit-property>
+<edit-property *ngIf="whatType=='Property' && publication" [publication]="publication" (change)="publicationChange($event)"></edit-property>
 <edit-service *ngIf="whatType=='Service'"></edit-service>
 <!--
     Cuando esten desarrollando los dos descomentarlo
     <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>
 <edit-others *ngIf="whatType==4"></edit-others>-->
-<publication-price></publication-price>
-<publication-availability></publication-availability>
+<publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
+<publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
 
 <div>
     <button class="btn btn-danger" type="button">Cancelar</button>

@@ -66,7 +66,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
   events: CalendarEvent[] = [];
 
-  private reservation: Reservation = new Reservation();
+  private reservation: Reservation;
   private publicationId: string;
   private sub: any;
   private message: string;
@@ -132,37 +132,6 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
       });
     });
 
-    this.favoriteService.onFavoriteChange.subscribe((added) => {
-      if (added) {
-        this.favoriteService.delete(this.publicationId)
-          .subscribe();
-      } else {
-        this.favoriteService.save(this.publicationId)
-          .subscribe();
-      }
-    });
-
-    this.reservationService.onReserveChange.subscribe((reservation) => {
-      this.reservation = reservation;
-    });
-
-    this.reservationService.onReserve.subscribe((confirm) => {
-      this.modalService.open(this.modal, { size: 'lg' }).result.then((result) => {
-        if (result) {
-          this.reservationService.reserve(this.publicationId, this.reservation)
-            .subscribe(data => {
-              this.toastyService.success({
-              msg: 'Debe aguardar a que la reserva sea aprobada por el anunciante',
-              showClose: true,
-              theme: 'bootstrap',
-              timeout: 5000,
-              title: 'Reserva solicitada con exito.'
-            });
-          });
-        }
-      });
-    });
-
     this.advertiserService.onContactAdvertiser.subscribe((confirm) => {
       this.modalService.open(this.modalAdvertiser, { size: 'lg' }).result.then((result) => {
         if (result) {
@@ -182,6 +151,38 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
         }
       });
     });
+  }
+
+  favoriteChange(added) {
+      if (added) {
+        this.favoriteService.delete(this.publicationId)
+          .subscribe();
+      } else {
+        this.favoriteService.save(this.publicationId)
+          .subscribe();
+      }
+  }
+  requestReservation() {
+        this.reservation = new Reservation();
+        this.modalService.open(this.modal, { size: 'lg' }).result.then((result) => {
+          if (result) {
+            this.reservationService.reserve(this.publicationId, this.reservation)
+              .subscribe(data => {
+                this.toastyService.success({
+                msg: 'Debe aguardar a que la reserva sea aprobada por el anunciante',
+                showClose: true,
+                theme: 'bootstrap',
+                timeout: 5000,
+                title: 'Reserva solicitada con exito.'
+              });
+            });
+          }
+        });
+  }
+
+  changeReservation(event) {
+    console.log(this.reservation);
+    //   this.reservation = reservation;
   }
 
   ngOnDestroy() {

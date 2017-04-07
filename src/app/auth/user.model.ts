@@ -1,4 +1,5 @@
 export class User {
+    id: string;
     name: string;
     lastAccess: string;
     shortId: string;
@@ -8,7 +9,8 @@ export class User {
     reservations: Array<any>;
     reviews: any;
 
-    constructor(name, username, shortId) {
+    constructor(name, username, shortId, id) {
+        this.id = id;
         this.name = name;
         this.lastAccess = '';
         this.shortId = shortId;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService } from '../publication.service';
 import { Publication } from '../publication.model';
 
@@ -23,19 +23,17 @@ export class PropertyEditComponent implements OnInit {
   lat = Coord.latitude;
   lon = Coord.longitude;
 
+  @Input()
   public publication: Publication;
 
+  @Output()
+  change: EventEmitter<Publication> = new EventEmitter<Publication>();
+
   publicationChange(event) {
-    this.publicationService.onPublicationChange.emit(this.publication);
+    this.change.emit(this.publication);
   }
 
   constructor(private publicationService: PublicationService) {
-      this.publication = this.publicationService.publication;
-
-
-      this.publicationService.onPublicationChange.subscribe((publication) => {
-        this.publication = publication;
-      });
   }
 
   ngOnInit() {
@@ -47,23 +45,5 @@ export class PropertyEditComponent implements OnInit {
     // }, function (err) {
     //   console.warn(`ERROR(${err.code}): ${err.message}`);
     // });
-  }
-
-  /**
-  * Upload image to the Publication
-  * @param  {string} event Event of the fileUpload with 'serverResponse' property
-  */
-  imageUploaded(event) {
-    this.publication.images.push(JSON.parse(event.serverResponse)._id);
-    this.publicationService.onPublicationChange.emit(this.publication);
-  }
-
-  /**
-  * Remove image from the Publication
-  * @param  {string} id Id of the image to remove
-  */
-  imageRemoved(id) {
-    this.publication.images.splice(this.publication.images.indexOf(id), 1);
-    this.publicationService.onPublicationChange.emit(this.publication);
   }
 }

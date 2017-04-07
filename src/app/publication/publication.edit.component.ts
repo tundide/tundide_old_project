@@ -24,17 +24,12 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     private location: Location,
     private modalService: NgbModal,
     private publicationService: PublicationService) {
-      // Si cambia algo de la publicacion tengo que recargar el modelo local
-      this.publicationService.onPublicationChange.subscribe((publication) => {
-        this.publication = publication;
-        this.publicationService.saveToStorage(publication);
-      });
-      // Si cambia el precio tengo que asignarselo al modelo
-      this.publicationService.onPublicationPriceChange.subscribe((price) => {
-        this.publication.price = price;
-        this.publicationService.onPublicationChange.emit(this.publication);
-      });
+      // Si cambia algo de la publicacion tengo que actualizar el modelo local
     }
+
+  publicationChange(event) {
+        this.publicationService.saveToStorage(this.publication);
+  }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -43,7 +38,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
       this.publicationService.getFromDatabase(params['id']).subscribe(
               res => {
                 this.whatType = res.data._type;
-                this.publicationService.onPublicationChange.emit(res.data);
+                this.publication = res.data;
               }
           );
     });

@@ -8,14 +8,11 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 const compression = require('compression');
 let passport = require('passport');
-let session = require('express-session');
 let flash = require('connect-flash');
 let mongoose = require('mongoose');
-let MongoStore = require('connect-mongo')(session);
 let cors = require('cors');
 let configAuth = require('./appConfig.json');
 let User = require('./models/user');
-let _ = require('lodash');
 
 mongoose.connect('mongodb://127.0.0.1:27017/tundide', function(err) {
     if (err) {

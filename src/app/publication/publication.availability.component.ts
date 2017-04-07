@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
+import { Publication } from './publication.model';
 import {
   startOfDay,
   endOfDay
@@ -27,6 +28,12 @@ export const colors: any = {
   templateUrl: 'publication.availability.component.html'
 })
 export class PublicationAvailabilityComponent {
+
+  @Input()
+  public publication: Publication;
+
+  @Output()
+  change: EventEmitter<Publication> = new EventEmitter<Publication>();
 
   events: CalendarEvent[] = [];
 

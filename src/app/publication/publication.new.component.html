@@ -8,7 +8,7 @@
     </wizard-step>
     <wizard-step (stepEnter)="onStepWhat($event)" title="Danos un poco mas de detalle" optionalStep>
         <form #emailDetails="ngForm" *ngIf="publication">
-            <edit-property *ngIf="whatType=='Property'"></edit-property>
+            <edit-property *ngIf="whatType=='Property'" [publication]="publication" (change)="publicationChange($event)"></edit-property>
             <edit-service *ngIf="whatType=='Service'"></edit-service>
             <!--
                 Cuando esten desarrollando los dos descomentarlo
@@ -24,8 +24,8 @@
 
     </wizard-step>
     <wizard-step title="Disponibilidad y precio">
-        <publication-price></publication-price>
-        <publication-availability></publication-availability>
+        <publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
+        <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
         <div class="wizard-buttons">
             <button class="btn btn-primary" type="button" previousStep>Anterior</button>
             <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>

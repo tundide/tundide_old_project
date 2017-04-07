@@ -32,18 +32,11 @@ export class PublicationNewComponent {
     private publicationService: PublicationService) {
 
     this.toastyConfig.theme = 'bootstrap';
-
-    this.publicationService.onPublicationChange.subscribe((publication) => {
-        this.publication = publication;
-        this.publicationService.saveToStorage(publication);
-    });
-
-    this.publicationService.onPublicationPriceChange.subscribe((price) => {
-      this.publication.price = price;
-      this.publicationService.onPublicationChange.emit(this.publication);
-    });
   }
 
+  publicationChange(event) {
+        this.publicationService.saveToStorage(this.publication);
+  }
   /**
    * Remove Publication from localStorage and reinitialize the actual publication
    */
@@ -106,8 +99,6 @@ export class PublicationNewComponent {
           break;
       }
     }
-
-    this.publicationService.onPublicationChange.emit(this.publication);
   }
 
   /**

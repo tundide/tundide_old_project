@@ -41,6 +41,7 @@ module.exports = function(passport) {
                         );
 
                     let userObj = {
+                        'id': fulluser.id,
                         'name': fulluser.name,
                         'token': fulluser.authentication.token,
                         'username': fulluser.authentication.username,
@@ -71,6 +72,7 @@ module.exports = function(passport) {
                                 );
 
                             let userObj = {
+                                'id': fulluser.id,
                                 'name': fulluser.name,
                                 'token': fulluser.authentication.token,
                                 'username': fulluser.authentication.username,

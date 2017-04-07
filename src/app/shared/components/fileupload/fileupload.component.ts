@@ -40,8 +40,8 @@ export class FileUploadComponent {
                 this.fileUploadService
                     .upload(file)
                     .subscribe(res => {
-                    this.onUploadComplete.emit();
                     this.files.push(res._id);
+                    this.onUploadComplete.emit();
                 });
             });
         }
@@ -52,10 +52,10 @@ export class FileUploadComponent {
         this.fileUploadService
             .delete(id)
             .subscribe(res => {
-                this.onDeleteComplete.emit();
                 _.remove(this.files, (fileId) => {
                     return fileId === id;
                 });
+                this.onDeleteComplete.emit();
             });
     }
 }

@@ -63,7 +63,7 @@ export class AuthService {
             .map((response: Response) => {
                 const result = response.json();
 
-                return new User(result.data.name, result.data.username, result.data.shortId);
+                return new User(result.data.name, result.data.username, result.data.shortId, result.data.id);
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

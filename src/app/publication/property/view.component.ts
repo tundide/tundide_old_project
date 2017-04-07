@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../publication.service';
 import { ReservationService } from '../reservation.service';
@@ -23,6 +23,12 @@ export class PropertyViewComponent implements OnInit {
   @Input()
   publicationAverage: any;
 
+  @Output()
+  onRequestReservation: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  onFavoriteChange: EventEmitter<any> = new EventEmitter<any>();
+
   private myPublication: Boolean = false;
 
   constructor(private route: ActivatedRoute,
@@ -36,17 +42,17 @@ export class PropertyViewComponent implements OnInit {
     window.scrollTo(0, 0);
 
     if (this.user) {
-      this.myPublication = (this.user.shortId === this.property.user.shortId);
+      this.myPublication = (this.user.id === this.property.user);
     }
   }
 
-  onFavoriteChange(added: Boolean) {
+  favoriteChange(added: Boolean) {
     this.favorite = !added;
-    this.favoriteService.onFavoriteChange.emit(added);
+    this.onFavoriteChange.emit(added);
   }
 
-  onReserve() {
-    this.reservationService.onReserve.emit(false);
+  Reserve() {
+    this.onRequestReservation.emit(false);
   }
 
   onContactAdvertiser() {

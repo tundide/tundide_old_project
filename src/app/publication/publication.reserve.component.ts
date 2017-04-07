@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReservationService } from './reservation.service';
 import { Reservation } from './publication.model';
 
@@ -7,17 +7,24 @@ import { Reservation } from './publication.model';
   styleUrls: ['publication.reserve.component.scss'],
   templateUrl: 'publication.reserve.component.html'
 })
-export class PublicationReserveComponent {
+export class PublicationReserveComponent implements OnInit {
+  @Input()
+  public reservation: Reservation;
 
-  private reservation: Reservation;
+  @Output()
+  change: EventEmitter<Reservation> = new EventEmitter<Reservation>();
+
 
   constructor(private reservationService: ReservationService) {
-    this.reservation = new Reservation();
+
+  }
+
+  ngOnInit() {
     this.reservation.startDate = new Date();
     this.reservation.endDate = new Date();
   }
 
   reservationChange() {
-    this.reservationService.onReserveChange.emit(this.reservation);
+    this.change.emit(this.reservation);
   }
 }

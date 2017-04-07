@@ -6,7 +6,8 @@
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "watch": true
     },
     "exclude": [
         "node_modules",

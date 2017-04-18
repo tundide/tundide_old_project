@@ -6,9 +6,9 @@
                 <textarea class="form-control animated" [(ngModel)]="review.message" cols="50" id="new-review" name="comment" placeholder="Ingrese aqui su comentario..." rows="5"></textarea>
                 <div class="text-right">
                     <ngb-rating [(rate)]="review.score" max="5">
-                        <template let-fill="fill">
+                        <ng-template let-fill="fill">
                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                        </template>
+                        </ng-template>
                     </ngb-rating>
                     <hr />
                     <a class="btn btn-danger btn-sm" href="#" id="close-review-box" style="margin-right: 10px;">

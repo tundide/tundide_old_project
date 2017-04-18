@@ -3,9 +3,9 @@
         <div class="wrapper row">
             <div class="preview col-md-6">
                 <ngb-carousel *ngIf="property.images.length > 0">
-                    <template *ngFor="let img of property.images; let i = img" ngbSlide>
-                    <img class="mx-auto" src="/files/{{img}}" alt="Random first slide">
-                </template>
+                    <ng-template *ngFor="let img of property.images; let i = img" ngbSlide>
+                        <img class="mx-auto" src="/files/{{img}}" alt="Random first slide">
+                    </ng-template>
                 </ngb-carousel>
             </div>
             <div class="details col-md-6">
@@ -14,9 +14,9 @@
                 <div>
                     <div>
                         <ngb-rating [readonly]="true" [max]="5" [rate]="publicationAverage.score">
-                            <template let-fill="fill">
+                            <ng-template let-fill="fill">
                                 <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                            </template>
+                            </ng-template>
                         </ngb-rating>
                     </div>
                     <span class="review-no">{{ property.reviews.length }} rese&ntilde;as</span>
@@ -29,15 +29,15 @@
                 </h5>
                 <div class="action">
                     <div class="btn-group" role="group" aria-label="Third group">
-                        <button class="add-to-cart btn btn-default" (click)="Reserve()" type="button">Reservar</button>
-                        <button *ngIf="user" class="btn btn-danger" (click)="favoriteChange(favorite)" type="button">
+                        <button *ngIf="!myPublication" class="add-to-cart btn btn-default" (click)="Reserve()" type="button">Reservar</button>
+                        <button *ngIf="user && !myPublication" class="btn btn-danger" (click)="favoriteChange(favorite)" type="button">
                         <span *ngIf="!favorite && user" class="fa fa-heart-o"></span>
                         <span *ngIf="favorite && user" class="fa fa-heart"></span>
                     </button>
                         <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
                     </button>
-                        <button class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
-                        <button *ngIf="user" (click)="onContactAdvertiser()" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
+                        <button *ngIf="!myPublication" class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
+                        <button *ngIf="user&& !myPublication" (click)="onContactAdvertiser()" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>
                     </button>
                         <button dropdown="" class="btn btn-info dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-share-alt"></span>
                     </button>

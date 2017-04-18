@@ -111,6 +111,10 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
                   this.calendar.addEvent({
                     actions: this.actions,
                     color: (reservation.approved ? colors.green : colors.yellow),
+                    data: {
+                      publication: this.publication.id,
+                      reservation: reservation.id
+                    },
                     end: endDate.toDate(),
                     start: startDate.toDate(),
                     title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
@@ -169,7 +173,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
             this.reservationService.reserve(this.publicationId, this.reservation)
               .subscribe(data => {
                 this.toastyService.success({
-                msg: 'Debe aguardar a que la reserva sea aprobada por el anunciante',
+                msg: data.message,
                 showClose: true,
                 theme: 'bootstrap',
                 timeout: 5000,

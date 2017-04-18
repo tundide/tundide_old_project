@@ -21,9 +21,9 @@
             <div class="card-block px-2">
                 <div *ngIf="review">
                     <ngb-rating [readonly]="true" [max]="5" [rate]="review.score">
-                        <template let-fill="fill">
+                        <ng-template let-fill="fill">
                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                        </template>
+                        </ng-template>
                     </ngb-rating>
                     <br />
                     <span class="review-no">{{ review.length }} rese&ntilde;as</span>

@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let reservationSchema = mongoose.Schema({
-    approved: { type: Boolean, default: false },
+    status: { type: Number, default: 1 },
     endDate: { type: Date, default: Date.now },
     startDate: { type: Date, default: Date.now },
     title: String,
@@ -14,7 +14,7 @@ let reservationSchema = mongoose.Schema({
  *
  * @class Reservation
  * @memberof module:Publications
- * @property {Boolean}           approved                     - Indicates whether the publication was approved by the owner 
+ * @property {Number}            status                       - Indicates the status of the reservation (0 - Approved | 1 - Pending | 2 - Canceled) 
  * @property {Date}              endDate                      - End date of reservation
  * @property {Date}              startDate                    - Start date of reservation
  * @property {String}            title                        - The reason that will see the owner

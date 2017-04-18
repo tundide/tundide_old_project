@@ -3,6 +3,7 @@
         "outDir": "dist/app",
         "module": "commonjs",
         "target": "es5",
+        "lib": ["es2015", "dom"],
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,

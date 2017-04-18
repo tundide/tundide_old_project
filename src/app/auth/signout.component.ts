@@ -13,6 +13,7 @@ export class SignoutComponent {
 
   submitForm(form: any): void {
     // TODO: Validar los datos de formulario
+    // TODO: Agregar reCaptcha
     this.authService.signout(form.name, form.email, form.password).subscribe(
         data => {
                 this.router.navigate(['/auth/confirm']);

@@ -106,13 +106,25 @@
             "updatedSuccessfully": {
                 "status": "accepted",
                 "message": "Reservaci&oacute;n actualizada correctamente"
+            },
+            "approvedSuccessfully": {
+                "status": "approved",
+                "message": "Reservaci&oacute;n aprobada correctamente"
+            },
+            "canceledSuccessfully": {
+                "status": "canceled",
+                "message": "Reservaci&oacute;n cancelada correctamente"
             }
         },
         "successcreated": {
             "status": 201,
             "reservedSuccessfully": {
                 "status": "accepted",
-                "message": "Reservaci&oacute;n creada correctamente"
+                "message": "Reservaci&oacute;n realizada correctamente"
+            },
+            "reservedPendingApprove": {
+                "status": "pending",
+                "message": "Reserva pendiente de aprovacion del anunciante"
             }
         },
         "successnocontent": {
@@ -124,8 +136,8 @@
         },
         "badrequest": {
             "status": 400,
-            "titleEmpty": { "code": 4401, "error": "parameter title can not be null/empty", "message": "El campo 'Titulo' no puede estar vacio" },
-            "descriptionEmpty": { "code": 4402, "error": "parameter description can not be null/empty", "message": "El campo 'Descripci&oacute;n' no puede estar vacio" }
+            "invalidData": { "code": 4401, "error": "invalid data", "message": "Los datos proporcionados son inv&aacute;lidos" },
+            "reservationEmpty": { "code": 4402, "error": "parameter reservation can not be null/empty", "message": "El campo 'Reservacion' no puede estar vacio" }
         },
         "unprocessableentity": {
             "status": 422,
@@ -133,7 +145,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     },
@@ -148,13 +160,6 @@
             "updatedSuccessfully": {
                 "status": "accepted",
                 "message": "Rese&ntilde;a actualizada correctamente"
-            }
-        },
-        "successcreated": {
-            "status": 201,
-            "reservedSuccessfully": {
-                "status": "accepted",
-                "message": "Rese&ntilde;a creada correctamente"
             }
         },
         "successnocontent": {

@@ -41,18 +41,18 @@
 </wizard>
 
 
-<template ngbModalContainer #confirmNewPublicationModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Confirmar</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+<ng-template ngbModalContainer #confirmNewPublicationModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Confirmar</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
-  <div class="modal-body">
-    <p>Esta seguro que quiere descartar la publicaci&oacute;n actual?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c(true)">Si</button>
-    <button type="button" class="btn btn-secondary" (click)="c(false)">No</button>
-  </div>
-</template>
+    </div>
+    <div class="modal-body">
+        <p>Esta seguro que quiere descartar la publicaci&oacute;n actual?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c(true)">Si</button>
+        <button type="button" class="btn btn-secondary" (click)="c(false)">No</button>
+    </div>
+</ng-template>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReservationService } from './reservation.service';
 import { Reservation } from './publication.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'publication-reserve',
@@ -20,8 +21,8 @@ export class PublicationReserveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reservation.startDate = new Date();
-    this.reservation.endDate = new Date();
+    this.reservation.startDate = moment().toDate();
+    this.reservation.endDate = moment().add(1, 'hours').toDate();
   }
 
   reservationChange() {

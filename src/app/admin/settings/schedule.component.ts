@@ -47,8 +47,40 @@ export class ScheduleComponent implements OnInit {
     }, {
         label: '<i class="fa fa-fw fa-times"></i>',
         onClick: ({event}: { event: CalendarEvent }): void => {
+            this.reservationService.cancel(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+                alert('Se cancelo el turno');
+            });
+        }
+    }];
+
+    actionsApproved: CalendarEventAction[] = [{
+        label: '<i class="fa fa-fw fa-check"></i>',
+        onClick: ({event}: { event: CalendarEvent }): void => {
+            this.reservationService.approve(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+                alert('Se aprobo el turno');
+            });
+        }
+    }, {
+        label: '<i class="fa fa-fw fa-times"></i>',
+        onClick: ({event}: { event: CalendarEvent }): void => {
+            this.reservationService.cancel(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+                alert('Se cancelo el turno');
+            });
+        }
+    }];
+
+    actionsCanceled: CalendarEventAction[] = [{
+        label: '<i class="fa fa-fw fa-check"></i>',
+        onClick: ({event}: { event: CalendarEvent }): void => {
+            this.reservationService.approve(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+                alert('Se aprobo el turno');
+            });
+        }
+    }, {
+        label: '<i class="fa fa-fw fa-times"></i>',
+        onClick: ({event}: { event: CalendarEvent }): void => {
             // this.events = this.events.filter(iEvent => iEvent !== event);
-            alert('evento clickeado');
+            alert('Se cancelo el turno');
         }
     }];
 
@@ -61,14 +93,34 @@ export class ScheduleComponent implements OnInit {
                         _.forEach(res.data, (reservation, key) => {
                             let startDate = moment(reservation.startDate);
                             let endDate = moment(reservation.endDate);
-                            this.calendar.addEvent({
-                                actions: this.actions,
-                                color: (reservation.approved ? colors.green : colors.yellow),
-                                end: endDate.toDate(),
-                                start: startDate.toDate(),
-                                title: reservation.shortId + ' - (' + startDate.format('HH:mm') + '-'
-                                + endDate.format('HH:mm') + ') ' + reservation.title
-                            });
+                            let evento = {
+                                        actions: this.actions,
+                                        color: colors.green,
+                                        data: {
+                                            publication: reservation.publicationId,
+                                            reservation: reservation._id
+                                        },
+                                        end: endDate.toDate(),
+                                        start: startDate.toDate(),
+                                        title: reservation.shortId + ' - (' + startDate.format('HH:mm') + '-'
+                                        + endDate.format('HH:mm') + ') ' + reservation.title
+                                    };
+                            switch (reservation.status) {
+                                case 0:
+                                    evento.actions = this.actions;
+                                    evento.color = colors.green;
+                                    break;
+                                case 1:
+                                    evento.actions = this.actionsApproved;
+                                    evento.color = colors.yellow;
+                                    break;
+                                case 2:
+                                    evento.actions = this.actionsCanceled;
+                                    evento.color = colors.red;
+                                    break;
+                            }
+
+                            this.calendar.addEvent(evento);
                         });
                     }
                 });

@@ -15,7 +15,7 @@
     <review-new></review-new>
 </div>
 <!--TEMPORAL SOLO PARA PRUEBAS-->
-<template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
+<ng-template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title">Confirmar Reserva</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -27,9 +27,9 @@
         <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
         <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
     </div>
-</template>
+</ng-template>
 
-<template ngbModalContainer #messageToTheAdvertiser let-c="close" let-d="dismiss">
+<ng-template ngbModalContainer #messageToTheAdvertiser let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title">Enviar mensaje</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -43,4 +43,4 @@
         <button type="button" class="btn btn-secondary" (click)="c(true)">Enviar Mensaje</button>
         <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
     </div>
-</template>
+</ng-template>

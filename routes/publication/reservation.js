@@ -4,8 +4,10 @@ let router = express.Router();
 let Publication = require('../../models/publication');
 let Reservation = require('../../models/reservation');
 let reservationResponse = require('../../config/response').reservation;
+let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
 let session = require('../auth/session');
+let _ = require('lodash');
 
 /**
  * @api {patch} /:id Save reservation
@@ -38,47 +40,145 @@ router.patch('/:id', session.authorize, function(req, res) {
         title: req.body.title,
         user: req.user._id
     };
-    console.log(reservation);
-    console.log(new Date(reservation.startDate));
-    console.log(new Date(reservation.endDate));
-    Publication.find({
-        $and: [{
-                "_id": id
-            },
-            {
-                "reservations": { $ne: null }
-            },
-            {
-                $or: [{
-                    "reservations.startDate": { $gt: reservation.startDate },
-                    "reservations.startDate": { $lt: reservation.endDate }
-                }, {
-                    "reservations.endDate": { $gt: reservation.startDate },
-                    "reservations.endDate": { $lt: reservation.endDate }
-                }]
-            }
-        ]
-    }, function(error, publications) {
-        console.log(publications.length);
-        console.log(publications[0].reservations);
-        if (publications.length > 0) {
-            res.status(reservationResponse.unprocessableentity.status).json(
-                new Response(reservationResponse.unprocessableentity.alreadyBooked)
-            );
-        } else {
-            Publication.findByIdAndUpdate(
-                req.params.id, { $push: { "reservations": reservation } }, { safe: true, upsert: true },
-                function(err) {
-                    if (err) {
-                        res.status(reservationResponse.internalservererror.status).json(
-                            new Response(reservationResponse.internalservererror.database, err)
+
+    Publication.findById(id, function(error, publication) {
+
+        let alreadyBooked = _.some(publication.reservations, function(res) {
+            return (res.startDate >= reservation.startDate && res.endDate >= reservation.startDate) ||
+                res.startDate >= reservation.endDate && res.endDate >= reservation.endDate;
+        });
+
+        Publication.findByIdAndUpdate(
+            req.params.id, { $push: { "reservations": reservation } }, { safe: true, upsert: true },
+            function(err) {
+                if (err) {
+                    res.status(reservationResponse.internalservererror.status).json(
+                        new Response(reservationResponse.internalservererror.database, err)
+                    );
+                } else {
+                    if (alreadyBooked) {
+                        res.status(reservationResponse.successcreated.status).json(
+                            new Response(reservationResponse.successcreated.reservedPendingApprove)
                         );
                     } else {
                         res.status(reservationResponse.successcreated.status).json(
-                            new Response(reservationResponse.successcreated.updatedSuccessfully)
+                            new Response(reservationResponse.successcreated.reservedSuccessfully)
                         );
                     }
                 }
+            }
+        );
+    });
+});
+
+/**
+ * @api {patch} /:id Approve reservation
+ * @apiName approvereservation
+ * @apiGroup Reservation
+ * 
+ * @apiParam {int} id Id of publication
+ * 
+ * @apiExample {js} Approve Example
+ * {
+ *     "reservation": "3n4gu49g58u58v58g9v849hv"
+ * }
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * { 
+ *    "message": "Reserved correctly"
+ * }
+ * 
+ */
+router.patch('/approve/:id', session.authorize, function(req, res) {
+    if (!req.body.reservation) {
+        return res.status(reservationResponse.badrequest.status).json(
+            new Response(reservationResponse.badrequest.reservationEmpty)
+        );
+    }
+
+    let id = new mongoose.Types.ObjectId(req.params.id);
+    let idReservation = new mongoose.Types.ObjectId(req.body.reservation);
+
+    Publication.update({ '_id': id, 'user': req.user._id, 'reservations._id': idReservation }, {
+        '$set': {
+            'reservations.$.status': 0
+        }
+    }, function(err, update) {
+        if (err) {
+            return res.status(reservationResponse.internalservererror.status).json(
+                new Response(reservationResponse.internalservererror.database, err)
+            );
+        };
+
+        if (update.n == 0) {
+            return res.status(reservationResponse.badrequest.status).json(
+                new Response(reservationResponse.badrequest.invalidData)
+            );
+        } else if (update.n == 1 && update.nModified == 0) {
+            return res.status(reservationResponse.internalservererror.status).json(
+                new Response(reservationResponse.internalservererror.default)
+            );
+        } else {
+            return res.status(reservationResponse.success.status).json(
+                new Response(reservationResponse.success.approvedSuccessfully)
+            );
+        }
+    });
+});
+
+
+/**
+ * @api {patch} /:id Cancel reservation
+ * @apiName cancelreservation
+ * @apiGroup Reservation
+ * 
+ * @apiParam {int} id Id of publication
+ * 
+ * @apiExample {js} Cancel Example
+ * {
+ *     "reservation": "3n4gu49g58u58v58g9v849hv"
+ * }
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * { 
+ *    "message": "Reserved correctly"
+ * }
+ * 
+ */
+router.patch('/cancel/:id', session.authorize, function(req, res) {
+    if (!req.body.reservation) {
+        return res.status(reservationResponse.badrequest.status).json(
+            new Response(reservationResponse.badrequest.reservationEmpty)
+        );
+    }
+
+    let id = new mongoose.Types.ObjectId(req.params.id);
+    let idReservation = new mongoose.Types.ObjectId(req.body.reservation);
+
+    Publication.update({ '_id': id, 'user': req.user._id, 'reservations._id': idReservation }, {
+        '$set': {
+            'reservations.$.status': 2
+        }
+    }, function(err, update) {
+        if (err) {
+            return res.status(reservationResponse.internalservererror.status).json(
+                new Response(reservationResponse.internalservererror.database, err)
+            );
+        };
+
+        if (update.n == 0) {
+            return res.status(reservationResponse.badrequest.status).json(
+                new Response(reservationResponse.badrequest.invalidData)
+            );
+        } else if (update.n == 1 && update.nModified == 0) {
+            return res.status(reservationResponse.internalservererror.status).json(
+                new Response(reservationResponse.internalservererror.default)
+            );
+        } else {
+            return res.status(reservationResponse.success.status).json(
+                new Response(reservationResponse.success.canceledSuccessfully)
             );
         }
     });
@@ -100,7 +200,7 @@ router.patch('/:id', session.authorize, function(req, res) {
  *			"user": "58bf7d0431ec7b38d8e6d9fa",
  *			"startDate": "2017-03-12T00:00:54.680Z",
  *			"endDate": "2017-03-12T01:00:54.680Z",
- *			"approved": false
+ *			"status": 0
  *		}
  *	]
  * }
@@ -115,6 +215,7 @@ router.get('/', session.authorize, function(req, res) {
         publications.forEach((pub) => {
             pub.reservations.forEach((res) => {
                 res._doc.shortId = pub.shortId;
+                res._doc.publicationId = pub._id;
                 reservations.push(res);
             });
         });

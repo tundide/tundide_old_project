@@ -11,6 +11,7 @@ export class Review {
 }
 
 export class Reservation {
+    id: string;
     endDate: Date;
     startDate: Date;
     title: string;
@@ -23,6 +24,7 @@ export class Average {
 }
 
 export class Publication {
+    id: string;
     average: Average;
     type: string;
     title: string;

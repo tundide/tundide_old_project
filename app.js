@@ -8,7 +8,6 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 const compression = require('compression');
 let passport = require('passport');
-let flash = require('connect-flash');
 let mongoose = require('mongoose');
 let cors = require('cors');
 let configAuth = require('./appConfig.json');
@@ -34,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 app.use(cookieParser(configAuth.auth.secret));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 

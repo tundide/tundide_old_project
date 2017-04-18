@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-// import { Review } from './publication.model';
 import { ErrorService } from '../errors/error.service';
 import { Observable } from 'rxjs';
 

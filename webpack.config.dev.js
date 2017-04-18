@@ -8,7 +8,7 @@ module.exports = webpackMerge(commonConfig, {
     devtool: 'source-map',
 
     output: {
-        path: './public/js/app',
+        path: 'C:\\TeamProjects\\tundide\\public\\js\\app',
         publicPath: "/js/app/",
         filename: '[name].bundle.js',
         chunkFilename: '[id].chunk.js'

@@ -8,6 +8,7 @@ let extend = require('util')._extend;
 let shortid = require('shortid');
 let session = require('../auth/session');
 let publicationResponse = require('../../config/response').publication;
+let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
 
 // TODO:Completar ejemplos
@@ -90,8 +91,12 @@ router.post('/', session.authorize, function(req, res) {
  * 
  */
 router.patch('/', session.authorize, function(req, res) {
-
-    switch (req.body._type) {
+    if (req.user.id !== req.body.user) {
+        return res.status(authenticationResponse.forbidden.status).json(
+            new Response(authenticationResponse.forbidden.unauthorized)
+        );
+    }
+    switch (req.body.type) {
         case 'Property':
 
             Property.findOneAndUpdate({ _id: req.body._id }, req.body, { upsert: true }, function(err, doc) {

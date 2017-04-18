@@ -40,6 +40,7 @@ export class PublicationAvailabilityComponent {
   addEvent(): void {
     this.events.push({
       color: colors.red,
+      data: '',
       draggable: true,
       end: endOfDay(new Date()),
       resizable: {

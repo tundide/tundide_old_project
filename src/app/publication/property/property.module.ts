@@ -12,7 +12,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AppConfig } from '../../app.config';
 import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MarkerManager, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { MarkerManager, GoogleMapsAPIWrapper, SebmGoogleMapMarker } from 'angular2-google-maps/core';
 
 @NgModule({
     declarations: [PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
@@ -27,7 +27,7 @@ import { MarkerManager, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
         AgmCoreModule.forRoot({
             apiKey: AppConfig.mapsKey
         })],
-    providers: [MarkerManager, GoogleMapsAPIWrapper]
+    providers: [MarkerManager, GoogleMapsAPIWrapper, SebmGoogleMapMarker]
 })
 
 export class PropertyMoudle { }

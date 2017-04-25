@@ -13,7 +13,7 @@ export class MapService {
      * Get geocode from street
      * @param  {String} address The address to get geocode
      */
-    getGeocode(address) {
+    getGeocodeFromAddress(address) {
         return this.http.get('http://maps.google.com/maps/api/geocode/json?address=' + address, null)
             .map((response: Response) => {
                 const result = response.json();
@@ -25,4 +25,19 @@ export class MapService {
             });
     }
 
+    /**
+     * Get geocode from street
+     * @param  {String} address The address to get geocode
+     */
+    getGeocodeFromLatLon(lat, lon) {
+        return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon + '&sensor=true', null)
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

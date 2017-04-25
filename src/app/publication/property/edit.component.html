@@ -30,37 +30,36 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <label for="provincia">Provincia</label>
-                            <select id="provincia" class="form-control"></select>
+                            <select id="provincia" class="form-control" [(ngModel)]="selectedProvince">
+                                <option *ngFor="let p of provinces" [ngValue]="p">{{p.description}}</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row">
+                    <div *ngIf="selectedProvince" class="row">
                         <div class="col-lg-12">
-                            <label for="ciudad">Ciudad</label>
-                            <select id="ciudad" (change)="publicationChange($event)" class="form-control"></select>
+                            <label for="localidad">Localidad</label>
+                            <select id="localidad" (change)="publicationChange($event)" class="form-control" [(ngModel)]="selectedLocation">
+                                <option *ngFor="let l of selectedProvince.locations" [ngValue]="l">{{l.description}}</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <label for="barrio">Barrio</label>
-                            <select id="barrio" (change)="publicationChange($event)" class="form-control"></select>
-                        </div>
-                    </div>
-
-                    <div class="row">
+                    <div *ngIf="selectedProvince && selectedLocation" class="row">
                         <div class="col-lg-12">
                             <label for="calle">Calle</label>
-                            <input type="text" id="calle" (change)="publicationChange($event)" class="form-control" />
+                            <input type="text" id="calle" (change)="streetChange($event.target.value)" [(ngModel)]="selectedStreet" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <label for="numero">Numero</label>
-                            <input type="numeric" id="numero" (change)="publicationChange($event)" class="form-control" />
+                            <input type="numeric" id="numero" (change)="streetChange($event.target.value)" [(ngModel)]="selectedNumber" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <sebm-google-map [zoom]="16" [latitude]="lat" [longitude]="lon">
+                        <sebm-google-map-marker [latitude]="lat" [longitude]="lon" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                        </sebm-google-map-marker>
                     </sebm-google-map>
                 </div>
             </div>

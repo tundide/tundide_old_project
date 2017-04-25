@@ -8,8 +8,10 @@ import { PublicationService } from '../publication/publication.service';
   templateUrl: 'search.component.html'
 })
 export class SearchComponent implements OnInit, OnDestroy {
-
   stringBuscado: string;
+
+  private lat = 0;
+  private lon = 0;
   private sub: any;
   private publications = new Array();
 
@@ -26,6 +28,11 @@ export class SearchComponent implements OnInit, OnDestroy {
                 this.publications = res.data;
               }
           );
+    });
+
+    navigator.geolocation.getCurrentPosition((e) => {
+      this.lat = e.coords.latitude;
+      this.lon = e.coords.longitude;
     });
   }
 

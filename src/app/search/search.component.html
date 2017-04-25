@@ -1,11 +1,12 @@
 <div class="row">
-    <div class="col-md-2">
-        <sebm-google-map [latitude]="51.678418" [longitude]="7.809007">
-            <sebm-google-map-marker [latitude]="51.678418" [longitude]="7.809007"></sebm-google-map-marker>
+    <div class="col-md-4">
+        <sebm-google-map [zoom]="16" [latitude]="lat" [longitude]="lon">
+            <sebm-google-map-marker *ngFor="let pub of publications; let i = pub" [latitude]="lat" [longitude]="lon" [markerDraggable]="false">
+            </sebm-google-map-marker>
         </sebm-google-map>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-8">
         <div class="container">
 
             <div class="hgroup mb20">

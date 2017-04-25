@@ -39,6 +39,27 @@
             "saveerror": { "code": 1501, "error": "Mongoose Save Error", "message": "Ocurrio un error al guardar el mensaje" }
         }
     },
+    "location": {
+        "code": 2000,
+        "success": {
+            "status": 200,
+            "retrievedSuccessfully": {
+                "status": "accepted",
+                "message": "Provincias recuperadas correctamente"
+            }
+        },
+        "successnocontent": {
+            "status": 204,
+            "provincesNotExist": {
+                "status": "accepted",
+                "message": "Provincias no encontradas"
+            }
+        },
+        "internalservererror": {
+            "status": 500,
+            "database": { "code": 1500, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
+        }
+    },
     "files": {
         "code": 2000,
         "success": {

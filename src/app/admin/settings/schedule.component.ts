@@ -124,7 +124,7 @@ export class ScheduleComponent implements OnInit {
                         });
                     }
                 });
-    };
+    }
 
     eventCalled() {
         this.isActive = !this.isActive;

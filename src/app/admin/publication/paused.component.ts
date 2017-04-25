@@ -15,7 +15,7 @@ export class PublicationPausedComponent implements OnInit {
                 res => {
                     if (res) {
                         this.publications = res.data;
-                    };
+                    }
                 }
             );
     }

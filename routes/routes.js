@@ -1,5 +1,6 @@
 module.exports = function(app, passport, mongoose) {
     let auth = require('./auth/auth.js')(passport);
+    let location = require('./shared/location.js');
     let review = require('./publication/review.js');
     let reservation = require('./publication/reservation.js');
     let publication = require('./publication/publication.js');
@@ -14,6 +15,7 @@ module.exports = function(app, passport, mongoose) {
     app.use('/favorite', favorite);
     app.use('/message', message);
     app.use('/files', files);
+    app.use('/location', location);
     app.use('/auth', auth);
     app.use('/', index);
 };

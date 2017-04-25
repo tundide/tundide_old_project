@@ -18,6 +18,8 @@ import { ReservationService } from './reservation.service';
 import { AdvertiserService } from '../advertiser/advertiser.service';
 import { ReviewService } from './review.service';
 import { FavoriteService } from './favorite.service';
+import { MapService } from '../shared/map.service';
+import { LocationService } from '../shared/location.service';
 import { SharedModule } from '../shared/shared.module';
 import { ToastyModule } from 'ng2-toasty';
 import { WizardModule } from 'ng2-archwizard/dist';
@@ -25,19 +27,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [PublicationNewComponent,
-                    PublicationViewComponent,
-                    PublicationEditComponent,
-                    PublicationWhatComponent,
-                    PublicationAvailabilityComponent,
-                    PublicationPriceComponent,
-                    PublicationReserveComponent],
+        PublicationViewComponent,
+        PublicationEditComponent,
+        PublicationWhatComponent,
+        PublicationAvailabilityComponent,
+        PublicationPriceComponent,
+        PublicationReserveComponent],
     exports: [PublicationNewComponent,
-                PublicationViewComponent,
-                PublicationEditComponent,
-                PublicationWhatComponent,
-                PublicationAvailabilityComponent,
-                PublicationPriceComponent,
-                PublicationReserveComponent],
+        PublicationViewComponent,
+        PublicationEditComponent,
+        PublicationWhatComponent,
+        PublicationAvailabilityComponent,
+        PublicationPriceComponent,
+        PublicationReserveComponent],
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,
@@ -48,7 +50,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         SharedModule.forRoot(),
         ToastyModule.forRoot()],
-    providers: [AuthGuard, PublicationService, ReservationService, ReviewService, FavoriteService, AdvertiserService]
+    providers: [AuthGuard,
+        MapService,
+        LocationService,
+        PublicationService,
+        ReservationService,
+        ReviewService,
+        FavoriteService,
+        AdvertiserService]
 })
 
 export class PublicationModule { }

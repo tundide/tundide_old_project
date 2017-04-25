@@ -3,9 +3,9 @@
         <div class="wrapper row">
             <div class="preview col-md-6">
                 <ngb-carousel *ngIf="property.images.length > 0">
-                    <ng-template *ngFor="let img of property.images; let i = img" ngbSlide>
+                    <template *ngFor="let img of property.images; let i = img" ngbSlide>
                         <img class="mx-auto" src="/files/{{img}}" alt="Random first slide">
-                    </ng-template>
+                    </template>
                 </ngb-carousel>
             </div>
             <div class="details col-md-6">

@@ -34,11 +34,10 @@ let PropertySchema = PublicationSchema.schema.extend({
     location: {
         province: Number,
         place: Number,
-        district: Number,
-        street: Number,
+        street: String,
         number: Number,
-        latitude: String,
-        longitude: String
+        latitude: Number,
+        longitude: Number
     }
 });
 

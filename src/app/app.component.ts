@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { ErrorService } from './errors/error.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './auth/user.model';
@@ -13,12 +14,15 @@ import { SocketService } from './shared/socket.service';
     styleUrls: ['app.component.scss'],
     templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnInit, OnDestroy  {
+export class AppComponent implements OnInit, OnDestroy {
+    @ViewChild('contactus') contactusModal: NgbModal;
+
     private subscription: Subscription;
     private user: User;
 
     constructor(elm: ElementRef,
         private route: ActivatedRoute,
+        private modalService: NgbModal,
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
         private errorService: ErrorService,
@@ -32,6 +36,20 @@ export class AppComponent implements OnInit, OnDestroy  {
         //         }
         //     }
         // );
+    }
+
+    onContactUsClick() {
+        this.modalService.open(this.contactusModal, { size: 'lg' }).result.then((result) => {
+            if (result) {
+                this.toastyService.success({
+                    msg: 'El mensaje se envio correctamente',
+                    showClose: true,
+                    theme: 'bootstrap',
+                    timeout: 5000,
+                    title: 'Mensaje enviado con exito.'
+                });
+            }
+        });
     }
 
     ngOnInit() {
@@ -55,17 +73,17 @@ export class AppComponent implements OnInit, OnDestroy  {
                             this.authService.onUserDataLoad.emit(user);
                         });
                 }
-        });
+            });
 
 
 
         this.errorService.errorOccurred.subscribe((error) => {
             let toastOptions: ToastOptions = {
-            msg: error.message,
-            showClose: true,
-            theme: 'bootstrap',
-            timeout: 5000,
-            title: 'Ocurrio un error'
+                msg: error.message,
+                showClose: true,
+                theme: 'bootstrap',
+                timeout: 5000,
+                title: 'Ocurrio un error'
             };
 
             this.toastyService.error(toastOptions);

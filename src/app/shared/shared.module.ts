@@ -8,13 +8,17 @@ import { DateTimePickerComponent } from './components/calendar/datetimepicker.co
 import { FileUploadComponent } from './components/fileupload/fileupload.component';
 import { FileUploadService } from './components/fileupload/fileupload.service';
 import { CalendarModule } from 'angular-calendar';
+import { CamelCase } from './camelcase.pipe';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [CalendarComponent,
-                    DateTimePickerComponent,
-                    FileUploadComponent],
-    exports: [CommonModule,
+    declarations: [CamelCase,
+        CalendarComponent,
+        DateTimePickerComponent,
+        FileUploadComponent],
+    exports: [
+        CamelCase,
+        CommonModule,
         FormsModule,
         RouterModule,
         CalendarComponent,

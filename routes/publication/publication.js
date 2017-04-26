@@ -96,7 +96,7 @@ router.patch('/', session.authorize, function(req, res) {
             new Response(authenticationResponse.forbidden.unauthorized)
         );
     }
-    switch (req.body.type) {
+    switch (req.body._type) {
         case 'Property':
 
             Property.findOneAndUpdate({ _id: req.body._id }, req.body, { upsert: true }, function(err, doc) {
@@ -214,6 +214,7 @@ function saveProperty(publication, publicationModel) {
     p = extend(p, publicationModel);
     p.shortId = 'PR-' + shortid.generate();
     p.facilities = publication.facilities;
+    p.location = publication.location;
 
     return p;
 }

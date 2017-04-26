@@ -15,6 +15,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
   whatType = '';
   private sub: any;
   private publication: Publication;
+  private changeDetected = false;
 
   constructor(
     private toastyService: ToastyService,
@@ -29,6 +30,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
 
   publicationChange(event) {
         this.publicationService.saveToStorage(this.publication);
+        this.changeDetected = true;
   }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
    */
   onSaveChanges() {
     let publication = this.publicationService.getFromStorage();
+
     this.publicationService.updateToDatabase(publication).subscribe(
                   res => {
                     this.publicationService.deleteInStorage();

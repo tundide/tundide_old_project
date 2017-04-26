@@ -28,3 +28,12 @@ div .hgroup h2.lead {
 .sebm-google-map-container {
     height: 100%;
 }
+
+.list-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-size: cover;
+    position: absolute;
+    right: 15px;
+}

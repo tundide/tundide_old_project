@@ -2,5 +2,85 @@
 <router-outlet></router-outlet>
 <footer></footer>
 
-
+<div class="sticky-container">
+    <ul class="sticky">
+        <li>
+            <img width="32" height="32" title="" alt="" src="/images/contact.png" />
+            <p (click)="onContactUsClick()">Contactar</p>
+        </li>
+    </ul>
+</div>
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+<ng-template ngbModalContainer #contactus let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Contactanos <small>Sentite libre de decirnos y preguntarnos lo que quieras</small></h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">
+                                Nombre</label>
+                                <input type="text" class="form-control" id="name" placeholder="Ingrese su nombre" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email">
+                                Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-envelope-open-o"></span>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" placeholder="Ingrese su email" required="required" /></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">
+                                Raz&oacute;n</label>
+                                <select id="subject" name="subject" class="form-control" required="required">
+                                <option value="na" selected="">Elija una:</option>
+                                <option value="service">Servicio al cliente</option>
+                                <option value="suggestions">Sugerencia</option>
+                                <option value="product">Soporte del producto</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">
+                                Mensaje</label>
+                                <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required" placeholder="Mensaje"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form>
+                    <legend><span class="fa fa-globe"></span> Nuestra Oficina</legend>
+                    <address>
+                <strong>Tundide S.A.</strong><br>
+                Tucuman 2354<br>
+                General San Martin, CP 1650<br>
+                <abbr title="Phone">
+                    Tel:</abbr>
+                (011) 4753-8271
+            </address>
+                    <address>
+                <strong>Tundide</strong><br>
+                <a href="mailto:#">support@tundide.com</a>
+            </address>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="c(true)">Enviar Mensaje</button>
+        <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
+    </div>
+</ng-template>

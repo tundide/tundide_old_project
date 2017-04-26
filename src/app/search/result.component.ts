@@ -22,8 +22,6 @@ export class ResultComponent implements OnInit {
     }else {
       this.imageUrl = this.host + '/images/noimagen.png';
     }
-console.log(this.publication._id);
-console.log(this.publication.id);
 
     this.reviewService.getScore(this.publication._id)
       .subscribe(res => {

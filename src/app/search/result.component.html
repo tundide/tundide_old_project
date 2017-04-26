@@ -1,35 +1,30 @@
-<div class="card">
-
-    <div class="row ">
-        <div class="col-md-2">
-            <a>
-                <div class="thumbnail" [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}">
-                </div>
-            </a>
-        </div>
-        <div class="col-md-8 px-2">
-            <div class="card-block px-2">
-                <a [routerLink]="['/view', publication._id]">
-                    <h4 class="card-title">{{publication.title}}</h4>
-                </a>
-                <p class="card-text">868 Avenida Presidente Roque Sáenz Peña - Buenos Aires - CABA - C1035</p>
-                <p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i> 4878-6884</p>
+<div class="card card-sm">
+    <div class="row">
+        <div class="col-xs-3 col-md-3 text-center">
+            <div class="thumbnail" style="padding:50%" [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}">
             </div>
         </div>
-
-        <div class="col-md-2 px-2">
-            <div class="card-block px-2">
-                <div *ngIf="review">
+        <div class="col-xs-9 col-md-9 section-box">
+            <a [routerLink]="['/view', publication._id]">
+                <h2>
+                    {{publication.title}}
+                </h2>
+            </a>
+            <p>
+                {{ publication.location.street }} {{ publication.location.number }}, {{ publication.location.placeDescription | camelCase }}, {{ publication.location.provinceDescription | camelCase }}
+            </p>
+            <hr />
+            <div class="row rating-desc">
+                <div *ngIf="review" class="col-md-12">
                     <ngb-rating [readonly]="true" [max]="5" [rate]="review.score">
                         <ng-template let-fill="fill">
                             <span class="star" [class.filled]="fill === 100">&#9733;</span>
                         </ng-template>
                     </ngb-rating>
-                    <br />
-                    <span class="review-no">{{ review.length }} rese&ntilde;as</span>
+                    ({{ review.length }})<span class="separator">|</span>
+                    <span class="fa fa-comments"></span> ({{ review.length }} Comentarios)
                 </div>
             </div>
         </div>
     </div>
-
 </div>

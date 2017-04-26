@@ -1,5 +1,4 @@
 @import "../../_custom.scss";
-
 img {
     object-fit: contain;
     max-height: 50vh;
@@ -23,7 +22,6 @@ img {
         margin-bottom: 20px;
     }
 }
-
 
 .card {
     margin: 20px;
@@ -196,4 +194,8 @@ img {
 
 .filled {
     color: #F5CD00;
+}
+
+.sebm-google-map-container {
+    height: 100%;
 }

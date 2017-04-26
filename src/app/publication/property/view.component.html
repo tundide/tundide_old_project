@@ -126,14 +126,17 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <img class="card-img-top" height="200" width="320" src="http://cdn.newsapi.com.au/image/v1/0a0ceda4bda18e664ffac1a8fa86a7d1" alt="Card image cap">
+                        <sebm-google-map [zoom]="16" [latitude]="property.location.latitude" [longitude]="property.location.longitude">
+                            <sebm-google-map-marker [latitude]="property.location.latitude" [longitude]="property.location.longitude" [iconUrl]="'http://localhost:3001/images/marker.png'">
+                            </sebm-google-map-marker>
+                        </sebm-google-map>
                     </div>
                     <div class="col-md-6">
                         <p class="card-text">
-                            Cecilia Grierson 445
+                            {{ property.location.street }} {{ property.location.number }}
                         </p>
-                        <p class="card-text">
-                            Capital Federal, Buenos Aires
+                        <p class="card-text" *ngIf="property.location.placeDescription && property.location.provinceDescription">
+                            {{ property.location.placeDescription | camelCase }}, {{ property.location.provinceDescription | camelCase }}
                         </p>
                         <p class="card-text">
                             Móvil: 1555555555

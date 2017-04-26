@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService } from '../publication.service';
-import { Publication } from '../publication.model';
+// import { Publication } from '../publication.model';
+import { Property } from './property.model';
 import { MapService } from '../../shared/map.service';
 import { LocationService } from '../../shared/location.service';
 import { LatLngLiteral, GoogleMapsAPIWrapper, MarkerManager, SebmGoogleMapMarker } from 'angular2-google-maps/core';
@@ -20,17 +21,13 @@ export class PropertyEditComponent implements OnInit {
   public starsCount: number;
 
   @Input()
-  public publication: Publication;
+  public publication: Property;
 
   @Output()
-  public change: EventEmitter<Publication> = new EventEmitter<Publication>();
+  public change: EventEmitter<Property> = new EventEmitter<Property>();
   public provinces = [];
   public locations = [];
-  public selectedLocation;
-  public selectedStreet;
-  public selectedNumber;
-  private lat = 0;
-  private lon = 0;
+  public selectedPlace: any;
 
   searchLocation = (text$: Observable<string>) =>
     text$
@@ -47,20 +44,24 @@ export class PropertyEditComponent implements OnInit {
     this.change.emit(this.publication);
   }
 
+  placeChange(event) {
+    this.publication.location.place = event.item.code;
+  }
+
   markerDragEnd($event: any) {
     this.mapService.getGeocodeFromLatLon($event.coords.lat, $event.coords.lng).subscribe(
       res => {
         if (res.status === 'OK') {
-          this.lat = res.results[0].geometry.location.lat;
-          this.lon = res.results[0].geometry.location.lng;
+          this.publication.location.latitude = res.results[0].geometry.location.lat;
+          this.publication.location.longitude = res.results[0].geometry.location.lng;
           let street = _.find(res.results[0].address_components, function (o: any) {
             return o.types[0] === 'route';
           });
           let number = _.find(res.results[0].address_components, function (o: any) {
             return o.types[0] === 'street_number';
           });
-          this.selectedStreet = street.long_name;
-          this.selectedNumber = number.long_name;
+          this.publication.location.street = street.long_name;
+          this.publication.location.number = number.long_name;
         } else if (res.status === 'ZERO_RESULTS') {
           this.toastyService.warning({
             msg: 'No se encontraron resultados para la direcci&oacute;n indicada',
@@ -78,19 +79,23 @@ export class PropertyEditComponent implements OnInit {
       return o.code === this.publication.location.province;
     });
 
+    let place = _.find(prov.locations, (o: any) => {
+      return o.code === this.publication.location.place;
+    });
+
     this.mapService.getGeocodeFromAddress(prov.description + ' ' +
-      this.selectedLocation.description + ' ' +
-      '(' + this.selectedLocation.zip + ') ' +
-      this.selectedStreet + ' ' +
-      this.selectedNumber).subscribe(
+      place.description + ' ' +
+      '(' + place.zip + ') ' +
+      this.publication.location.street + ' ' +
+      this.publication.location.number).subscribe(
       res => {
         if (res.status === 'OK') {
-          this.lat = res.results[0].geometry.location.lat;
-          this.lon = res.results[0].geometry.location.lng;
+          this.publication.location.latitude = res.results[0].geometry.location.lat;
+          this.publication.location.longitude = res.results[0].geometry.location.lng;
           let street = _.find(res.results[0].address_components, function (o: any) {
             return o.types[0] === 'route';
           });
-          this.selectedStreet = street.long_name;
+          this.publication.location.street = street.long_name;
 
           this.toastyService.success({
             msg: 'Direcci&oacute;n encontrada, posicionando en el mapa.',
@@ -125,25 +130,28 @@ export class PropertyEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    navigator.geolocation.getCurrentPosition((e) => {
-      this.lat = e.coords.latitude;
-      this.lon = e.coords.longitude;
-    }, (err) => {
-      console.log(err);
-    });
-
     this.locationService.list().subscribe(
       res => {
         this.provinces = res.data;
+
+        if (this.publication.location.province) {
+          let prov = _.find(this.provinces, (o: any) => {
+            return o.code === this.publication.location.province;
+          });
+          this.selectedPlace = _.find(prov.locations, (o: any) => {
+            return o.code === this.publication.location.place;
+          });
+
+          this.positioningMap();
+        } else {
+          navigator.geolocation.getCurrentPosition((e) => {
+            this.publication.location.latitude = e.coords.latitude;
+            this.publication.location.longitude = e.coords.longitude;
+          }, (err) => {
+            console.log(err);
+          });
+        }
       }
     );
-
   }
-}
-
-interface Marker {
-  lat: number;
-  lng: number;
-  label?: string;
-  draggable: boolean;
 }

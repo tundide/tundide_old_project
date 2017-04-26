@@ -14,9 +14,10 @@ export class Property extends Publication {
 
 class Location {
     province: number;
+    provinceDescription: number;
     place: number;
-    district: number;
-    street: number;
+    placeDescription: number;
+    street: string;
     number: number;
     latitude: number;
     longitude: number;

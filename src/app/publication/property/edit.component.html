@@ -39,9 +39,9 @@
                         <div class="col-lg-12">
                             <label for="localidad">Localidad</label>
 
-                            <template #rt let-r="result" let-t="term">
-                            {{ r.description}} - ({{ r.zip}})
-                            </template>
+                            <ng-template #rt let-r="result" let-t="term">
+                                {{ r.description}} - ({{ r.zip}})
+                            </ng-template>
 
                             <input id="place" type="text" class="form-control" [editable]="false" [inputFormatter]="formatter" [resultTemplate]="rt" [(ngModel)]="selectedPlace" (selectItem)="placeChange($event)" [ngbTypeahead]="searchLocation" />
                         </div>

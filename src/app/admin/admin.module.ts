@@ -15,6 +15,7 @@ import { routing } from './admin.routing';
 import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
 import { ReservationService } from '../publication/reservation.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [AdminComponent,
@@ -35,6 +36,7 @@ import { ReservationService } from '../publication/reservation.service';
         FormsModule,
         RouterModule,
         CommonModule,
+        BrowserAnimationsModule,
         DataTableModule,
         SharedModule.forRoot()],
     providers: [ReservationService]

@@ -57,6 +57,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     navigator.geolocation.getCurrentPosition((e) => {
       this.lat = e.coords.latitude;
       this.lon = e.coords.longitude;
+    }, (e) => {
+      console.log(e);
     });
   }
 

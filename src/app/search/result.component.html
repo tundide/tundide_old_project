@@ -1,15 +1,14 @@
 <div class="card card-sm">
     <div class="row">
         <div class="col-xs-3 col-md-3 text-center">
-            <div class="thumbnail" style="padding:50%" [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}">
-            </div>
+            <img [src]="imageUrl" alt="foto" class="img-thumbnail img-fluid rounded-circle" />
         </div>
         <div class="col-xs-9 col-md-9 section-box">
-            <a [routerLink]="['/view', publication._id]">
-                <h2>
-                    {{publication.title}}
-                </h2>
-            </a>
+            <h2>
+                <a [routerLink]="['/view', publication._id]">
+                 {{publication.title}}
+                 </a>
+            </h2>
             <p>
                 {{ publication.location.street }} {{ publication.location.number }}, {{ publication.location.placeDescription | camelCase }}, {{ publication.location.provinceDescription | camelCase }}
             </p>

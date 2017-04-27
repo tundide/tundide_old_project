@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PropertyEditComponent } from './edit.component';
 import { PropertyViewComponent } from './view.component';
 import { ReviewViewComponent } from '../review.view.component';
@@ -20,6 +21,7 @@ import { MarkerManager, GoogleMapsAPIWrapper, SebmGoogleMapMarker } from 'angula
     imports: [FormsModule,
         RouterModule,
         CommonModule,
+        BrowserAnimationsModule,
         UiSwitchModule,
         CKEditorModule,
         SharedModule.forRoot(),

@@ -32,7 +32,8 @@
         </div>
     </wizard-step>
 
-    <wizard-step title="Confirma la publicaci&oacute;n">
+    <wizard-step title="Ultima configuraci&oacute;n">
+        <publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
         <div class="wizard-buttons">
             <button class="btn btn-primary" type="button" previousStep>Anterior</button>
             <button class="btn btn-primary pull-right" (click)="onStepFinish()" type="button">Finalizar</button>

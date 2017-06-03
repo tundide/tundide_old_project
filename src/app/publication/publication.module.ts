@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UiSwitchModule } from 'angular2-ui-switch';
 import { routing } from './publication.routing';
 import { PublicationNewComponent } from './publication.new.component';
 import { PublicationViewComponent } from './publication.view.component';
@@ -10,6 +11,7 @@ import { PublicationWhatComponent } from './publication.what.component';
 import { PublicationPriceComponent } from './publication.price.component';
 import { PublicationReserveComponent } from './publication.reserve.component';
 import { PublicationAvailabilityComponent } from './publication.availability.component';
+import { PublicationConfigurationComponent } from './publication.configuration.component';
 import { PropertyMoudle } from './property/property.module';
 import { ServiceMoudle } from './service/service.module';
 import { AuthGuard } from '../auth/auth-guard.service';
@@ -31,6 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         PublicationEditComponent,
         PublicationWhatComponent,
         PublicationAvailabilityComponent,
+        PublicationConfigurationComponent,
         PublicationPriceComponent,
         PublicationReserveComponent],
     exports: [PublicationNewComponent,
@@ -38,11 +41,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         PublicationEditComponent,
         PublicationWhatComponent,
         PublicationAvailabilityComponent,
+        PublicationConfigurationComponent,
         PublicationPriceComponent,
         PublicationReserveComponent],
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,
+        UiSwitchModule,
         WizardModule,
         FormsModule,
         RouterModule,

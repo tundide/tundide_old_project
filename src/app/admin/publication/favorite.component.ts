@@ -9,14 +9,23 @@ import { FavoriteService } from '../../publication/favorite.service';
 export class PublicationFavoriteComponent implements OnInit {
     private publications = new Array();
 
-    constructor(private favoriteService: FavoriteService) {}
+    constructor(private favoriteService: FavoriteService) {
+        this.favoriteService.onFavoriteChange.subscribe(res => {
+            this.loadFavorites();
+        });
+    }
+
     ngOnInit() {
+        this.loadFavorites();
+    }
+
+    loadFavorites() {
         this.favoriteService.get().subscribe(
-                res => {
-                    if (res) {
-                        this.publications = res.data;
-                    }
+            res => {
+                if (res) {
+                    this.publications = res.data;
                 }
-            );
+            }
+        );
     }
 }

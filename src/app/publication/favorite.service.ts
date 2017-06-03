@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { ErrorService } from '../errors/error.service';
 import { Observable } from 'rxjs';
@@ -9,6 +9,12 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class FavoriteService {
+    /**
+     * Event fired when favorite change
+     * @event      onFavoriteChange.
+     */
+    @Output() onFavoriteChange: EventEmitter<any> = new EventEmitter();
+
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
     constructor(private http: Http, private errorService: ErrorService) {
@@ -61,6 +67,7 @@ export class FavoriteService {
         return this.http.patch(this.host + '/favorite', body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
+                this.onFavoriteChange.emit();
                 return result;
             })
             .catch((error: Response) => {
@@ -79,6 +86,7 @@ export class FavoriteService {
         return this.http.delete(this.host + '/favorite/' + id, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
+                this.onFavoriteChange.emit();
                 return result;
             })
             .catch((error: Response) => {

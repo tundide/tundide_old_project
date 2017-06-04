@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormWizardModule } from 'angular2-wizard';
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { routing } from './publication.routing';
 import { PublicationNewComponent } from './publication.new.component';
@@ -24,7 +25,6 @@ import { MapService } from '../shared/map.service';
 import { LocationService } from '../shared/location.service';
 import { SharedModule } from '../shared/shared.module';
 import { ToastyModule } from 'ng2-toasty';
-import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -47,8 +47,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,
+        FormWizardModule,
         UiSwitchModule,
-        WizardModule,
         FormsModule,
         RouterModule,
         CommonModule,

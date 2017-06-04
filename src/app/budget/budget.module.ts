@@ -6,14 +6,12 @@ import { routing } from './budget.routing';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { BudgetComponent } from './budget.component';
 import { ToastyModule } from 'ng2-toasty';
-import { WizardModule } from 'ng2-archwizard/dist';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [BudgetComponent],
     exports: [BudgetComponent],
     imports: [routing,
-        WizardModule,
         FormsModule,
         RouterModule,
         CommonModule,

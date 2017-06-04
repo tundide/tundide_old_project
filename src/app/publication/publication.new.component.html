@@ -1,12 +1,8 @@
-<wizard #wizard>
-    <wizard-step title="Que queres alguilar?">
+<form-wizard>
+    <wizard-step [title]="'Que queres alguilar?'" (onNext)="onStepWhat($event)">
         <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
-
-        <div class="wizard-buttons">
-            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
-        </div>
     </wizard-step>
-    <wizard-step (stepEnter)="onStepWhat($event)" title="Danos un poco mas de detalle" optionalStep>
+    <wizard-step [title]="'Danos un poco mas de detalle'">
         <form #emailDetails="ngForm" *ngIf="publication">
             <edit-property *ngIf="whatType=='Property'" [publication]="publication" (change)="publicationChange($event)"></edit-property>
             <edit-service *ngIf="whatType=='Service'"></edit-service>
@@ -18,28 +14,19 @@
 
         <div class="wizard-buttons">
             <button class="btn btn-info" (click)="onResetPublication()">Nueva Publicaci&oacute;n</button>
-            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
-            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
         </div>
-
     </wizard-step>
-    <wizard-step title="Disponibilidad y precio">
+    <wizard-step [title]="'Disponibilidad y precio'">
         <publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
         <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
-        <div class="wizard-buttons">
-            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
-            <button class="btn btn-primary pull-right" type="button" nextStep>Siguiente</button>
-        </div>
     </wizard-step>
-
-    <wizard-step title="Ultima configuraci&oacute;n">
+    <wizard-step [title]="'Ultima configuraci&oacute;n'" (onComplete)="onStepFinish($event)">
         <publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
-        <div class="wizard-buttons">
-            <button class="btn btn-primary" type="button" previousStep>Anterior</button>
-            <button class="btn btn-primary pull-right" (click)="onStepFinish()" type="button">Finalizar</button>
-        </div>
     </wizard-step>
-</wizard>
+</form-wizard>
+
+
+
 
 
 <ng-template ngbModalContainer #confirmNewPublicationModal let-c="close" let-d="dismiss">

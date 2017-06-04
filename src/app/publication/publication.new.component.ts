@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { PublicationService } from './publication.service';
 import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { WizardComponent } from 'ng2-archwizard/dist';
 import { Publication } from './publication.model';
 import { Property } from './property/property.model';
 import { Service } from './service/service.model';
@@ -20,8 +19,6 @@ export class PublicationNewComponent {
   publication: Publication;
 
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
-
-  @ViewChild('wizard') wizard: WizardComponent;
 
   constructor(
     private toastyService: ToastyService,
@@ -43,7 +40,7 @@ export class PublicationNewComponent {
   onResetPublication() {
     this.modalService.open(this.modal).result.then((result) => {
       if (result) {
-        this.wizard.goToStep(0);
+        // this.wizard.goToStep(0);
         this.publicationService.deleteInStorage();
         this.router.navigate(['/publication']);
 

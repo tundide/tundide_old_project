@@ -121,7 +121,7 @@ export class PublicationService {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
-        return this.http.get(this.host + '/publication/find/' + JSON.stringify(query), {headers: headers})
+        return this.http.get(this.host + '/publication/find/' + query, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -145,6 +145,25 @@ export class PublicationService {
             .map((response: Response) => {
                     const result = response.json();
                     return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Update publication status
+     * @param  {String} id The id of publication
+     */
+    save(id: string, status: number) {
+        const body = JSON.stringify({publicationId: id, status: status});
+        let token = localStorage.getItem('token');
+        const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
+        return this.http.patch(this.host + '/publication/status', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

@@ -18,6 +18,10 @@ export class Reservation {
     approved: boolean;
 }
 
+export class Configuration {
+    showCalendar: boolean;
+}
+
 export class Average {
     like: number;
     score: number;
@@ -29,6 +33,7 @@ export class Publication {
     type: string;
     title: string;
     shortId: string;
+    configuration: Configuration;
     description: string;
     price: number;
     images: Array<string>;
@@ -40,6 +45,7 @@ export class Publication {
         this.average = new Average();
         this.title = '';
         this.shortId = '';
+        this.configuration = new Configuration();
         this.price = 0;
         this.description = '';
         this.type = publicationType;

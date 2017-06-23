@@ -2,7 +2,7 @@
     <div class="card-block">
         <h4 class="card-title">Configuraci&oacute;n de la publicaci&oacute;n</h4>
         <p>
-            <ui-switch [(ngModel)]="publication.facilities.phone" (ngModelChange)="publicationChange($event)"></ui-switch> Mostrar calendario?
+            <ui-switch [(ngModel)]="publication.configuration.showCalendar" (ngModelChange)="publicationChange($event)"></ui-switch> Mostrar calendario?
         </p>
         <p><small>Si muestra el calendario, el cliente podra realizar una reserva en el horario que vea disponible. De lo contrario debera confirmar siempre el turno solicitado.</small></p>
     </div>

@@ -56,6 +56,7 @@ router.post('/', session.authorize, function(req, res) {
     pub.description = req.body.description;
     pub.price = req.body.price;
     pub.reviews = req.body.reviews;
+    pub.configuration = req.body.configuration;
     pub.images = req.body.images;
 
     let saved;
@@ -156,8 +157,17 @@ router.get('/:id', function(req, res) {
  * @apiParam {String} query Query to search publication
  * 
  */
-router.get('/find/:query', function(req, res) {
-    Publication.find(JSON.parse(req.params.query), function(err, publications) {
+router.get('/find/:value', function(req, res) {
+    Publication.find({
+        "$and": [{
+                "$or": [{ "title": { "$regex": req.params.value, "$options": "i" } },
+                    { "description": { "$regex": req.params.value, "$options": "i" } }
+                ]
+            },
+            { "status": 1 }
+        ]
+
+    }, function(err, publications) {
         if (err) {
             return res.status(publicationResponse.internalservererror.status).json(
                 new Response(publicationResponse.internalservererror.database, err)
@@ -228,5 +238,33 @@ function saveService(publication, publicationModel) {
 
     return p;
 }
+
+
+/**
+ * @api {patch} /status Change Status of publication (1 - Actived | 2 - Paused)
+ * @apiName changeStatus
+ * @apiGroup Publication
+ * @apiExample {js} Change status
+ * {
+ * 	"publicationId": "58c4967f61b0e63ea4b57391",
+ *  "status": 2
+ * }
+ * 
+ */
+router.patch('/status', session.authorize, function(req, res) {
+    let publicationId = new mongoose.Types.ObjectId(req.body.publicationId);
+
+    Publication.findOneAndUpdate({ _id: publicationId }, { "$set": { "status": req.body.status } }, function(err, doc) {
+        if (err) {
+            return res.status(publicationResponse.internalservererror.status).json(
+                new Response(publicationResponse.internalservererror.database, err)
+            );
+        };
+
+        return res.status(publicationResponse.successnocontent.status).json(
+            new Response(publicationResponse.successnocontent.updatedSuccessfully)
+        );
+    });
+});
 
 module.exports = router;

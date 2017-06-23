@@ -104,7 +104,7 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
       this.publicationService.getFromDatabase(params['id']).subscribe(
               res => {
                 this.publication = res.data;
-
+console.log(this.publication);
                 _.forEach(this.publication.reservations, (reservation, key) => {
                   let startDate = moment(reservation.startDate);
                   let endDate = moment(reservation.endDate);

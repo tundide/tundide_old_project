@@ -14,6 +14,9 @@ let PublicationSchema = mongoose.Schema({
     id: { type: Schema.Types.ObjectId },
     images: [{ type: Schema.Types.ObjectId }],
     price: Number,
+    configuration: {
+        showCalendar: Boolean
+    },
     publishedDate: { type: Date, default: Date.now },
     reviews: [review.schema],
     reservations: [reservation.schema],
@@ -33,6 +36,7 @@ let PublicationSchema = mongoose.Schema({
  * @property {ObjectId}              id                            - Id of publication
  * @property {Array.<ObjectId>}      images                        - Images of publication
  * @property {Number}                price                         - Price per hour of publication
+ * @property {Configuration}         configuration                 - Custom configuration of publication
  * @property {Date}                  publishedDate=Now             - Date of publication
  * @property {Array.<Review>}        review                        - Reviews of publication
  * @property {Array.<Reservation>}   reservations                  - Reservations of publication

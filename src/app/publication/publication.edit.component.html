@@ -6,6 +6,7 @@
 <edit-others *ngIf="whatType==4"></edit-others>-->
 <publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
 <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
+<publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
 
 <div>
     <button class="btn btn-danger" type="button">Cancelar</button>

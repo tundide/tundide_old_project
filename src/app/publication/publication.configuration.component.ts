@@ -12,4 +12,10 @@ export class PublicationConfigurationComponent {
   @Input()
   public publication: Publication;
 
+  @Output()
+  change: EventEmitter<Publication> = new EventEmitter<Publication>();
+
+  publicationChange() {
+    this.change.emit(this.publication);
+  }
 }

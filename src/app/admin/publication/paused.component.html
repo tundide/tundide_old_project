@@ -26,7 +26,7 @@
                             <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
                                 <span class="fa fa-pencil-square-o"></span>
                             </button>
-                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
+                            <button class="btn btn-primary" (click)="activate(pub._id)" type="button">
                                 <span class="fa fa-play"></span>
                             </button>
                         </td>

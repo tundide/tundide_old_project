@@ -103,6 +103,10 @@
             "publicationNotExist": {
                 "status": "accepted",
                 "message": "Publicaci&oacute;n no encontrada"
+            },
+            "updatedSuccessfully": {
+                "status": "accepted",
+                "message": "Publicaci&oacute;n actualizada correctamente"
             }
         },
         "badrequest": {

@@ -13,7 +13,7 @@ let cors = require('cors');
 let configAuth = require('./appConfig.json');
 let User = require('./models/user');
 
-mongoose.connect('mongodb://127.0.0.1:27017/tundide', function(err) {
+mongoose.connect('mongodb://localhost:27017/tundide', function(err) {
     if (err) {
         console.log(err);
     }

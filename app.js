@@ -10,10 +10,10 @@ const compression = require('compression');
 let passport = require('passport');
 let mongoose = require('mongoose');
 let cors = require('cors');
-let configAuth = require('./appConfig.json');
+let configAuth = require('./config/app.json');
 let User = require('./models/user');
 
-mongoose.connect('mongodb://localhost:27017/tundide', function(err) {
+mongoose.connect(configAuth.connectionString, function(err) {
     if (err) {
         console.log(err);
     }

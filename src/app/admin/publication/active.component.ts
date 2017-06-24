@@ -22,6 +22,7 @@ export class PublicationActiveComponent implements OnInit {
     }
 
     pause(publicationId) {
+        // TODO: Mandar un alerta a todos los que tengan una reserva hecha en esta publicacion
         this.publicationService.save(publicationId, 2)
             .subscribe(res => {
                 _.remove(this.publications, {

@@ -1,6 +1,6 @@
 let passportJWT = require("passport-jwt");
 let jwt = require('jsonwebtoken');
-let configAuth = require('../../appConfig.json');
+let configAuth = require('../../config/app.json');
 let passport = require('passport');
 let authentication = require('../../config/response').authentication;
 let Response = require('../shared/response.js');

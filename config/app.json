@@ -25,5 +25,6 @@
             "clientSecret": "uUxbYkcdy-JOXxaeNE0P4vmw",
             "callbackURL": "http://localhost:3001/auth/google/callback"
         }
-    }
+    },
+    "connectionString": "mongodb://localhost:27017/tundide"
 }

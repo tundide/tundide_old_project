@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormWizardModule } from 'angular2-wizard';
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { routing } from './publication.routing';
+import { WizardComponent } from '../shared/components/wizard/wizard.component';
+import { WizardStepComponent } from '../shared/components/wizard/wizard-step.component';
 import { PublicationNewComponent } from './publication.new.component';
 import { PublicationViewComponent } from './publication.view.component';
 import { PublicationEditComponent } from './publication.edit.component';
@@ -35,7 +36,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         PublicationAvailabilityComponent,
         PublicationConfigurationComponent,
         PublicationPriceComponent,
-        PublicationReserveComponent],
+        PublicationReserveComponent,
+        WizardComponent,
+        WizardStepComponent],
     exports: [PublicationNewComponent,
         PublicationViewComponent,
         PublicationEditComponent,
@@ -43,11 +46,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         PublicationAvailabilityComponent,
         PublicationConfigurationComponent,
         PublicationPriceComponent,
-        PublicationReserveComponent],
+        PublicationReserveComponent,
+        WizardComponent,
+        WizardStepComponent],
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,
-        FormWizardModule,
         UiSwitchModule,
         FormsModule,
         RouterModule,

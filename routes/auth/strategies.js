@@ -3,7 +3,7 @@ let FacebookStrategy = require('passport-facebook').Strategy;
 let TwitterStrategy = require('passport-twitter').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let shortid = require('shortid');
-let configAuth = require('../../appConfig.json');
+let configAuth = require('../../config/app.json');
 let User = require('../../models/user');
 
 module.exports = function(passport) {

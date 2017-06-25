@@ -45,7 +45,7 @@ const colors: any = {
   styleUrls: ['publication.view.component.scss'],
   templateUrl: 'publication.view.component.html'
 })
-export class PublicationViewComponent implements OnInit, OnDestroy  {
+export class PublicationViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('calendar') calendar: CalendarComponent;
   @ViewChild('confirmaReservation') modal: NgbModal;
@@ -53,12 +53,12 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
 
   actions: CalendarEventAction[] = [{
     label: '<i class="fa fa-fw fa-phone"></i>',
-    onClick: ({event}: { event: CalendarEvent }): void => {
+    onClick: ({ event }: { event: CalendarEvent }): void => {
       alert('De solicito un cambio de horario');
     }
   }, {
     label: '<i class="fa fa-fw fa-times"></i>',
-    onClick: ({event}: { event: CalendarEvent }): void => {
+    onClick: ({ event }: { event: CalendarEvent }): void => {
       // this.events = this.events.filter(iEvent => iEvent !== event);
       alert('evento clickeado');
     }
@@ -88,52 +88,52 @@ export class PublicationViewComponent implements OnInit, OnDestroy  {
     private reviewService: ReviewService,
     private publicationService: PublicationService,
     private favoriteService: FavoriteService) {
-      this.user = this.authService.getUserCredentials();
+    this.user = this.authService.getUserCredentials();
 
-      this.authService.onUserDataLoad.subscribe((user) => {
-          this.user = user;
-      });
+    this.authService.onUserDataLoad.subscribe((user) => {
+      this.user = user;
+    });
 
-      this.toastyConfig.theme = 'bootstrap';
-    }
+    this.toastyConfig.theme = 'bootstrap';
+  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.publicationId = params['id'];
 
       this.publicationService.getFromDatabase(params['id']).subscribe(
-              res => {
-                this.publication = res.data;
-console.log(this.publication);
-                _.forEach(this.publication.reservations, (reservation, key) => {
-                  let startDate = moment(reservation.startDate);
-                  let endDate = moment(reservation.endDate);
-                  this.calendar.addEvent({
-                    actions: this.actions,
-                    color: (reservation.approved ? colors.green : colors.yellow),
-                    data: {
-                      publication: this.publication.id,
-                      reservation: reservation.id
-                    },
-                    end: endDate.toDate(),
-                    start: startDate.toDate(),
-                    title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
-                  });
-                });
-              }
-          );
+        res => {
+          this.publication = res.data;
+
+          _.forEach(this.publication.reservations, (reservation, key) => {
+            let startDate = moment(reservation.startDate);
+            let endDate = moment(reservation.endDate);
+            this.events.push({
+              actions: this.actions,
+              color: (reservation.approved ? colors.green : colors.yellow),
+              end: endDate.toDate(),
+              meta: {
+                publication: this.publication.id,
+                reservation: reservation.id
+              },
+              start: startDate.toDate(),
+              title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
+            });
+          });
+        }
+      );
 
       if (this.user) {
         this.favoriteService.exists(params['id'])
-            .subscribe(res => {
-                this.favorite = res.data;
-            });
+          .subscribe(res => {
+            this.favorite = res.data;
+          });
       }
 
       this.reviewService.getScore(params['id'])
         .subscribe(res => {
           this.publicationAverage = res.data;
-      });
+        });
     });
 
     this.advertiserService.onContactAdvertiser.subscribe((confirm) => {
@@ -158,30 +158,30 @@ console.log(this.publication);
   }
 
   favoriteChange(added) {
-      if (added) {
-        this.favoriteService.delete(this.publicationId)
-          .subscribe();
-      } else {
-        this.favoriteService.save(this.publicationId)
-          .subscribe();
-      }
+    if (added) {
+      this.favoriteService.delete(this.publicationId)
+        .subscribe();
+    } else {
+      this.favoriteService.save(this.publicationId)
+        .subscribe();
+    }
   }
   requestReservation() {
-        this.reservation = new Reservation();
-        this.modalService.open(this.modal, { size: 'lg' }).result.then((result) => {
-          if (result) {
-            this.reservationService.reserve(this.publicationId, this.reservation)
-              .subscribe(data => {
-                this.toastyService.success({
-                msg: data.message,
-                showClose: true,
-                theme: 'bootstrap',
-                timeout: 5000,
-                title: 'Reserva solicitada con exito.'
-              });
+    this.reservation = new Reservation();
+    this.modalService.open(this.modal, { size: 'lg' }).result.then((result) => {
+      if (result) {
+        this.reservationService.reserve(this.publicationId, this.reservation)
+          .subscribe(data => {
+            this.toastyService.success({
+              msg: data.message,
+              showClose: true,
+              theme: 'bootstrap',
+              timeout: 5000,
+              title: 'Reserva solicitada con exito.'
             });
-          }
-        });
+          });
+      }
+    });
   }
 
   changeReservation(event) {

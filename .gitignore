@@ -2,3 +2,4 @@
 /docs/*
 /public/js/*
 /node_modules/*
+/.vscode/chrome

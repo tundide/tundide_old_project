@@ -13,7 +13,11 @@ let cors = require('cors');
 let configAuth = require('./config/app.json');
 let User = require('./models/user');
 
-mongoose.connect(configAuth.connectionString, function(err) {
+mongoose.connect(configAuth.connectionString, {
+    server: {
+        sslValidate: true
+    }
+}, function(err) {
     if (err) {
         console.log(err);
     }

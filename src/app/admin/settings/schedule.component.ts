@@ -32,7 +32,6 @@ const colors: any = {
     selector: 'schedule',
     templateUrl: 'schedule.component.html'
 })
-
 export class ScheduleComponent implements OnInit {
     isActive = false;
     showMenu = '';
@@ -47,7 +46,7 @@ export class ScheduleComponent implements OnInit {
     }, {
         label: '<i class="fa fa-fw fa-times"></i>',
         onClick: ({event}: { event: CalendarEvent }): void => {
-            this.reservationService.cancel(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+            this.reservationService.cancel(event.meta.publication, {'reservation': event.meta.reservation}).subscribe(res => {
                 alert('Se cancelo el turno');
             });
         }
@@ -56,14 +55,14 @@ export class ScheduleComponent implements OnInit {
     actionsApproved: CalendarEventAction[] = [{
         label: '<i class="fa fa-fw fa-check"></i>',
         onClick: ({event}: { event: CalendarEvent }): void => {
-            this.reservationService.approve(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+            this.reservationService.approve(event.meta.publication, {'reservation': event.meta.reservation}).subscribe(res => {
                 alert('Se aprobo el turno');
             });
         }
     }, {
         label: '<i class="fa fa-fw fa-times"></i>',
         onClick: ({event}: { event: CalendarEvent }): void => {
-            this.reservationService.cancel(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+            this.reservationService.cancel(event.meta.publication, {'reservation': event.meta.reservation}).subscribe(res => {
                 alert('Se cancelo el turno');
             });
         }
@@ -72,7 +71,7 @@ export class ScheduleComponent implements OnInit {
     actionsCanceled: CalendarEventAction[] = [{
         label: '<i class="fa fa-fw fa-check"></i>',
         onClick: ({event}: { event: CalendarEvent }): void => {
-            this.reservationService.approve(event.data.publication, {'reservation': event.data.reservation}).subscribe(res => {
+            this.reservationService.approve(event.meta.publication, {'reservation': event.meta.reservation}).subscribe(res => {
                 alert('Se aprobo el turno');
             });
         }
@@ -93,14 +92,15 @@ export class ScheduleComponent implements OnInit {
                         _.forEach(res.data, (reservation, key) => {
                             let startDate = moment(reservation.startDate);
                             let endDate = moment(reservation.endDate);
+
                             let evento = {
                                         actions: this.actions,
                                         color: colors.green,
-                                        data: {
+                                        end: endDate.toDate(),
+                                        meta: {
                                             publication: reservation.publicationId,
                                             reservation: reservation._id
                                         },
-                                        end: endDate.toDate(),
                                         start: startDate.toDate(),
                                         title: reservation.shortId + ' - (' + startDate.format('HH:mm') + '-'
                                         + endDate.format('HH:mm') + ') ' + reservation.title

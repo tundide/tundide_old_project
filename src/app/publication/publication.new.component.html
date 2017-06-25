@@ -1,4 +1,4 @@
-<form-wizard>
+<form-wizard #wizard>
     <wizard-step [title]="'Que queres alguilar?'" (onNext)="onStepWhat($event)">
         <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
     </wizard-step>

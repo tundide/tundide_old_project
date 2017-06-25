@@ -1,11 +1,7 @@
 <view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite" (onRequestReservation)="requestReservation($event)" (onFavoriteChange)="favoriteChange($event)"></view-property>
-<div class="card" *ngIf="publication">
-    <div *ngIf="publication.configuration">
-        <div *ngIf="publication.configuration.showCalendar">
-            <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
-            </calendar>
-        </div>
-    </div>
+<div class="card" *ngIf="publication?.configuration?.showCalendar">
+    <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
+    </calendar>
 </div>
 <div class="card">
     <div class="card-block">

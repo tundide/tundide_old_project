@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Publication } from './publication.model';
 import { Property } from './property/property.model';
 import { Service } from './service/service.model';
+import { WizardComponent } from '../shared/components/wizard/wizard.component';
 
 @Component({
   selector: 'publication',
@@ -19,6 +20,7 @@ export class PublicationNewComponent {
   publication: Publication;
 
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
+  @ViewChild('wizard') wizard: WizardComponent;
 
   constructor(
     private toastyService: ToastyService,
@@ -40,9 +42,10 @@ export class PublicationNewComponent {
   onResetPublication() {
     this.modalService.open(this.modal).result.then((result) => {
       if (result) {
-        // this.wizard.goToStep(0);
         this.publicationService.deleteInStorage();
-        this.router.navigate(['/publication']);
+
+        let whatStep = this.wizard.steps[0];
+        this.wizard.goToStep(whatStep);
 
         this.toastyService.success({
           msg: 'Perfecto, empecemos de nuevo',

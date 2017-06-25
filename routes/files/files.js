@@ -30,11 +30,12 @@ module.exports = function(mongoose) {
         form.keepExtensions = true;
         form.parse(req, function(err, fields, files) {
             if (!err) {
+                // , { //PARA AZURE
+                //     server: {
+                //         sslValidate: true
+                //     }
+                // }
                 let conn = mongoose.createConnection(configAuth.connectionString, {
-                    server: {
-                        sslValidate: true
-                    }
-                }, {
                     server: {
                         auto_reconnect: false
                     }
@@ -80,11 +81,12 @@ module.exports = function(mongoose) {
      * 
      */
     router.get('/:id', function(req, res) {
-        let conn = mongoose.createConnection(configAuth.connectionString, {
-            server: {
-                sslValidate: true
-            }
-        });
+        // , { PARA AZURE
+        //     server: {
+        //         sslValidate: true
+        //     }
+        // }
+        let conn = mongoose.createConnection(configAuth.connectionString);
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);
 
@@ -113,11 +115,12 @@ module.exports = function(mongoose) {
      *
      */
     router.delete('/:id', function(req, res) {
-        let conn = mongoose.createConnection(configAuth.connectionString, {
-            server: {
-                sslValidate: true
-            }
-        });
+        let conn = mongoose.createConnection(configAuth.connectionString);
+        // , { PARA AZURE
+        //     server: {
+        //         sslValidate: true
+        //     }
+        // }
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);
 

@@ -36,16 +36,17 @@ export class SearchComponent implements OnInit, OnDestroy {
         res => {
           this.publications = new Array();
           _.forEach(res.data, (publication, key) => {
-            let prov = _.find(this.provinces, (o: any) => {
-              return o.code === publication.location.province;
-            });
-            let place = _.find(prov.locations, (o: any) => {
-              return o.code === publication.location.place;
-            });
-            publication.location.provinceDescription = prov.description;
-            publication.location.placeDescription = place.description;
-
-            this.publications.push(publication);
+            if (publication.location.province && publication.location.place) {
+              let prov = _.find(this.provinces, (o: any) => {
+                return o.code === publication.location.province;
+              });
+              let place = _.find(prov.locations, (o: any) => {
+                return o.code === publication.location.place;
+              });
+              publication.location.provinceDescription = prov.description;
+              publication.location.placeDescription = place.description;
+              this.publications.push(publication);
+            }
           });
         }
       );

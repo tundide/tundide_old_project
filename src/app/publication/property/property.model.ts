@@ -4,11 +4,13 @@ export class Property extends Publication {
     details: Details;
     location: Location;
     facilities: Facilities;
+    configuration: Configuration;
     constructor() {
         super('Property');
         this.details = new Details();
         this.location = new Location();
         this.facilities = new Facilities();
+        this.configuration = new Configuration();
     }
 }
 
@@ -45,4 +47,8 @@ class Facilities {
     openingtothestreet = false;
     reception = false;
     water = false;
+}
+
+class Configuration {
+    showCalendar = false;
 }

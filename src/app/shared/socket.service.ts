@@ -8,7 +8,7 @@ export class SocketService {
 
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
-  	/*
+    /*
   	 * Method to connect the users to socket
   	 */
     connectSocket(userId: string) {
@@ -17,7 +17,7 @@ export class SocketService {
         });
     }
 
-  	/*
+    /*
   	 * Method to emit the logout event.
   	 */
     logout(userId): any {
@@ -37,14 +37,14 @@ export class SocketService {
         return observable;
     }
 
-  	/*
+    /*
   	 * Method to emit the sendMessages event.
   	 */
     sendMessage(message: any): void {
         this.socket.emit('sendMessage', message);
     }
 
-  	/*
+    /*
   	 * Method to receive sendMessageResponse event.
   	 */
     receiveMessages(): any {

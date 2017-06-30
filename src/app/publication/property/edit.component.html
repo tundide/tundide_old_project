@@ -9,15 +9,15 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Contanos como es el lugar</h4>
-            <div class="row">
-                <div class="col-md-1"><label>Titulo:</label></div>
-                <div class="col-md-11"><input type="text" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.title" class="form-control" /></div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <ckeditor debounce="500" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.description" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">
-                    </ckeditor>
-                </div>
+            <div class="form-group" [formGroup]="propertyGroup">
+
+                <label class="form-control-label" for="inputTitle">Titulo</label>
+                <input type="text" name="title" formControlName="title" class="form-control form-control-danger" [(ngModel)]='publication.title' (ngModelChange)="publicationChange($event)" />
+                <!--<ng2-mdf-validation-message [class]="'alert-danger form-control'" [control]="title" *ngIf="!title.pristine"></ng2-mdf-validation-message>-->
+                <label class="form-control-label" for="inputTitle">Descripci&oacute;n</label>
+                <ckeditor debounce="500" name="description" formControlName="description" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.description" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">
+                </ckeditor>
+                <!--<ng2-mdf-validation-message [class]="'alert-danger form-control'" [control]="description" *ngIf="!description.pristine"></ng2-mdf-validation-message>-->
             </div>
         </div>
     </div>
@@ -27,36 +27,26 @@
             <h4 class="card-title">Ingresa la ubicaci&oacute;n</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <label for="provincia">Provincia</label>
-                            <select id="provincia" class="form-control" [(ngModel)]="publication.location.province">
+                    <div class="form-group" [formGroup]="propertyGroup">
+                        <label for="inputProvince">Provincia</label>
+                        <select id="inputProvince" formControlName="province" name="province" class="form-control" [(ngModel)]="publication.location.province">
                                 <option *ngFor="let p of provinces" [ngValue]="p.code">{{p.description}}</option>
                             </select>
-                        </div>
-                    </div>
-                    <div *ngIf="publication.location.province !== 0" class="row">
-                        <div class="col-lg-12">
-                            <label for="localidad">Localidad</label>
 
-                            <ng-template #rt let-r="result" let-t="term">
-                                {{ r.description}} - ({{ r.zip}})
-                            </ng-template>
+                        <label for="inputPlace">Localidad</label>
 
-                            <input id="place" type="text" class="form-control" [editable]="false" [inputFormatter]="formatter" [resultTemplate]="rt" [(ngModel)]="selectedPlace" (selectItem)="placeChange($event)" [ngbTypeahead]="searchLocation" />
-                        </div>
-                    </div>
-                    <div *ngIf="publication.location.province !== 0 && publication.location.place" class="row">
-                        <div class="col-lg-12">
-                            <label for="calle">Calle</label>
-                            <input type="text" id="calle" [(ngModel)]="this.publication.location.street" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <label for="numero">Numero</label>
-                            <input type="numeric" id="numero" (change)="positioningMap()" [(ngModel)]="this.publication.location.number" class="form-control" />
-                        </div>
+                        <ng-template #rt let-r="result" let-t="term">
+                            {{ r.description}} - ({{ r.zip}})
+                        </ng-template>
+
+                        <input id="inputPlace" name="place" formControlName="place" name="place" type="text" class="form-control" [editable]="false" [inputFormatter]="formatter" [resultTemplate]="rt" [(ngModel)]="selectedPlace" (selectItem)="placeChange($event)" [ngbTypeahead]="searchLocation"
+                        />
+
+                        <label for="inputStreet">Calle</label>
+                        <input type="text" id="inputStreet" name="street" formControlName="street" [(ngModel)]="publication.location.street" class="form-control" />
+
+                        <label class="form-control-label" for="inputNumber">Numero</label>
+                        <input type="text" id="inputNumber" name="number" formControlName="number" (change)="positioningMap()" [(ngModel)]="publication.location.number" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -97,50 +87,50 @@
             <div class="row">
                 <div class="col-lg-4">
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.internet" (ngModelChange)="publicationChange($event)"></ui-switch> Internet
+                        <ui-switch name="internet" [(ngModel)]="publication.facilities.internet" (ngModelChange)="publicationChange($event)"></ui-switch> Internet
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.airconditioning" (ngModelChange)="publicationChange($event)"></ui-switch> Aire acondicionado
+                        <ui-switch name="airconditioning" [(ngModel)]="publication.facilities.airconditioning" (ngModelChange)="publicationChange($event)"></ui-switch> Aire acondicionado
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.elevator" (ngModelChange)="publicationChange($event)"></ui-switch> Ascensor
+                        <ui-switch name="elevator" [(ngModel)]="publication.facilities.elevator" (ngModelChange)="publicationChange($event)"></ui-switch> Ascensor
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.heating" (ngModelChange)="publicationChange($event)"></ui-switch> Calefacci&oacute;n
+                        <ui-switch name="heating" [(ngModel)]="publication.facilities.heating" (ngModelChange)="publicationChange($event)"></ui-switch> Calefacci&oacute;n
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.reception" (ngModelChange)="publicationChange($event)"></ui-switch> Recepci&oacute;n
-                    </p>
-                </div>
-                <div class="col-lg-4">
-                    <p>
-                        <ui-switch [(ngModel)]="publication.facilities.security" (ngModelChange)="publicationChange($event)"></ui-switch> Seguridad
-                    </p>
-                    <p>
-                        <ui-switch [(ngModel)]="publication.facilities.powerunit" (ngModelChange)="publicationChange($event)"></ui-switch> Grupo Electrogeno
-                    </p>
-                    <p>
-                        <ui-switch [(ngModel)]="publication.facilities.phone" (ngModelChange)="publicationChange($event)"></ui-switch> Telefono
-                    </p>
-                    <p>
-                        <ui-switch [(ngModel)]="publication.facilities.gas" (ngModelChange)="publicationChange($event)"></ui-switch> Gas Natural
-                    </p>
-                    <p>
-                        <ui-switch [(ngModel)]="publication.facilities.water" (ngModelChange)="publicationChange($event)"></ui-switch> Agua Corriente
+                        <ui-switch name="reception" [(ngModel)]="publication.facilities.reception" (ngModelChange)="publicationChange($event)"></ui-switch> Recepci&oacute;n
                     </p>
                 </div>
                 <div class="col-lg-4">
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.lobby" (ngModelChange)="publicationChange($event)"></ui-switch> Sala de Espera
+                        <ui-switch name="security" [(ngModel)]="publication.facilities.security" (ngModelChange)="publicationChange($event)"></ui-switch> Seguridad
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.buffet" (ngModelChange)="publicationChange($event)"></ui-switch> Cafeteria
+                        <ui-switch name="powerunit" [(ngModel)]="publication.facilities.powerunit" (ngModelChange)="publicationChange($event)"></ui-switch> Grupo Electrogeno
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.ramp" (ngModelChange)="publicationChange($event)"></ui-switch> Rampa de acceso
+                        <ui-switch name="phone" [(ngModel)]="publication.facilities.phone" (ngModelChange)="publicationChange($event)"></ui-switch> Telefono
                     </p>
                     <p>
-                        <ui-switch [(ngModel)]="publication.facilities.openingtothestreet" (ngModelChange)="publicationChange($event)"></ui-switch> Apertura puerta de calle
+                        <ui-switch name="gas" [(ngModel)]="publication.facilities.gas" (ngModelChange)="publicationChange($event)"></ui-switch> Gas Natural
+                    </p>
+                    <p>
+                        <ui-switch name="water" [(ngModel)]="publication.facilities.water" (ngModelChange)="publicationChange($event)"></ui-switch> Agua Corriente
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <p>
+                        <ui-switch name="lobby" [(ngModel)]="publication.facilities.lobby" (ngModelChange)="publicationChange($event)"></ui-switch> Sala de Espera
+                    </p>
+                    <p>
+                        <ui-switch name="buffet" [(ngModel)]="publication.facilities.buffet" (ngModelChange)="publicationChange($event)"></ui-switch> Cafeteria
+                    </p>
+                    <p>
+                        <ui-switch name="ramp" [(ngModel)]="publication.facilities.ramp" (ngModelChange)="publicationChange($event)"></ui-switch> Rampa de acceso
+                    </p>
+                    <p>
+                        <ui-switch name="openingtothestreet" [(ngModel)]="publication.facilities.openingtothestreet" (ngModelChange)="publicationChange($event)"></ui-switch> Apertura puerta de calle
                     </p>
                 </div>
             </div>

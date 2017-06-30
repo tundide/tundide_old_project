@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 let webpackMerge = require('webpack-merge');
 let commonConfig = require('./webpack.config.common.js');
+let LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
@@ -18,6 +19,7 @@ module.exports = webpackMerge(commonConfig, {
             'process.env': {
                 'ENV': JSON.stringify(ENV)
             }
-        })
+        }),
+        new LiveReloadPlugin()
     ]
 });

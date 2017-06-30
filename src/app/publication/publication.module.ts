@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { routing } from './publication.routing';
+import { CustomFormsModule } from 'ng2-validation';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
 import { WizardStepComponent } from '../shared/components/wizard/wizard-step.component';
 import { PublicationNewComponent } from './publication.new.component';
@@ -54,9 +55,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         ServiceMoudle,
         UiSwitchModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule,
         CommonModule,
         NgbModule,
+        CustomFormsModule,
         SharedModule.forRoot(),
         ToastyModule.forRoot()],
     providers: [AuthGuard,

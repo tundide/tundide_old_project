@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PublicationService } from './publication.service';
@@ -8,33 +8,101 @@ import { Publication } from './publication.model';
 import { Property } from './property/property.model';
 import { Service } from './service/service.model';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'publication',
   styleUrls: ['publication.new.component.scss'],
   templateUrl: 'publication.new.component.html'
 })
-export class PublicationNewComponent {
+export class PublicationNewComponent implements OnInit {
 
-  whatType = 'Property';
-  publication: Publication;
-
+  public whatType = 'Property';
+  public publication: Publication;
+  public publicationValid: boolean;
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
   @ViewChild('wizard') wizard: WizardComponent;
+
+  private formNew: FormGroup;
 
   constructor(
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
     private router: Router,
     private location: Location,
+    private formBuilder: FormBuilder,
     private modalService: NgbModal,
     private publicationService: PublicationService) {
-
+    this.publicationValid = false;
     this.toastyConfig.theme = 'bootstrap';
   }
 
   publicationChange(event) {
-        this.publicationService.saveToStorage(this.publication);
+    this.publicationService.saveToStorage(this.publication);
+  }
+
+  ngOnInit() {
+    this.loadValidators();
+  }
+
+  /**
+   * Load validator for fields of publication
+   */
+  loadValidators() {
+    let provinceControl = this.formBuilder.control('', Validators.required);
+    let placeControl = this.formBuilder.control({ disabled: !provinceControl.valid }, Validators.required);
+
+
+    provinceControl.statusChanges.subscribe((newStatus) => {
+      if (provinceControl.valid) {
+        placeControl.enable();
+      } else {
+        placeControl.disable();
+      }
+    });
+
+    let streetControl = this.formBuilder.control({
+      disabled: !provinceControl.valid
+      || !placeControl.valid
+    }, [Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(10)]);
+
+    placeControl.statusChanges.subscribe((newStatus) => {
+      if (provinceControl.valid && placeControl.valid) {
+        streetControl.enable();
+      } else {
+        streetControl.disable();
+      }
+    });
+
+    let numberControl = this.formBuilder.control([{
+      disabled: !streetControl.valid
+    }, Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(10)]);
+
+    streetControl.statusChanges.subscribe((newStatus) => {
+      if (streetControl.valid) {
+        numberControl.enable();
+      } else {
+        numberControl.disable();
+      }
+    });
+
+    this.formNew = this.formBuilder.group({
+      pricegroup: this.formBuilder.group({
+        price: this.formBuilder.control('', [Validators.required])
+      }),
+      propertygroup: this.formBuilder.group({
+        description: this.formBuilder.control('', [Validators.required]),
+        number: numberControl,
+        place: placeControl,
+        province: provinceControl,
+        street: streetControl,
+        title: this.formBuilder.control('', [Validators.required])
+      })
+    });
   }
   /**
    * Remove Publication from localStorage and reinitialize the actual publication
@@ -83,7 +151,7 @@ export class PublicationNewComponent {
 
     if (inStorage && sameType) {
       this.toastyService.info(toastOptions);
-    }else {
+    } else {
       switch (this.whatType) {
         case 'Property':
           this.publication = new Property();
@@ -107,12 +175,12 @@ export class PublicationNewComponent {
   onStepFinish() {
     let publication = this.publicationService.getFromStorage();
     this.publicationService.saveToDatabase(publication).subscribe(
-                  res => {
-                    this.publicationService.deleteInStorage();
+      res => {
+        this.publicationService.deleteInStorage();
 
-                    this.router.navigate(['/view', res.data._id]);
-                  }
-              );
+        this.router.navigate(['/view', res.data._id]);
+      }
+    );
   }
   /**
    * Change type of publication

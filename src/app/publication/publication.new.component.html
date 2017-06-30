@@ -1,29 +1,31 @@
-<form-wizard #wizard>
-    <wizard-step [title]="'Que queres alguilar?'" (onNext)="onStepWhat($event)">
-        <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
-    </wizard-step>
-    <wizard-step [title]="'Danos un poco mas de detalle'">
-        <form #emailDetails="ngForm" *ngIf="publication">
-            <edit-property *ngIf="whatType=='Property'" [publication]="publication" (change)="publicationChange($event)"></edit-property>
-            <edit-service *ngIf="whatType=='Service'"></edit-service>
-            <!--
+<form [formGroup]="formNew">
+    <form-wizard #wizard>
+        <wizard-step [title]="'Que queres alguilar?'" (onNext)="onStepWhat($event)">
+            <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
+        </wizard-step>
+        <wizard-step [title]="'Danos un poco mas de detalle'" [isValid]="formNew.valid">
+            <div *ngIf="publication">
+                <edit-property *ngIf="whatType=='Property'" [publication]="publication" [propertyGroup]="formNew.controls.propertygroup" (change)="publicationChange($event)"></edit-property>
+                <edit-service *ngIf="whatType=='Service'"></edit-service>
+                <!--
                 Cuando esten desarrollando los dos descomentarlo
                 <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>
             <edit-others *ngIf="whatType==4"></edit-others>-->
-        </form>
 
-        <div class="wizard-buttons">
-            <button class="btn btn-info" (click)="onResetPublication()">Nueva Publicaci&oacute;n</button>
-        </div>
-    </wizard-step>
-    <wizard-step [title]="'Disponibilidad y precio'">
-        <publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
-        <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
-    </wizard-step>
-    <wizard-step [title]="'Ultima configuraci&oacute;n'" (onComplete)="onStepFinish($event)">
-        <publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
-    </wizard-step>
-</form-wizard>
+                <div class="wizard-buttons">
+                    <button class="btn btn-info" (click)="onResetPublication()">Nueva Publicaci&oacute;n</button>
+                </div>
+            </div>
+        </wizard-step>
+        <wizard-step [title]="'Disponibilidad y precio'" [isValid]="formNew.valid">
+            <publication-price *ngIf="publication" [publication]="publication" [priceGroup]="formNew.controls.pricegroup" (change)="publicationChange($event)"></publication-price>
+            <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
+        </wizard-step>
+        <wizard-step [title]="'Ultima configuraci&oacute;n'" (onComplete)="onStepFinish($event)">
+            <publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
+        </wizard-step>
+    </form-wizard>
+</form>
 
 
 

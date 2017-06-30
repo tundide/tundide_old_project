@@ -9,6 +9,7 @@ const install = require("gulp-install");
 const typedoc = require("gulp-typedoc");
 const jsdoc = require('gulp-jsdoc3');
 const apidoc = require('gulp-apidoc');
+const compodoc = require('@compodoc/gulp-compodoc');
 
 // gulp.task('default', ['debug', 'scss-watcher', 'html-watcher', 'ts-watcher', 'image-watcher'], function() {
 //   var msg = {
@@ -19,7 +20,7 @@ const apidoc = require('gulp-apidoc');
 // });
 
 gulp.task('doc', function(done) {
-    runSequence('jsdoc', 'tsdoc', 'apidoc', function() {
+    runSequence('compodoc', 'jsdoc', 'apidoc', function() {
         log('Documentation Complete');
         done();
     });
@@ -31,20 +32,6 @@ gulp.task('jsdoc', function(cb) {
         .pipe(jsdoc(config, cb));
 });
 
-gulp.task("tsdoc", function() {
-    return gulp
-        .src(["src/**/*.ts", "!**/*.aot.ts"])
-        .pipe(typedoc({
-            module: "commonjs",
-            target: "es5",
-            out: "docs/client",
-            name: "Tundide",
-            exclude: '**/node_modules/**/*.*',
-            experimentalDecorators: true,
-            excludeExternals: true
-        }));
-});
-
 gulp.task('apidoc', function(done) {
     apidoc({
         src: "./",
@@ -53,6 +40,14 @@ gulp.task('apidoc', function(done) {
         includeFilters: [".*\\.js$"],
         excludeFilters: ["node_modules/"]
     }, done);
+});
+
+gulp.task('compodoc', () => {
+    gulp.src('src/**/*.ts')
+        .pipe(compodoc({
+            output: 'docs/client/',
+            tsconfig: 'tsconfig.json'
+        }));
 });
 
 gulp.task('publish', function(done) {

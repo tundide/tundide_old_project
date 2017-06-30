@@ -135,67 +135,9 @@ export class PropertyEditComponent implements OnInit {
         private sebmMarker: SebmGoogleMapMarker,
         private markerManager: MarkerManager) {
         this.toastyConfig.theme = 'bootstrap';
-
-        // let provinceControl = fb.control('', Validators.required);
-        // let placeControl = fb.control({ disabled: !provinceControl.valid }, Validators.required);
-
-
-        // provinceControl.statusChanges.subscribe((newStatus) => {
-        //     if (provinceControl.valid) {
-        //         placeControl.enable();
-        //     } else {
-        //         placeControl.disable();
-        //     }
-        // });
-
-        // let streetControl = fb.control({
-        //     disabled: !provinceControl.valid
-        //     || !placeControl.valid
-        // }, [Validators.required,
-        // Validators.minLength(2),
-        // Validators.maxLength(10)]);
-
-        // placeControl.statusChanges.subscribe((newStatus) => {
-        //     if (provinceControl.valid && placeControl.valid) {
-        //         streetControl.enable();
-        //     } else {
-        //         streetControl.disable();
-        //     }
-        // });
-
-        // let numberControl = fb.control([{
-        //     disabled: !streetControl.valid
-        // }, Validators.required,
-        // Validators.minLength(2),
-        // Validators.maxLength(10)]);
-
-        // streetControl.statusChanges.subscribe((newStatus) => {
-        //     if (streetControl.valid) {
-        //         numberControl.enable();
-        //     } else {
-        //         numberControl.disable();
-        //     }
-        // });
-
-        // this.title = this.fb.control('', [ValidationExtensions.required(),
-        // ValidationExtensions.minLength(10),
-        // ValidationExtensions.maxLength(50)]);
-
-        // this.description = this.fb.control('', [ValidationExtensions.required()]);
-        // this.propertyForm = fb.group({
-        //     description: this.description,
-        //     number: numberControl,
-        //     place: placeControl,
-        //     province: provinceControl,
-        //     street: streetControl,
-        //     title: this.title
-        // });
     }
 
     ngOnInit() {
-        // this.propertyForm.statusChanges.subscribe((newStatus) => {
-        //     this.status.emit(this.propertyForm.valid);
-        // });
         this.locationService.list().subscribe(
             res => {
                 this.provinces = res.data;

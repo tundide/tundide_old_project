@@ -15,7 +15,7 @@ let messageSchema = mongoose.Schema({
  * @memberof module:Message
  * @property {String}       message          - Message
  * @property {Date}         date             - Date of message
- * @property {ObjectId}     to               - User that reccive the message
+ * @property {ObjectId}     to               - User that recive the message
  * @property {ObjectId}     from             - User that send the message
  */
 module.exports = mongoose.model('Message', messageSchema);

@@ -124,7 +124,10 @@ export class PublicationService {
         return this.http.get(this.host + '/publication/find/' + query, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
-                return result;
+                return {
+                    body: result,
+                    status: response.status
+                };
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

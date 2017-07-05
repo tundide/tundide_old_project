@@ -131,7 +131,7 @@ export class ScheduleComponent implements OnInit {
             'startDate': event.start
         }).subscribe(res => {
             if (res.status === 200) {
-                event.actions = [this.changeReservationButton, this.cancelButton];
+                event.actions = [this.cancelButton];
                 event.color = colors.yellow;
                 this.toastyService.info({
                     msg: res.data.message,

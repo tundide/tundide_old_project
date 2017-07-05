@@ -105,12 +105,22 @@ router.patch('/approve/:id', session.authorize, function(req, res) {
     }
 
     let id = new mongoose.Types.ObjectId(req.params.id);
+    let userId = new mongoose.Types.ObjectId(req.user._id);
     let idReservation = new mongoose.Types.ObjectId(req.body.reservation);
 
-    Publication.findOne({
+    let searchParam = {
         '_id': id,
-        'reservations._id': idReservation
-    }, function(err, publication) {
+        'reservations._id': idReservation,
+        $or: [{
+                "user": req.user._id
+            },
+            {
+                "reservations.user": userId
+            }
+        ]
+    };
+
+    Publication.findOne(searchParam, function(err, publication) {
         let status;
         if (publication.user.equals(req.user._id)) {
             status = 1; /*Owner Approve*/
@@ -118,10 +128,7 @@ router.patch('/approve/:id', session.authorize, function(req, res) {
             status = 3; /*Client Approve*/
         }
 
-        Publication.update({
-            '_id': id,
-            'reservations._id': idReservation
-        }, {
+        Publication.update(searchParam, {
             '$set': {
                 'reservations.$.status': status
             }
@@ -178,21 +185,29 @@ router.patch('/change/:id', session.authorize, function(req, res) {
 
     let id = new mongoose.Types.ObjectId(req.params.id);
     let idReservation = new mongoose.Types.ObjectId(req.body.id);
+    let userId = new mongoose.Types.ObjectId(req.user._id);
 
-    Publication.findOne({
+    let searchParam = {
         '_id': id,
-        'reservations._id': idReservation
-    }, function(err, publication) {
+        'reservations._id': idReservation,
+        $or: [{
+                "user": req.user._id
+            },
+            {
+                "reservations.user": userId
+            }
+        ]
+    };
+
+    Publication.findOne(searchParam, function(err, publication) {
         let status;
         if (publication.user.equals(req.user._id)) {
             status = 2; /*Client Pending*/
         } else {
             status = 0; /*Owner Pending*/
         }
-        Publication.update({
-            '_id': id,
-            'reservations._id': idReservation
-        }, {
+
+        Publication.update(searchParam, {
             '$set': {
                 'reservations.$.startDate': req.body.startDate,
                 'reservations.$.endDate': req.body.endDate,
@@ -250,11 +265,21 @@ router.patch('/cancel/:id', session.authorize, function(req, res) {
 
     let id = new mongoose.Types.ObjectId(req.params.id);
     let idReservation = new mongoose.Types.ObjectId(req.body.reservation);
+    let userId = new mongoose.Types.ObjectId(req.user._id);
 
-    Publication.findOne({
+    let searchParam = {
         '_id': id,
-        'reservations._id': idReservation
-    }, function(err, publication) {
+        'reservations._id': idReservation,
+        $or: [{
+                "user": req.user._id
+            },
+            {
+                "reservations.user": userId
+            }
+        ]
+    };
+
+    Publication.findOne(searchParam, function(err, publication) {
         let status;
         if (publication.user.equals(req.user._id)) {
             status = 5; /*Owner Canceled*/
@@ -262,10 +287,7 @@ router.patch('/cancel/:id', session.authorize, function(req, res) {
             status = 4; /*Client Canceled*/
         }
 
-        Publication.update({
-            '_id': id,
-            'reservations._id': idReservation
-        }, {
+        Publication.update(searchParam, {
             '$set': {
                 'reservations.$.status': status
             }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, Input, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, ChangeDetectionStrategy, ViewChild, Input, Output, TemplateRef } from '@angular/core';
 import {
   isSameDay,
   isSameMonth
@@ -21,6 +21,8 @@ export class CalendarComponent {
   @Input('week') week: boolean;
   @Input('day') day: boolean;
   @Input('events') events: CalendarEvent[] = [];
+  @Output('eventtimechange') eventTimesChanged: EventEmitter<CalendarEvent> = new EventEmitter();
+  @Output('eventclick') eventClick: EventEmitter<any> = new EventEmitter();
 
   locale = 'es';
 
@@ -38,7 +40,20 @@ export class CalendarComponent {
 
   activeDayIsOpen = true;
 
-  dayClicked({date, events}: { date: Date, events: CalendarEvent[] }): void {
+  eventClicked({ event }: { event: CalendarEvent }): void {
+    this.eventClick.emit(event);
+  }
+
+  eventTimesChangedEvent({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
+    if (event.start.getTime() !== newStart.getTime() || event.end.getTime() !== newEnd.getTime()) {
+      event.start = newStart;
+      event.end = newEnd;
+      this.refresh.next();
+      this.eventTimesChanged.emit(event);
+    }
+  }
+
+  dayClicked({ date, events }: { date: Date, events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -50,12 +65,6 @@ export class CalendarComponent {
         this.viewDate = date;
       }
     }
-  }
-
-  eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.refresh.next();
   }
 
   addEvent(event: CalendarEvent): void {

@@ -14,6 +14,7 @@ import { SearchModule } from './search/search.module';
 import { MainModule } from './main/main.module';
 import { PriceModule } from './price/price.module';
 import { AdminModule } from './admin/admin.module';
+import { MessageModule } from './message/message.module';
 import { ToastyModule } from 'ng2-toasty';
 import { APP_CONFIG, AppConfig } from './app.config';
 
@@ -29,6 +30,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
         SearchModule,
         PriceModule,
         MainModule,
+        MessageModule,
         NgbModule.forRoot(),
         AdminModule.forRoot(),
         ToastyModule.forRoot()

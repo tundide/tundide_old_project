@@ -8,14 +8,14 @@ let Response = require('../shared/response.js');
 module.exports = {
     authorize: function(req, res, next) {
         if (!req.headers.authorization) {
-            return res.status(authentication.unauthorized.status).json(
-                new Response(authentication.unauthorized.credentialInvalid)
+            return res.status(authentication.forbidden.status).json(
+                new Response(authentication.forbidden.unauthorized)
             );
         }
 
-        let authentication = req.headers.authorization.split(' ');
-        let type = authentication[0];
-        let token = authentication[1];
+        let authorization = req.headers.authorization.split(' ');
+        let type = authorization[0];
+        let token = authorization[1];
 
         switch (type) {
             case 'google':

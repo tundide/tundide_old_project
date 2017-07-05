@@ -1,7 +1,24 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <calendar #calendar [events]="events" day="true" week="true" month="true" default="day"></calendar>
+            <calendar #calendar (eventclick)="eventClick($event)" (eventtimechange)="eventTimesChanged($event)" [events]="events" day="true" week="true" month="true" default="day"></calendar>
         </div>
     </div>
 </div>
+
+
+<ng-template ngbModalContainer #changeReservationModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Confirmar</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>Esta seguro que quiere descartar la publicaci&oacute;n actual?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c(true)">Si</button>
+        <button type="button" class="btn btn-secondary" (click)="c(false)">No</button>
+    </div>
+</ng-template>

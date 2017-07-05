@@ -29,7 +29,7 @@
                 </h5>
                 <div class="action">
                     <div class="btn-group" role="group" aria-label="Third group">
-                        <button *ngIf="!myPublication" class="add-to-cart btn btn-default" (click)="Reserve()" type="button">Reservar</button>
+                        <button *ngIf="user && !myPublication" class="add-to-cart btn btn-default" (click)="Reserve()" type="button">Reservar</button>
                         <button *ngIf="user && !myPublication" class="btn btn-danger" (click)="favoriteChange(favorite)" type="button">
                         <span *ngIf="!favorite && user" class="fa fa-heart-o"></span>
                         <span *ngIf="favorite && user" class="fa fa-heart"></span>

@@ -136,6 +136,10 @@
                 "status": "approved",
                 "message": "Reservaci&oacute;n aprobada correctamente"
             },
+            "changedSuccessfully": {
+                "status": "changed",
+                "message": "Reservaci&oacute;n modificada correctamente. Recuerde que el cambio no se hara efectivo hasta que la otra parte apruebe el cambio."
+            },
             "canceledSuccessfully": {
                 "status": "canceled",
                 "message": "Reservaci&oacute;n cancelada correctamente"
@@ -154,6 +158,13 @@
         },
         "successnocontent": {
             "status": 204,
+            "reservationNotChanged": {
+                "status": "accepted",
+                "message": "No hay cambios en la Reservaci&oacute;n"
+            }
+        },
+        "notfound": {
+            "status": 404,
             "reservationNotExist": {
                 "status": "accepted",
                 "message": "Reservaci&oacute;n no encontrada"

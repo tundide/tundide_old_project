@@ -45,11 +45,10 @@
 </div>
 <br>
 <div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event)" (eventTimesChanged)="eventTimesChangedEvent($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="'week'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-week-view *ngSwitchCase="'week'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="eventClicked($event)" (eventTimesChanged)="eventTimesChangedEvent($event)">
     </mwl-calendar-week-view>
-    <mwl-calendar-day-view *ngSwitchCase="'day'" [eventWidth]="500" [locale]="locale " [viewDate]="viewDate " [events]="events " [refresh]="refresh " (eventClicked)="handleEvent( 'Clicked', $event.event) " (eventTimesChanged)="eventTimesChanged($event) ">
+    <mwl-calendar-day-view *ngSwitchCase="'day'" [eventWidth]="500" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="eventClicked($event)" (eventTimesChanged)="eventTimesChangedEvent($event)">
     </mwl-calendar-day-view>
 </div>

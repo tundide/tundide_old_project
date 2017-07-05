@@ -36,7 +36,7 @@ gulp.task('apidoc', function(done) {
     apidoc({
         src: "./",
         dest: "docs/api",
-        debug: true,
+        debug: false,
         includeFilters: [".*\\.js$"],
         excludeFilters: ["node_modules/"]
     }, done);

@@ -8,6 +8,7 @@ let session = require('./session');
 let shortid = require('shortid');
 let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
+let nodemailer = require('nodemailer');
 
 require('./strategies')(passport);
 
@@ -26,7 +27,6 @@ module.exports = function(passport) {
         let authorization = req.headers.authorization.split(' ');
         let type = authorization[0];
         let token = authorization[1];
-        let user;
         switch (type) {
             case 'google':
                 User.findOne({ 'authentication.token': token }, function(err, fulluser) {
@@ -169,7 +169,48 @@ module.exports = function(passport) {
         };
 
         saved = user.save();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // TODO: Enviar email para que confirme la cuenta, no es necesario para los que vienen por OAUTH por que ya vienen desde un email valido
+
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // secure:true for port 465, secure:false for port 587
+            auth: {
+                user: 'marcos.panichella@gmail.com',
+                pass: 'Mavi34518147'
+            }
+        });
+
+        let mailOptions = {
+            from: '"Tundide" <noresponder@tundide.com>',
+            to: req.body.jwt.email,
+            subject: 'Su registro fue realizado con exitoso',
+            text: 'Para poder continuar por favor ingrese a la siguiente URl y confirme su cuenta',
+            html: '<b>Hello world ?</b>'
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        });
 
         return res.status(authenticationResponse.successcreated.status).json(
             new Response(authenticationResponse.successcreated.signoutSuccessfully)

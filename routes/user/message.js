@@ -42,7 +42,7 @@ router.get('/', session.authorize, function(req, res) {
                 );
             }
         }
-    ).populate('favorites');
+    );
 });
 
 /**

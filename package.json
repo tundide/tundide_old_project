@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "engines": {
-    "node": ">=6.11.0"
+    "node": ">=6.11.0",
+    "npm" : ">=4.0.5"
   },
   "main": "gulpfile.js",
   "scripts": {

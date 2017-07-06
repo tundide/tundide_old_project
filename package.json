@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "node ./bin/www",
-    "preinstall": "npm i -g eslint tslint typescript apidoc jsdoc gulp npm-check-updates @compodoc/compodoc",
+    // "preinstall": "npm i -g eslint tslint typescript apidoc jsdoc gulp npm-check-updates @compodoc/compodoc",
     "build": "del-cli public/js/app  && webpack --config webpack.config.dev.js --progress --profile --watch",
     "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'public/js/app/**/*.js' 'public/js/app/**/*.js.map' '!public/js/app/bundle.js' '!public/js/app/*.chunk.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.shim.ts'"
   },

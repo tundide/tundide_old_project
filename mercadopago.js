@@ -2,7 +2,6 @@ let MP = require("mercadopago");
 
 let mp = new MP("TEST-632615168338747-032220-5160380465461a215bbb13beb9774fc1__LD_LB__-46420739");
 
-// Prueba
 // let mp = new MP("632615168338747", "F9i0C4BrQd3lEdjI66ywpaxHC0fzMcck");
 
 // let preference = {

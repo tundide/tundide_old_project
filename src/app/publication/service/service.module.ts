@@ -6,7 +6,7 @@ import { ServiceEditComponent } from './edit.component';
 import { ServiceViewComponent } from './view.component';
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { AppConfig } from '../../app.config';
 import { SharedModule } from '../../shared/shared.module';
 

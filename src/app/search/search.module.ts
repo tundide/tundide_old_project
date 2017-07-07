@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { ResultComponent } from './result.component';
 import { SharedModule } from '../shared/shared.module';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { AppConfig } from '../app.config';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 

@@ -9,11 +9,10 @@ import { ReviewViewComponent } from '../review.view.component';
 import { ReviewNewComponent } from '../review.new.component';
 import { UiSwitchModule } from 'angular2-ui-switch';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AppConfig } from '../../app.config';
 import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MarkerManager, GoogleMapsAPIWrapper, SebmGoogleMapMarker } from 'angular2-google-maps/core';
+import { AgmCoreModule, MarkerManager, GoogleMapsAPIWrapper } from '@agm/core';
 import { Ng2MDFValidationMessagesModule } from 'ng2-mdf-validation-messages';
 
 @NgModule({
@@ -39,7 +38,7 @@ import { Ng2MDFValidationMessagesModule } from 'ng2-mdf-validation-messages';
         AgmCoreModule.forRoot({
             apiKey: AppConfig.mapsKey
         })],
-    providers: [MarkerManager, GoogleMapsAPIWrapper, SebmGoogleMapMarker]
+    providers: [MarkerManager, GoogleMapsAPIWrapper]
 })
 
 export class PropertyMoudle { }

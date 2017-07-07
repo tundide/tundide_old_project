@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Property } from './property.model';
 import { MapService } from '../../shared/map.service';
 import { LocationService } from '../../shared/location.service';
-import { LatLngLiteral, GoogleMapsAPIWrapper, MarkerManager, SebmGoogleMapMarker } from 'angular2-google-maps/core';
+import { LatLngLiteral, GoogleMapsAPIWrapper, MarkerManager } from '@agm/core';
 import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -132,7 +132,6 @@ export class PropertyEditComponent implements OnInit {
         private publicationService: PublicationService,
         private mapService: MapService,
         private locationService: LocationService,
-        private sebmMarker: SebmGoogleMapMarker,
         private markerManager: MarkerManager) {
         this.toastyConfig.theme = 'bootstrap';
     }

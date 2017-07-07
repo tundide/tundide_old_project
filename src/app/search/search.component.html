@@ -2,9 +2,9 @@
     <div class="col-md-5">
         <div class="container">
             <div *ngIf="publications" class="col-md-12" style="height: 500px">
-                <sebm-google-map [zoom]="16" [latitude]="lat" [longitude]="lon">
-                    <sebm-google-map-marker *ngFor="let pub of publications; let i = pub" [latitude]="pub.location.latitude" [longitude]="pub.location.longitude" [title]="asdasdasd" [iconUrl]="'http://localhost:3001/images/marker.png'" [markerDraggable]="false">
-                        <sebm-google-map-info-window [disableAutoPan]="false">
+                <agm-map [zoom]="16" [latitude]="lat" [longitude]="lon">
+                    <agm-marker *ngFor="let pub of publications; let i = pub" [latitude]="pub.location.latitude" [longitude]="pub.location.longitude" [title]="asdasdasd" [iconUrl]="'http://localhost:3001/images/marker.png'" [markerDraggable]="false">
+                        <agm-info-window [disableAutoPan]="false">
                             <a [routerLink]="['/view', pub._id]">
                                 <div style="overflow: auto; cursor: default; clear: both; position: relative; border-radius: 4px; padding: 15px; border-color: rgb(255, 255, 255); border-style: solid; background-color: rgb(255, 255, 255); border-width: 1px; width: 275px; height: 110px;">
                                     <div class="row map-marker-info">
@@ -20,9 +20,9 @@
                                     </div>
                                 </div>
                             </a>
-                        </sebm-google-map-info-window>
-                    </sebm-google-map-marker>
-                </sebm-google-map>
+                        </agm-info-window>
+                    </agm-marker>
+                </agm-map>
             </div>
         </div>
     </div>

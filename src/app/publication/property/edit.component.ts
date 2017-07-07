@@ -11,7 +11,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _ from 'lodash';
-import { ValidationExtensions } from 'ng2-mdf-validation-messages';
 
 @Component({
     selector: 'edit-property',

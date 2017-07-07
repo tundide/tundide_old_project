@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ServiceEditComponent } from './edit.component';
 import { ServiceViewComponent } from './view.component';
-import { UiSwitchModule } from 'angular2-ui-switch';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { AgmCoreModule } from '@agm/core';
 import { AppConfig } from '../../app.config';
 import { SharedModule } from '../../shared/shared.module';
+import { UiSwitchModule } from 'ng2-ui-switch';
 
 @NgModule({
     declarations: [ServiceEditComponent, ServiceViewComponent],
@@ -16,12 +16,12 @@ import { SharedModule } from '../../shared/shared.module';
     imports: [FormsModule,
         RouterModule,
         CommonModule,
-        UiSwitchModule,
         CKEditorModule,
         SharedModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: AppConfig.mapsKey
-        })]
+        }),
+        UiSwitchModule]
 })
 
 export class ServiceMoudle { }

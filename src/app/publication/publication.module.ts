@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UiSwitchModule } from 'angular2-ui-switch';
 import { routing } from './publication.routing';
 import { CustomFormsModule } from 'ng2-validation';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
@@ -27,6 +26,7 @@ import { MapService } from '../shared/map.service';
 import { LocationService } from '../shared/location.service';
 import { SharedModule } from '../shared/shared.module';
 import { ToastyModule } from 'ng2-toasty';
+import { UiSwitchModule } from 'ng2-ui-switch';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -53,7 +53,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     imports: [routing,
         PropertyMoudle,
         ServiceMoudle,
-        UiSwitchModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
@@ -61,7 +60,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         CustomFormsModule,
         SharedModule.forRoot(),
-        ToastyModule.forRoot()],
+        ToastyModule.forRoot(),
+        UiSwitchModule],
     providers: [AuthGuard,
         MapService,
         LocationService,

@@ -87,7 +87,6 @@ goto :EOF
 
 :Deployment
 echo Handling node.js deployment.
-call npm install
 call npm run build
 
 :: 1. KuduSync

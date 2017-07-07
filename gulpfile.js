@@ -4,12 +4,12 @@ const del = require('del');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')({ lazy: true });
 const runSequence = require('run-sequence');
-const GulpSSH = require('gulp-ssh');
 const install = require("gulp-install");
-const typedoc = require("gulp-typedoc");
 const jsdoc = require('gulp-jsdoc3');
 const apidoc = require('gulp-apidoc');
 const compodoc = require('@compodoc/gulp-compodoc');
+const webpack = require("webpack");
+const gutil = require('gulp-util');
 
 // gulp.task('default', ['debug', 'scss-watcher', 'html-watcher', 'ts-watcher', 'image-watcher'], function() {
 //   var msg = {
@@ -50,72 +50,45 @@ gulp.task('compodoc', () => {
         }));
 });
 
-gulp.task('publish', function(done) {
-    runSequence('pub:siteStop', 'pub:clean:publish', 'pub:upload', 'pub:siteStart', function() {
-        log('Upload Finished');
-        done();
+webpackConfig = require('./webpack.config.prod.js'),
+
+    gulp.task('webpack:build', function(done) {
+        let myConfig = Object.create(webpackConfig);
+        myConfig.plugins = myConfig.plugins.concat(
+            new webpack.DefinePlugin({
+                'process.env': {
+                    // This has effect on the react lib size
+                    'NODE_ENV': JSON.stringify('production')
+                }
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false,
+                    screw_ie8: true,
+                    conditionals: true,
+                    unused: true,
+                    comparisons: true,
+                    sequences: true,
+                    dead_code: true,
+                    evaluate: true,
+                    if_return: true,
+                    join_vars: true
+                },
+                output: {
+                    comments: false
+                },
+                sourceMap: true
+            })
+        );
+
+        webpack(myConfig, function(err, stats) {
+            if (err) throw new gutil.PluginError("webpack", err);
+            gutil.log("[webpack]", stats.toString({
+                // output options
+            }));
+            done();
+        });
     });
-});
-
-gulp.task('pub:upload', function() {
-    let gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config.ssh
-    });
-
-    return gulp.src([
-            './**/*',
-            '!./{src,src/**}',
-            '!./{aot,aot/**}',
-            '!./{node_modules,node_modules/**}',
-            '!./{logs,logs/**}',
-            '!./**/*.log',
-            '!./{gulpfile.js,gulp.config.js,webpack.config.common.js,webpack.config.dev.js,webpack.config.prod.js}',
-            '!./{tsconfig.json,tsconfig.aot.json,tslint.json}'
-        ])
-        .pipe($.replace('http://localhost:3000', 'http://www.strumentit.com'))
-        .pipe($.changed(config.publish, { hasChanged: $.changed.compareSha1Digest }))
-        .pipe(gulpSSH.dest(config.publishdirectory));
-});
-
-gulp.task('pub:clean:publish', function(callback) {
-    let gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config.ssh
-    });
-
-    return gulpSSH
-        .shell(['cd ' + config.publishdirectory,
-            'sudo rm -rf *'
-        ], { filePath: 'shell.log' })
-        .pipe(gulp.dest('logs'));
-});
-
-gulp.task('pub:siteStop', function(callback) {
-    let gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config.ssh
-    });
-
-    return gulpSSH
-        .shell(['sudo pm2 stop www'], { filePath: 'shell.log' })
-        .pipe(gulp.dest('logs'));
-});
-
-gulp.task('pub:siteStart', function(callback) {
-    let gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config.ssh
-    });
-
-    return gulpSSH
-        .shell([
-            'cd ' + config.publishdirectory,
-            'sudo npm install',
-            'sudo pm2 start www'
-        ], { filePath: 'shell.log' })
-        .pipe(gulp.dest('logs'));
-});
 
 function clean(path, done) {
     log('Cleaning: ' + $.util.colors.blue(path));

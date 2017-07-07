@@ -54,6 +54,7 @@
     "gridfs-stream": "^1.1.1",
     "gulp-apidoc": "^0.2.6",
     "gulp-imagemin": "^3.3.0",
+    "gulp-util": "^3.0.8",
     "hbs": "^4.0.1",
     "image-webpack-loader": "^3.3.1",
     "install": "^0.10.1",

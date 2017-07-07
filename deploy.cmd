@@ -87,7 +87,6 @@ goto :EOF
 
 :Deployment
 echo Handling node.js deployment.
-call npm run build
 
 :: 1. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
@@ -106,6 +105,12 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
+IF EXIST "gulpfile.js" (
+  pushd "%DEPLOYMENT_TARGET%"
+  call .\node_modules\.bin\gulp webpack:build
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 

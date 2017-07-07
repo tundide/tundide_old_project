@@ -1,5 +1,4 @@
 const config = require('./gulp.config')();
-
 const del = require('del');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')({ lazy: true });
@@ -10,14 +9,6 @@ const apidoc = require('gulp-apidoc');
 const compodoc = require('@compodoc/gulp-compodoc');
 const webpack = require("webpack");
 const gutil = require('gulp-util');
-
-// gulp.task('default', ['debug', 'scss-watcher', 'html-watcher', 'ts-watcher', 'image-watcher'], function() {
-//   var msg = {
-//     title: 'gulp',
-//     subtitle: 'Watching for HTML, CSS and Typescript changes...'
-//   };
-//   log(msg);
-// });
 
 gulp.task('doc', function(done) {
     runSequence('compodoc', 'jsdoc', 'apidoc', function() {

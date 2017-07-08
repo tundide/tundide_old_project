@@ -1,2 +1,0 @@
-maxConcurrentRequestsPerProcess: 1024
-watchedFiles: *.js;iisnode.yml

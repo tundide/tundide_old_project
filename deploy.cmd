@@ -49,9 +49,9 @@ IF NOT DEFINED KUDU_SYNC_CMD (
 )
 
 IF NOT DEFINED GULP_CMD (
-  :: Install grunt
+  :: Install gulp
   echo Installing Grunt
-  call npm --registry "http://registry.npmjs.org/" install gulp
+  call npm install gulp-cli -g --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 
   :: Locally just running "gulp" would also work

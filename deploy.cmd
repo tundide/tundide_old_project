@@ -105,12 +105,12 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
-IF EXIST "gulpfile.js" (
-  pushd "%DEPLOYMENT_TARGET%"
-  call .\node_modules\.bin\gulp webpack:build
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
+REM IF EXIST "gulpfile.js" (
+REM   pushd "%DEPLOYMENT_TARGET%"
+REM   call .\node_modules\.bin\gulp webpack:build
+REM   IF !ERRORLEVEL! NEQ 0 goto error
+REM   popd
+REM )
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 

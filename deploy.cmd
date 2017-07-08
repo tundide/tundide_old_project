@@ -50,7 +50,7 @@ IF NOT DEFINED KUDU_SYNC_CMD (
 
 IF NOT DEFINED GULP_CMD (
   :: Install gulp
-  echo Installing Grunt
+  echo Installing Gulp
   call npm install gulp-cli -g --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 
@@ -104,7 +104,7 @@ call :SelectNodeVersion
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;node_modules;.vscode;docs;src;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 

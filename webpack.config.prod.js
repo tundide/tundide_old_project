@@ -5,8 +5,6 @@ let commonConfig = require('./webpack.config.common.js');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-    devtool: 'source-map',
-
     output: {
         path: 'C:\\TeamProjects\\tundide\\public\\js\\app',
         publicPath: "/js/app/",
@@ -29,8 +27,7 @@ module.exports = webpackMerge(commonConfig, {
             },
             output: {
                 comments: false
-            },
-            sourceMap: false
+            }
         }),
         new webpack.DefinePlugin({
             'process.env': {

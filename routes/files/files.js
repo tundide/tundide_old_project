@@ -8,7 +8,7 @@ let path = require('path');
 let Jimp = require("jimp");
 let filesResponse = require('../../config/response').files;
 let Response = require('../shared/response.js');
-let configAuth = require('../../config/app.json');
+let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 
 module.exports = function(mongoose) {
     /**
@@ -30,12 +30,7 @@ module.exports = function(mongoose) {
         form.keepExtensions = true;
         form.parse(req, function(err, fields, files) {
             if (!err) {
-                let conn = mongoose.createConnection(configAuth.connectionString, {
-                    server: {
-                        auto_reconnect: false,
-                        sslValidate: true
-                    }
-                });
+                let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
                 conn.once('open', function() {
                     let gfs = grid(conn.db, mongoose.mongo);
 
@@ -78,11 +73,7 @@ module.exports = function(mongoose) {
      */
     router.get('/:id', function(req, res) {
 
-        let conn = mongoose.createConnection(configAuth.connectionString, {
-            server: {
-                sslValidate: true
-            }
-        });
+        let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);
 
@@ -111,11 +102,7 @@ module.exports = function(mongoose) {
      *
      */
     router.delete('/:id', function(req, res) {
-        let conn = mongoose.createConnection(configAuth.connectionString, {
-            server: {
-                sslValidate: true
-            }
-        });
+        let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
 
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);

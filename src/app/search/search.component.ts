@@ -26,34 +26,37 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.locationService.list().subscribe(
       res => {
         this.provinces = res.data;
+
+        this.sub = this.route.params.subscribe(params => {
+          this.stringBuscado = params['b'];
+
+          this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
+            respub => {
+
+              this.publications = new Array();
+              if (respub.status !== 204) {
+                _.forEach(respub.body.data, (publication, key) => {
+                  if (publication.location.province && publication.location.place) {
+                    let prov = _.find(this.provinces, (o: any) => {
+                      return o.code === publication.location.province;
+                    });
+                    if (prov) {
+                      let place = _.find(prov.locations, (o: any) => {
+                        return o.code === publication.location.place;
+                      });
+
+                      publication.location.provinceDescription = prov.description;
+                      publication.location.placeDescription = place.description;
+                      this.publications.push(publication);
+                    }
+                  }
+                });
+              }
+            }
+          );
+        });
       }
     );
-
-    this.sub = this.route.params.subscribe(params => {
-      this.stringBuscado = params['b'];
-
-      this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
-        res => {
-
-          this.publications = new Array();
-          if (res.status !== 204) {
-            _.forEach(res.body.data, (publication, key) => {
-              if (publication.location.province && publication.location.place) {
-                let prov = _.find(this.provinces, (o: any) => {
-                  return o.code === publication.location.province;
-                });
-                let place = _.find(prov.locations, (o: any) => {
-                  return o.code === publication.location.place;
-                });
-                publication.location.provinceDescription = prov.description;
-                publication.location.placeDescription = place.description;
-                this.publications.push(publication);
-              }
-            });
-          }
-        }
-      );
-    });
 
     navigator.geolocation.getCurrentPosition((e) => {
       this.lat = e.coords.latitude;

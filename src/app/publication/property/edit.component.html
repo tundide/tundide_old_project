@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-md-6">
                     <agm-map [zoom]="16" [latitude]="publication.location.latitude" [longitude]="publication.location.longitude">
-                        <agm-marker [latitude]="publication.location.latitude" [longitude]="publication.location.longitude" [iconUrl]="'http://localhost:3001/images/marker.png'" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                        <agm-marker [latitude]="publication.location.latitude" [longitude]="publication.location.longitude" [iconUrl]="'/images/marker.png'" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
                         </agm-marker>
                     </agm-map>
                 </div>

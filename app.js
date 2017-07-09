@@ -10,14 +10,10 @@ const compression = require('compression');
 let passport = require('passport');
 let mongoose = require('mongoose');
 let cors = require('cors');
-let configAuth = require('./config/app.json');
 let User = require('./models/user');
+let config = require('./config/app.json')[process.env.NODE_ENV || 'development'];
 
-mongoose.connect(configAuth.connectionString, {
-    server: {
-        sslValidate: true
-    }
-}, function(err) {
+mongoose.connect(config.database.connectionString, config.database.config, function(err) {
     if (err) {
         console.log(err);
     }
@@ -31,10 +27,10 @@ app.set('view engine', 'hbs');
 app.use(favicon(path.join(__dirname, 'public', '/favicon/favicon.ico')));
 app.use(logger('dev'));
 app.use(compression());
-app.use(cors({ origin: 'http://localhost:3001' }));
+app.use(cors({ origin: config.url }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
-app.use(cookieParser(configAuth.auth.secret));
+app.use(cookieParser(config.auth.secret));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

@@ -7,5 +7,5 @@ export interface IAppConfig {
 }
 
 export const AppConfig: IAppConfig = {
-    mapsKey: 'AIzaSyDV0G690zj_ODkINV2Mjdf7rwvPrJ2PwOw'
+    mapsKey: 'AIzaSyCfeshSfAtyd5vGr-S7U7tUIaMez-Z-8F0'
 };

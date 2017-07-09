@@ -1,6 +1,6 @@
 let passportJWT = require("passport-jwt");
 let jwt = require('jsonwebtoken');
-let configAuth = require('../../config/app.json');
+let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let passport = require('passport');
 let authentication = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
@@ -28,7 +28,7 @@ module.exports = {
                 // }
                 break;
             case 'jwt':
-                jwt.verify(token, configAuth.auth.jwt.secret, function(err, decoded) {
+                jwt.verify(token, config.auth.jwt.secret, function(err, decoded) {
                     if (err) {
                         return res.status(authentication.unauthorized.status).json(
                             new Response(authentication.unauthorized.credentialInvalid)

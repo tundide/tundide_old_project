@@ -3,18 +3,18 @@
         <div class="container">
             <div *ngIf="publications" class="col-md-12" style="height: 500px">
                 <agm-map [zoom]="16" [latitude]="lat" [longitude]="lon">
-                    <agm-marker *ngFor="let pub of publications; let i = pub" [latitude]="pub.location.latitude" [longitude]="pub.location.longitude" [title]="asdasdasd" [iconUrl]="'http://localhost:3001/images/marker.png'" [markerDraggable]="false">
+                    <agm-marker *ngFor="let pub of publications; let i = pub" [latitude]="pub.location.latitude" [longitude]="pub.location.longitude" [title]="pub.title" [iconUrl]="'/images/marker.png'" [markerDraggable]="false">
                         <agm-info-window [disableAutoPan]="false">
                             <a [routerLink]="['/view', pub._id]">
                                 <div style="overflow: auto; cursor: default; clear: both; position: relative; border-radius: 4px; padding: 15px; border-color: rgb(255, 255, 255); border-style: solid; background-color: rgb(255, 255, 255); border-width: 1px; width: 275px; height: 110px;">
                                     <div class="row map-marker-info">
-                                        <a href="http://consultoriosprofesionales.com/listing/consultorios-libertad-en-recoleta/">
+                                        <a href="#">
                                             <div style="width:180px;float:left">
                                                 <h1 style="font-size:18px;">{{ pub.title }}</h1>
                                                 <span class="address" style="width:50px">{{ pub.location.street }} {{ pub.location.number }}, {{ pub.location.placeDescription | camelCase }}, {{ pub.location.provinceDescription | camelCase }}</span>
                                             </div>
                                             <div style="width:50px; float:left">
-                                                <span class="list-cover has-image" [ngStyle]="{'background-image': 'url(http://localhost:3001/files/' + pub.images[0] + ')'}"></span>
+                                                <span class="list-cover has-image" [ngStyle]="{'background-image': 'url(/files/' + pub.images[0] + ')'}"></span>
                                             </div>
                                         </a>
                                     </div>

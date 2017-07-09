@@ -3,7 +3,7 @@ let FacebookStrategy = require('passport-facebook').Strategy;
 let TwitterStrategy = require('passport-twitter').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let shortid = require('shortid');
-let configAuth = require('../../config/app.json');
+let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
 
 module.exports = function(passport) {
@@ -19,9 +19,9 @@ module.exports = function(passport) {
     });
 
     passport.use(new GoogleStrategy({
-            clientID: configAuth.auth.googleAuth.clientID,
-            clientSecret: configAuth.auth.googleAuth.clientSecret,
-            callbackURL: configAuth.auth.googleAuth.callbackURL,
+            clientID: config.auth.googleAuth.clientID,
+            clientSecret: config.auth.googleAuth.clientSecret,
+            callbackURL: config.auth.googleAuth.callbackURL,
             passReqToCallback: true
         },
         function(request, accessToken, refreshToken, profile, done) {

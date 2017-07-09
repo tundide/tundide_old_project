@@ -1,30 +1,78 @@
 {
-    "auth": {
-        "secret": "sessionSecretKey",
-        "maxAge": 2419200000,
-        "jwt": {
-            "secret": "MyS3cr3tK3Y"
+    "development": {
+        "auth": {
+            "secret": "sessionSecretKey",
+            "maxAge": 2419200000,
+            "jwt": {
+                "secret": "MyS3cr3tK3Y"
+            },
+            "facebookAuth": {
+                "clientID": "your-secret-clientID-here",
+                "clientSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/facebook/callback"
+            },
+            "twitterAuth": {
+                "consumerKey": "your-consumer-key-here",
+                "consumerSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/twitter/callback"
+            },
+            "linkedinAuth": {
+                "consumerKey": "your-consumer-key-here",
+                "consumerSecret": "your-client-secret-here",
+                "callbackURL": "http://127.0.0.1:3001/auth/linkedin/callback"
+            },
+            "googleAuth": {
+                "clientID": "671054507585-d03sr402o13fruemnkp84aduhg5dprn8.apps.googleusercontent.com",
+                "clientSecret": "iuAM41GuxGsIgImMIM5ghfl9",
+                "callbackURL": "http://www.tundide.com/auth/google/callback"
+            }
         },
-        "facebookAuth": {
-            "clientID": "your-secret-clientID-here",
-            "clientSecret": "your-client-secret-here",
-            "callbackURL": "http://localhost:8080/auth/facebook/callback"
+        "database": {
+            "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
+            "config": {
+                "server": {
+                    "sslValidate": true
+                }
+            }
         },
-        "twitterAuth": {
-            "consumerKey": "your-consumer-key-here",
-            "consumerSecret": "your-client-secret-here",
-            "callbackURL": "http://localhost:8080/auth/twitter/callback"
-        },
-        "linkedinAuth": {
-            "consumerKey": "your-consumer-key-here",
-            "consumerSecret": "your-client-secret-here",
-            "callbackURL": "http://127.0.0.1:3001/auth/linkedin/callback"
-        },
-        "googleAuth": {
-            "clientID": "671054507585-d03sr402o13fruemnkp84aduhg5dprn8.apps.googleusercontent.com",
-            "clientSecret": "iuAM41GuxGsIgImMIM5ghfl9",
-            "callbackURL": "http://www.tundide.com/auth/google/callback"
-        }
+        "url": "http://localhost:3000"
     },
-    "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9"
+    "production": {
+        "auth": {
+            "secret": "sessionSecretKey",
+            "maxAge": 2419200000,
+            "jwt": {
+                "secret": "MyS3cr3tK3Y"
+            },
+            "facebookAuth": {
+                "clientID": "your-secret-clientID-here",
+                "clientSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/facebook/callback"
+            },
+            "twitterAuth": {
+                "consumerKey": "your-consumer-key-here",
+                "consumerSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/twitter/callback"
+            },
+            "linkedinAuth": {
+                "consumerKey": "your-consumer-key-here",
+                "consumerSecret": "your-client-secret-here",
+                "callbackURL": "http://127.0.0.1:3001/auth/linkedin/callback"
+            },
+            "googleAuth": {
+                "clientID": "671054507585-d03sr402o13fruemnkp84aduhg5dprn8.apps.googleusercontent.com",
+                "clientSecret": "iuAM41GuxGsIgImMIM5ghfl9",
+                "callbackURL": "http://www.tundide.com/auth/google/callback"
+            }
+        },
+        "database": {
+            "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
+            "config": {
+                "server": {
+                    "sslValidate": true
+                }
+            }
+        },
+        "url": "http://www.tundide.com"
+    }
 }

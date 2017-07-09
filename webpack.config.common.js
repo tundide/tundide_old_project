@@ -3,7 +3,20 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require('path');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
+let apiHost;
+
+let setupApi = function() {
+    switch (process.env.NODE_ENV) {
+        case 'production':
+            apiHost = "https://www.tundide.com";
+        case 'develop':
+        default:
+            apiHost = "https://localhost:3000";
+    }
+};
+setupApi();
 module.exports = {
     entry: {
         'polyfills': './src/polyfills.ts',
@@ -91,6 +104,12 @@ module.exports = {
         ),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
-        })
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'ENV': JSON.stringify(ENV)
+            },
+            __API__: apiHost
+        }),
     ]
 };

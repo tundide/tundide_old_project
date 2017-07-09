@@ -2,7 +2,7 @@ let express = require('express');
 let passport = require('passport');
 let jwt = require('jsonwebtoken');
 let router = express.Router();
-let configAuth = require('../../config/app.json');
+let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
 let session = require('./session');
 let shortid = require('shortid');
@@ -54,7 +54,7 @@ module.exports = function(passport) {
                 });
                 break;
             case 'jwt':
-                jwt.verify(token, configAuth.auth.jwt.secret, function(err, decoded) {
+                jwt.verify(token, config.auth.jwt.secret, function(err, decoded) {
                     if (err) {
                         return res.status(authenticationResponse.internalservererror.status).json(
                             new Response(authenticationResponse.internalservererror.default, err)
@@ -123,7 +123,7 @@ module.exports = function(passport) {
             },
             function(err, user) {
                 if (user) {
-                    let token = 'jwt ' + jwt.sign(user.shortId, configAuth.auth.jwt.secret);
+                    let token = 'jwt ' + jwt.sign(user.shortId, config.auth.jwt.secret);
 
                     return res.status(authenticationResponse.success.status).json(
                         new Response(authenticationResponse.success.loginSuccessfully, token)
@@ -160,7 +160,7 @@ module.exports = function(passport) {
         user.name = req.body.name;
         user.shortId = 'USJ-' + shortid.generate();
 
-        let token = jwt.sign(user.shortId, configAuth.auth.jwt.secret);
+        let token = jwt.sign(user.shortId, config.auth.jwt.secret);
 
         user.authentication = {
             'username': req.body.jwt.email,
@@ -251,7 +251,8 @@ module.exports = function(passport) {
             if (err) { return next(err); }
 
             if (user) {
-                res.redirect('http://www.tundide.com/#/?t=google ' + user.authentication.token);
+
+                res.redirect(__API__ + '/#/?t=google ' + user.authentication.token);
             } else {
                 return res.status(authenticationResponse.forbidden.status).json(
                     new Response(authenticationResponse.forbidden.unauthorized)

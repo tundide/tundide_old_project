@@ -88,6 +88,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
             this.toastyService.error(toastOptions);
         });
+
+        if (process.env.ENV === 'development') {
+            this.loadScript('http://localhost:35729/livereload.js');
+        }
+    }
+
+    public loadScript(url) {
+        let node = document.createElement('script');
+        node.src = url;
+        node.type = 'text/javascript';
+        document.getElementsByTagName('head')[0].appendChild(node);
     }
 
     ngOnDestroy() {

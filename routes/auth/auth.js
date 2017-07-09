@@ -252,7 +252,7 @@ module.exports = function(passport) {
 
             if (user) {
 
-                res.redirect(__API__ + '/#/?t=google ' + user.authentication.token);
+                res.redirect(config.url + '/#/?t=google ' + user.authentication.token);
             } else {
                 return res.status(authenticationResponse.forbidden.status).json(
                     new Response(authenticationResponse.forbidden.unauthorized)

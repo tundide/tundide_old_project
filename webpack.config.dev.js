@@ -38,6 +38,15 @@ module.exports = webpackMerge(commonConfig, {
                 'ENV': JSON.stringify(ENV)
             }
         }),
-        new LiveReloadPlugin()
+        new LiveReloadPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            debug: true,
+            options: {
+                tslint: {
+                    failOnHint: true,
+                    configuration: require('./tslint.json')
+                }
+            }
+        })
     ]
 });

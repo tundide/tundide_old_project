@@ -86,21 +86,11 @@ module.exports = {
             Util: "exports-loader?Util!bootstrap/js/dist/util"
         }),
         new webpack.ContextReplacementPlugin(
-            // The (\\|\/) piece accounts for path separators in *nix and Windows
             /angular(\\|\/)core(\\|\/)@angular/,
             path.resolve(__dirname, '../src')
         ),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
-        }),
-        new webpack.LoaderOptionsPlugin({
-            debug: true,
-            options: {
-                tslint: {
-                    failOnHint: true,
-                    configuration: require('./tslint.json')
-                }
-            }
         })
     ]
 };

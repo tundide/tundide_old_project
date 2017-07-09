@@ -10,7 +10,7 @@
         "start": "node ./bin/www",
         "build": "del-cli public/js/app  && webpack --config webpack.config.dev.js --progress --profile --watch",
         "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'public/js/app/**/*.js' 'public/js/app/**/*.js.map' '!public/js/app/bundle.js' '!public/js/app/*.chunk.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.shim.ts'",
-        "heroku-postbuild": "npm install --global del-cli && del-cli public/js/app  && webpack --config webpack.config.prod.js --progress --profile --watch"
+        "heroku-postbuild": "npm install --global del-cli && del-cli public/js/app  && webpack --config webpack.config.prod.js --progress --profile"
     },
     "dependencies": {
         "@agm/core": "^1.0.0-beta.0",

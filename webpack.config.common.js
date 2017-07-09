@@ -17,7 +17,7 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 //     }
 // };
 // setupApi();
-module.exports = {
+module.exports =
     entry: {
         'polyfills': './src/polyfills.ts',
         'vendor': './src/vendor.ts',
@@ -109,6 +109,6 @@ module.exports = {
             'process.env': {
                 'ENV': JSON.stringify(ENV)
             }
-        }),
+        })
     ]
 };

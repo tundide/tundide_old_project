@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let router = express.Router();
 let User = require('../../models/user');
 let session = require('../auth/session');
-let favoriteResponse = require('../../config/response').favorite;
+let billingResponse = require('../../config/response').billing;
 let Response = require('../shared/response.js');
 
 /**
@@ -25,8 +25,8 @@ let Response = require('../shared/response.js');
 router.get('/', function(req, res) {
     let id = req.query.id;
     let topic = req.query.topic;
-    return res.status(favoriteResponse.success.status).json(
-        new Response(favoriteResponse.success.retrievedSuccessfully)
+    return res.status(billingResponse.success).json(
+        new Response(billingResponse.success.paidSuccessfully)
     );
     // User.findById(req.user._id,
     //     function(err, data) {

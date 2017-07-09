@@ -6,7 +6,7 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
     output: {
-        path: 'C:\\TeamProjects\\tundide\\public\\js\\app',
+        path: __dirname + "/public/js/app",
         publicPath: "/js/app/",
         filename: '[name].bundle.js',
         chunkFilename: '[id].chunk.js'

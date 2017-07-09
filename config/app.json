@@ -26,5 +26,5 @@
             "callbackURL": "http://localhost:3001/auth/google/callback"
         }
     },
-    "connectionString": "mongodb://tundidedb:bde3aSbNFEwwfiTrs3jnkP6PFty2sMxQZJNyjFqG23qsXA08V6J4X9cnDpbDYnBsbr323fd9cSml2CMNvB4dcw==@tundidedb.documents.azure.com:10255/?ssl=true"
+    "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9"
 }

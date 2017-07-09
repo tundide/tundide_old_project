@@ -295,5 +295,15 @@
             "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
+    },
+    "billing": {
+        "code": 8000,
+        "success": {
+            "status": 200,
+            "paidSuccessfully": {
+                "status": "accepted",
+                "message": "Pago realizado correctamente"
+            }
+        }
     }
 }

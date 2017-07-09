@@ -96,9 +96,7 @@
         "tslint-loader": "^3.5.2",
         "typescript": "2.4.1",
         "typings": "^2.1.1",
-        "zone.js": "^0.8.12",
-        "webpack": "^3.1.0",
-        "webpack-merge": "^4.1.0"
+        "zone.js": "^0.8.12"
     },
     "devDependencies": {
         "@compodoc/gulp-compodoc": "0.0.6",

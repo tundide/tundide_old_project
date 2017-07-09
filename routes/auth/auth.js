@@ -251,7 +251,7 @@ module.exports = function(passport) {
             if (err) { return next(err); }
 
             if (user) {
-                res.redirect('http://localhost:3001/#/?t=google ' + user.authentication.token);
+                res.redirect('http://www.tundide.com/#/?t=google ' + user.authentication.token);
             } else {
                 return res.status(authenticationResponse.forbidden.status).json(
                     new Response(authenticationResponse.forbidden.unauthorized)

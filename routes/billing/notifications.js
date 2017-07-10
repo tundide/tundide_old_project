@@ -1,10 +1,9 @@
 let express = require('express');
 let mongoose = require('mongoose');
 let router = express.Router();
-let User = require('../../models/user');
+let Paid = require('../../models/paid');
 let session = require('../auth/session');
 let billingResponse = require('../../config/response').billing;
-let Response = require('../shared/response.js');
 
 /**
  * @api {get} / Get favorites
@@ -23,29 +22,17 @@ let Response = require('../shared/response.js');
  * 
  */
 router.post('/', function(req, res) {
-    let id = req.query.id;
-    let topic = req.query.topic;
-    return res.status(billingResponse.success.status).json(
-        new Response(billingResponse.success.paidSuccessfully)
-    );
-    // User.findById(req.user._id,
-    //     function(err, data) {
-    //         if (err) {
-    //             return res.status(favoriteResponse.internalservererror.status).json(
-    //                 new Response(favoriteResponse.internalservererror.database, err)
-    //             );
-    //         };
-    //         if (data) {
-    //             return res.status(favoriteResponse.success.status).json(
-    //                 new Response(favoriteResponse.success.retrievedSuccessfully, data.favorites)
-    //             );
-    //         } else {
-    //             return res.status(favoriteResponse.successnocontent.status).json(
-    //                 new Response(favoriteResponse.successnocontent.favoriteNotExist)
-    //             );
-    //         }
-    //     }
-    // ).populate('favorites');
+    let paid = new Paid();
+    paid.id = req.query.id;
+    paid.topic = req.query.topic;
+    paid.save().then(function() {
+            return res.status(billingResponse.success.status);
+        }),
+        function(err) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.database, err)
+            );
+        };
 });
 
 module.exports = router;

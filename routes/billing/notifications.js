@@ -26,7 +26,7 @@ router.post('/', function(req, res) {
     paid.id = req.query.id;
     paid.topic = req.query.topic;
     paid.save().then(function() {
-            return res.status(billingResponse.success.status);
+            return res.status(billingResponse.success.status).send();
         }),
         function(err) {
             res.status(billingResponse.internalservererror.status).json(

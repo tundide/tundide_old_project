@@ -22,7 +22,7 @@ let Response = require('../shared/response.js');
  * }
  * 
  */
-router.get('/', function(req, res) {
+router.post('/', function(req, res) {
     let id = req.query.id;
     let topic = req.query.topic;
     return res.status(billingResponse.success.status).json(

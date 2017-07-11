@@ -1,81 +1,168 @@
+let config = require('./config/app.json')[process.env.NODE_ENV || 'development'];
 let MP = require("mercadopago");
+let mp = new MP(config.billing.accessToken);
 
-let mp = new MP("TEST-632615168338747-032220-5160380465461a215bbb13beb9774fc1__LD_LB__-46420739");
+module.exports = {
+    // let preapprovalData = {
+    //     "payer_email": "mpanichella@live.com",
+    //     "back_url": "http://www.tundide.com",
+    //     "reason": "Suscripcion mensual de Plata",
+    //     "external_reference": "Plata-123456",
+    //     "auto_recurring": {
+    //         "frequency": 1,
+    //         "frequency_type": "months",
+    //         "transaction_amount": 1,
+    //         "currency_id": "ARS",
+    //         "start_date": "2017-09-10T14:58:11.778-03:00",
+    //         "end_date": "2017-09-10T14:58:11.778-03:00"
+    //     }
+    // };
 
-// let mp = new MP("632615168338747", "F9i0C4BrQd3lEdjI66ywpaxHC0fzMcck");
-
-// let preference = {
-//     "items": [{
-//             "title": "Plata",
-//             "quantity": 1,
-//             "currency_id": "ARG",
-//             "unit_price": 39
-//         },
-//         {
-//             "title": "Oro",
-//             "quantity": 1,
-//             "currency_id": "ARG",
-//             "unit_price": 119
-//         },
-//         {
-//             "title": "Plantino",
-//             "quantity": 1,
-//             "currency_id": "ARG",
-//             "unit_price": 529
-//         }
-//     ]
-// };
-
-//mp.createPreference(preference);
-//let asd = mp.getPreference("PREFERENCE_ID");
-
-mp.post({
-    "uri": "/v1/payments",
-    "data": {
-        "transaction_amount": 100,
-        "token": "ff8080814c11e237014c1ff593b57b4d",
-        "description": "Title of what you are paying for",
-        //"installments": 12,
-        "payment_method_id": "visa",
-        "payer": {
-            "email": "mavitos32@hotmail.com"
-        },
-        "external_reference": "Reference_1234",
-        "statement_descriptor": "MY E-STORE",
-        "notification_url": "https://www.tundide.com/pagoexitoso",
-        "additional_info": {
-            "items": [{
-                "id": "item-ID-1234",
-                "title": "COmpra de Gold",
-                "picture_url": "https://www.mercadopago.com/org-img/MP3/home/logomp3.gif",
-                "description": "Item description",
-                "category_id": "art", // Available categories at https://api.mercadopago.com/item_categories
-                "quantity": 1,
-                "unit_price": 100
-            }],
-            "payer": {
-                "first_name": "user-name",
-                "last_name": "user-surname",
-                "registration_date": "2015-06-02T12:58:41.425-04:00",
-                "phone": {
-                    "area_code": "11",
-                    "number": "4444-4444"
-                },
-                "address": {
-                    "street_name": "Street",
-                    "street_number": 123,
-                    "zip_code": "5700"
+    // 46420739-xuekai5qaPVYdD mpanichella@live.com
+    createPlan: function() {
+        let preapprovalData = mp.post("/v1/plans", {
+            "description": "Subscripcion de Plata",
+            "auto_recurring": {
+                "debit_date": 1,
+                "frequency": 1,
+                "frequency_type": "months",
+                "transaction_amount": 49,
+                "currency_id": "ARS",
+                "free_trial": {
+                    "frequency": 1,
+                    "frequency_type": "months",
                 }
             }
-        }
-    }
-}).then(
-    function success(data) {
-        console.log(JSON.stringify(data, null, 4));
-    },
-    function error(err) {
-        console.log(err);
-    }
-);
+        });
 
-//console.log(asd);
+        preapprovalData.then(
+            function(customerData) {
+                console.log(customerData);
+            },
+            function(error) {
+                console.log(error);
+            });
+    },
+    asosciateCustomerWithPlan: function() {
+        let customerToPlan = mp.post("/v1/subscriptions", {
+            "plan_id": "85cdebd319bb4bf8a2b2f2934bf775d8",
+            "payer": {
+                "id": "46420739-xuekai5qaPVYdD"
+            } //e45c5e788623a26c6c08ccf6121c8b6e default card
+        });
+
+        customerToPlan.then(
+            function(customerData) {
+                console.log(customerData);
+            },
+            function(error) {
+                console.log(error);
+            });
+
+    },
+    createCustomer: function() {
+        let customer = {
+            "email": "mpanichella@live.com"
+        };
+
+        saved_customer = mp.get("/v1/customers/search", customer);
+
+        saved_customer.then(function(customer) {
+            if (customer.result.length > 0) {
+                let addCard = mp.post("/v1/customers/" + customer.response.results[0].id + "/cards", { "token": "e45c5e788623a26c6c08ccf6121c8b6e" });
+
+                addCard.then(
+                    function(cardData) {
+                        console.log(cardData);
+                    },
+                    function(error) {
+                        console.log(error);
+                    });
+            } else {
+                let createCustomer = mp.post("/v1/customers", customer);
+
+                createCustomer.then(
+                    function(customerData) {
+                        console.log(customerData);
+                    },
+                    function(error) {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+
+    // let mp = new MP("2875862101013091", "4BbAf0EeRu8SeiSMXCMts8bS8px2nfKh");
+    // let getPayment = mp.get("/v1/payments/56d9db00058d467d99f3d18cd2cffe57");
+
+    // getPayment.then(
+    //     function(paymentData) {
+    //         console.log(paymentData);
+    //     },
+    //     function(error) {
+    //         console.log(error);
+    //     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // mp.getPayment('56d9db00058d467d99f3d18cd2cffe57', function(err, data) {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         console.log(data);
+    //     }
+    // });
+
+    // let preapprovalData = {
+    //     "payer_email": "mpanichella@live.com",
+    //     "back_url": "http://www.tundide.com",
+    //     "reason": "Suscripcion mensual de Plata",
+    //     "external_reference": "Plata-123456",
+    //     "auto_recurring": {
+    //         "frequency": 1,
+    //         "frequency_type": "months",
+    //         "transaction_amount": 1,
+    //         "currency_id": "ARS",
+    //         "start_date": "2017-09-10T14:58:11.778-03:00",
+    //         "end_date": "2017-09-10T14:58:11.778-03:00"
+    //     }
+    // };
+
+    // mp.getAccessToken(function(err, accessToken) {
+    //     console.log(accessToken);
+    // });
+
+    // mp.createPreapprovalPayment(preapprovalData, function(err, data) {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         console.log(data);
+    //         console.log(data.response.init_point);
+    //     }
+    // });
+};

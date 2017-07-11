@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { BillingComponent } from './billing/billing.component';
+import { PayComponent } from './billing/pay.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PublicationActiveComponent } from './publication/active.component';
 import { PublicationPausedComponent } from './publication/paused.component';
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
     declarations: [AdminComponent,
         BillingComponent,
+        PayComponent,
         ProfileComponent,
         SidebarComponent,
         AlertComponent,

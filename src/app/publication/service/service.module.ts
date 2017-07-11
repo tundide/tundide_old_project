@@ -19,7 +19,7 @@ import { UiSwitchModule } from 'ng2-ui-switch';
         CKEditorModule,
         SharedModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: AppConfig.mapsKey
+            apiKey: process.env.publickey.maps
         }),
         UiSwitchModule]
 })

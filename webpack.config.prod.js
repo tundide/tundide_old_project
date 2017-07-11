@@ -26,6 +26,15 @@ module.exports = webpackMerge(commonConfig, {
             output: {
                 comments: false
             }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'environment': process.env.NODE_ENV,
+                'publickey': {
+                    'maps': JSON.stringify('AIzaSyCfeshSfAtyd5vGr-S7U7tUIaMez-Z-8F0'),
+                    'mercadopago': JSON.stringify('APP_USR-80dd6f34-5880-4ae7-904d-a9d748d77108')
+                }
+            }
         })
     ]
 });

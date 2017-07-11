@@ -1,5 +1,5 @@
 require('./jobs.js');
-// require('./mercadopago.js');
+require('./mercadopago.js');
 let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon');

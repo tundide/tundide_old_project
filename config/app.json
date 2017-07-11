@@ -35,7 +35,10 @@
                 }
             }
         },
-        "url": "http://localhost:3000"
+        "url": "http://localhost:3000",
+        "billing": {
+            "accessToken": "TEST-2875862101013091-070921-f28603a023c34d9e7f0f94caaeb11544__LC_LA__-263242370"
+        }
     },
     "production": {
         "auth": {
@@ -73,6 +76,9 @@
                 }
             }
         },
-        "url": "http://www.tundide.com"
+        "url": "http://www.tundide.com",
+        "billing": {
+            "accessToken": "APP_USR-2875862101013091-070921-4aeb9a8286cf28cb34a9e094c1830899__LB_LC__-263242370"
+        }
     }
 }

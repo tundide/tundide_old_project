@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = {
     entry: {
@@ -89,11 +88,6 @@ module.exports = {
         ),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'ENV': JSON.stringify(ENV)
-            }
-        }),
+        })
     ]
 };

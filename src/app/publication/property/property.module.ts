@@ -26,7 +26,7 @@ import { UiSwitchModule } from 'ng2-ui-switch';
         SharedModule.forRoot(),
         NgbModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: AppConfig.mapsKey
+            apiKey: process.env.publickey.maps
         }),
         UiSwitchModule],
     providers: [MarkerManager, GoogleMapsAPIWrapper]

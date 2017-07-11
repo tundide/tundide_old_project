@@ -40,6 +40,15 @@ module.exports = webpackMerge(commonConfig, {
                     configuration: require('./tslint.json')
                 }
             }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'environment': process.env.NODE_ENV,
+                'publickey': {
+                    'maps': JSON.stringify('AIzaSyCfeshSfAtyd5vGr-S7U7tUIaMez-Z-8F0'),
+                    'mercadopago': JSON.stringify('TEST-fdf46f46-0af3-41dc-9807-f31ed3738185')
+                }
+            }
         })
     ]
 });

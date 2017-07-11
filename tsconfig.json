@@ -9,7 +9,8 @@
         "experimentalDecorators": true,
         "skipLibCheck": true,
         "sourceMap": true,
-        "watch": true
+        "watch": true,
+        "allowJs": true
     },
     "exclude": [
         "node_modules",

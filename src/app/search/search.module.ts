@@ -18,7 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         SharedModule.forRoot(),
         NgbModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: AppConfig.mapsKey
+            apiKey: process.env.publickey.maps
         })
     ]
 })

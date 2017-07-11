@@ -7,6 +7,7 @@ import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './auth/user.model';
 import { SocketService } from './shared/socket.service';
+declare var $: JQueryStatic;
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -89,16 +90,11 @@ export class AppComponent implements OnInit, OnDestroy {
             this.toastyService.error(toastOptions);
         });
 
-        if (process.env.ENV === 'development') {
-            this.loadScript('http://localhost:35729/livereload.js');
+        if (process.env.environment === 'development') {
+            $.getScript('http://localhost:35729/livereload.js', function () {
+                console.log('Debug Habilitado');
+            });
         }
-    }
-
-    public loadScript(url) {
-        let node = document.createElement('script');
-        node.src = url;
-        node.type = 'text/javascript';
-        document.getElementsByTagName('head')[0].appendChild(node);
     }
 
     ngOnDestroy() {

@@ -43,7 +43,7 @@ module.exports = webpackMerge(commonConfig, {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'environment': 'development',
+                'environment': JSON.stringify(process.env.NODE_ENV),
                 'publickey': {
                     'maps': JSON.stringify('AIzaSyCfeshSfAtyd5vGr-S7U7tUIaMez-Z-8F0'),
                     'mercadopago': JSON.stringify('TEST-fdf46f46-0af3-41dc-9807-f31ed3738185')

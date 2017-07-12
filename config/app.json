@@ -22,9 +22,9 @@
                 "callbackURL": "http://127.0.0.1:3001/auth/linkedin/callback"
             },
             "googleAuth": {
-                "clientID": "671054507585-d03sr402o13fruemnkp84aduhg5dprn8.apps.googleusercontent.com",
-                "clientSecret": "iuAM41GuxGsIgImMIM5ghfl9",
-                "callbackURL": "http://www.tundide.com/auth/google/callback"
+                "clientID": "671054507585-nsncmgttbqcoi80b7lb6pvkivod4d44a.apps.googleusercontent.com",
+                "clientSecret": "Wul0mpIfh1eVT9-gVJjMznr7",
+                "callbackURL": "http://localhost:3000/auth/google/callback"
             }
         },
         "database": {

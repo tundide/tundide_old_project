@@ -2,6 +2,56 @@ let config = require('./config/app.json')[process.env.NODE_ENV || 'development']
 let MP = require("mercadopago");
 let mp = new MP(config.billing.accessToken);
 
+
+
+saved_customer = mp.get("/v1/customers/search", {
+    "email": "marcos.panichella@gmail.com"
+});
+
+saved_customer.then(function(customer) {
+    if (customer.response.results.length > 0) {
+        let card = { "token": "e45c5e788623a26c6c08ccf6121c8b6e" };
+
+        let addCard = mp.post("/v1/customers/" + customer.response.results[0].id + "/cards", card);
+
+        addCard.then(
+            function(cardData) {
+                console.log(cardData);
+            },
+            function(error) {
+                console.log(error);
+            });
+    } else {
+
+    }
+});
+
+
+
+
+
+////////////////////////BORRAR ASOCIACION DE USUARIO
+// saved_customer = mp.get("/v1/customers/search", {
+//     "email": "marcos.panichella@gmail.com"
+// });
+
+// saved_customer.then(function(customer) {
+//     if (customer.response.results.length > 0) {
+//         let createCustomer = mp.delete("/v1/customers/" + customer.response.results[0].id);
+
+//         createCustomer.then(
+//             function(customerData) {
+//                 console.log(customerData);
+//             },
+//             function(error) {
+//                 console.log(error);
+//             });
+//     } else {
+
+//     }
+// });
+////////////////////////BORRAR ASOCIACION DE USUARIO
+
 module.exports = {
     // let preapprovalData = {
     //     "payer_email": "mpanichella@live.com",
@@ -60,36 +110,40 @@ module.exports = {
             });
 
     },
-    createCustomer: function() {
-        let customer = {
-            "email": "mpanichella@live.com"
-        };
+    associateCard: function(customerId, cardId) {
+        let card = { "token": cardId };
 
-        saved_customer = mp.get("/v1/customers/search", customer);
+        let addCard = mp.post("/v1/customers/" + customerId + "/cards", card);
 
-        saved_customer.then(function(customer) {
-            if (customer.result.length > 0) {
-                let addCard = mp.post("/v1/customers/" + customer.response.results[0].id + "/cards", { "token": "e45c5e788623a26c6c08ccf6121c8b6e" });
+        addCard.then(
+            function(cardData) {
+                console.log(cardData);
+            },
+            function(error) {
+                console.log(error);
+            });
+    },
+    createCustomer: function(customer) {
+        return mp.post("/v1/customers", customer);
 
-                addCard.then(
-                    function(cardData) {
-                        console.log(cardData);
-                    },
-                    function(error) {
-                        console.log(error);
-                    });
-            } else {
-                let createCustomer = mp.post("/v1/customers", customer);
 
-                createCustomer.then(
-                    function(customerData) {
-                        console.log(customerData);
-                    },
-                    function(error) {
-                        console.log(error);
-                    });
-            }
-        });
+        // saved_customer = mp.get("/v1/customers/search", customer);
+
+        // saved_customer.then(function(customer) {
+        //     if (customer.result.length > 0) {
+        //         let addCard = mp.post("/v1/customers/" + customer.response.results[0].id + "/cards", { "token": "e45c5e788623a26c6c08ccf6121c8b6e" });
+
+        //         addCard.then(
+        //             function(cardData) {
+        //                 console.log(cardData);
+        //             },
+        //             function(error) {
+        //                 console.log(error);
+        //             });
+        //     } else {
+
+        //     }
+        // });
     }
 
     // let mp = new MP("2875862101013091", "4BbAf0EeRu8SeiSMXCMts8bS8px2nfKh");

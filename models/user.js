@@ -34,7 +34,9 @@ let userSchema = mongoose.Schema({
         publicationsAvailable: Number,
         expiration: Date
     },
-    billing: {}
+    billing: {
+        mercadopago: String
+    }
 });
 
 /**

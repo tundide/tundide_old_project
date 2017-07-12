@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastyService, ToastyConfig } from 'ng2-toasty';
+import { BillingService } from './billing.service';
+import { Subscription } from 'rxjs';
 declare var $: JQueryStatic;
 declare var Mercadopago;
 
@@ -7,6 +10,14 @@ declare var Mercadopago;
     templateUrl: 'pay.component.html'
 })
 export class PayComponent implements OnInit {
+    busy: Subscription;
+    constructor(
+        private toastyService: ToastyService,
+        private toastyConfig: ToastyConfig,
+        private billingService: BillingService) {
+        this.toastyConfig.theme = 'bootstrap';
+    }
+
     ngOnInit() {
         $.getScript('https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js', () => {
             Mercadopago.setPublishableKey(process.env.publickey.mercadopago);
@@ -26,13 +37,29 @@ export class PayComponent implements OnInit {
 
                     Mercadopago.createToken($form, (status, response) => {
                         if (status !== 200 && status !== 201) {
-                            // TODO: Mandar mensaje lindo con notificaciones
-                            alert('verify filled data');
+                            this.toastyService.error({
+                                msg: 'Los datos de la tarjeta ingresada no son validos',
+                                showClose: true,
+                                theme: 'bootstrap',
+                                timeout: 5000,
+                                title: 'Error en la tarjeta.'
+                            });
                         } else {
-console.log(response);
+                            this.busy = this.billingService.associateCard(response.id).subscribe(
+                                res => {
+                                    this.toastyService.success({
+                                        msg: 'La tarjeta ' + res.data.first_six_digits +
+                                        'XXXXXXXX fue asociada correctamente a la cuenta.',
+                                        showClose: true,
+                                        theme: 'bootstrap',
+                                        timeout: 5000,
+                                        title: 'Asociacion exitosa.'
+                                    });
+                                    // TODO: Redireccionar a algun lado this.router.navigate(['/view', res.data._id]);
+                                }
+                            );
                         }
                     });
-
                     return false;
                 }
             });

@@ -5,6 +5,7 @@ let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let shortid = require('shortid');
 let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
+let mp = require('../../mercadopago');
 
 module.exports = function(passport) {
 
@@ -42,11 +43,27 @@ module.exports = function(passport) {
                         newUser.email = profile.emails[0].value;
                         newUser.name = profile.displayName;
                         newUser.shortId = 'USG-' + shortid.generate();
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
-                        });
+                        mp.createCustomer({
+                            "email": newUser.authentication.username,
+                            "first_name": profile.name.givenName,
+                            "last_name": profile.name.familyName
+                        }).then(
+                            (customerData) => {
+                                if (customerData.status == 201) {
+                                    newUser.billing.mercadopago = customerData.response.id;
+
+                                    newUser.save(function(err) {
+                                        if (err)
+                                            throw err;
+
+
+                                        return done(null, newUser);
+                                    });
+                                }
+                            },
+                            (error) => {
+                                console.log(error);
+                            });
                     }
                 });
             });

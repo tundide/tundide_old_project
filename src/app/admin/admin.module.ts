@@ -16,7 +16,9 @@ import { routing } from './admin.routing';
 import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
 import { ReservationService } from '../publication/reservation.service';
+import { BillingService } from './billing/billing.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BusyModule } from 'angular2-busy';
 
 @NgModule({
     declarations: [AdminComponent,
@@ -30,18 +32,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         PublicationPausedComponent,
         PublicationFavoriteComponent],
     exports: [AdminComponent,
-                SidebarComponent,
-                PublicationActiveComponent,
-                PublicationPausedComponent,
-                PublicationFavoriteComponent],
+        SidebarComponent,
+        PublicationActiveComponent,
+        PublicationPausedComponent,
+        PublicationFavoriteComponent],
     imports: [routing,
         FormsModule,
         RouterModule,
         CommonModule,
         BrowserAnimationsModule,
         DataTableModule,
+        BusyModule,
         SharedModule.forRoot()],
-    providers: [ReservationService]
+    providers: [ReservationService, BillingService]
 })
 
 export class AdminModule {

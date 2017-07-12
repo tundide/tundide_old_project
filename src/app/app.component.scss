@@ -4,6 +4,7 @@
 @import "/node_modules/angular-calendar/dist/css/angular-calendar.css";
 @import "/node_modules/ng2-toasty/style.css";
 @import "/node_modules/ng2-toasty/style-bootstrap.css";
+@import "/node_modules/angular2-busy/build/style/busy.css";
 
 /*** Hack para tener el <a> como link sin tener href ***/
 
@@ -27,7 +28,7 @@ a:not([href]) {
 
 .sticky li {
     list-style-type: none;
-    background-color: $brand-primary;
+    background-color: $gray-dark;
     color: #efefef;
     height: 43px;
     padding: 0px;

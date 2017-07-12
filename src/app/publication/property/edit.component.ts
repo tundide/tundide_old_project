@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { PublicationService } from '../publication.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Property } from './property.model';
 import { MapService } from '../../shared/map.service';
@@ -128,7 +127,6 @@ export class PropertyEditComponent implements OnInit {
         private googleMapsWrapper: GoogleMapsAPIWrapper,
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
-        private publicationService: PublicationService,
         private mapService: MapService,
         private locationService: LocationService,
         private markerManager: MarkerManager) {

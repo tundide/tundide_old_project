@@ -30,7 +30,7 @@ module.exports = function(mongoose) {
         form.keepExtensions = true;
         form.parse(req, function(err, fields, files) {
             if (!err) {
-                let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
+                let conn = mongoose.createConnection(config.database.mongodb.connectionString, config.database.mongodb.config);
                 conn.once('open', function() {
                     let gfs = grid(conn.db, mongoose.mongo);
 
@@ -73,7 +73,7 @@ module.exports = function(mongoose) {
      */
     router.get('/:id', function(req, res) {
 
-        let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
+        let conn = mongoose.createConnection(config.database.mongodb.connectionString, config.database.mongodb.config);
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);
 
@@ -102,7 +102,7 @@ module.exports = function(mongoose) {
      *
      */
     router.delete('/:id', function(req, res) {
-        let conn = mongoose.createConnection(config.database.connectionString, config.database.config);
+        let conn = mongoose.createConnection(config.database.mongodb.connectionString, config.database.mongodb.config);
 
         conn.once('open', function() {
             let gfs = grid(conn.db, mongoose.mongo);

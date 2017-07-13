@@ -1,7 +1,7 @@
 let redis = require('redis');
 let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 
-let client = redis.createClient(config.database.redis);
+let client = redis.createClient(config.database.redis.connectionString);
 
 module.exports = {
     cache: function(req, res, next) {

@@ -13,7 +13,7 @@ let cors = require('cors');
 let User = require('./models/user');
 let config = require('./config/app.json')[process.env.NODE_ENV || 'development'];
 
-mongoose.connect(config.database.connectionString, config.database.config, function(err) {
+mongoose.connect(config.database.mongodb.connectionString, config.database.mongodb.config, function(err) {
     if (err) {
         console.log(err);
     }

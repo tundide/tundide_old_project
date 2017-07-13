@@ -7,7 +7,7 @@ let cache = require('../shared/cache');
 let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let redis = require('redis');
 
-let client = redis.createClient(config.database.redis);
+let client = redis.createClient(config.database.redis.connectionString);
 /**
  * @api {get} /:id Get reviews
  * @apiName getreviews

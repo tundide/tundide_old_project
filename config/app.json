@@ -33,7 +33,8 @@
                 "server": {
                     "sslValidate": true
                 }
-            }
+            },
+            "redis": "redis://h:pe8b3db5bd39075fb62d48e5c2fd47caffe947fcb74e1a8fd4405b73a0b172572@ec2-34-226-55-20.compute-1.amazonaws.com:11399"
         },
         "url": "http://localhost:3000",
         "billing": {
@@ -74,7 +75,8 @@
                 "server": {
                     "sslValidate": true
                 }
-            }
+            },
+            "redis": "redis://h:p78e76562e7f0d844e41d0b73751b22e130bec1914beaed62ef589e374efe99d7@ec2-34-204-146-206.compute-1.amazonaws.com:54479"
         },
         "url": "http://www.tundide.com",
         "billing": {

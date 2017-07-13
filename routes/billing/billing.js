@@ -22,7 +22,7 @@ let mp = new MP(config.billing.accessToken);
  * }
  * 
  */
-router.post('/card/associate/', function(req, res) {
+router.post('/card/associate/', session.authorize, function(req, res) {
     let card = { "token": req.body.cardId };
 
     let addCard = mp.post("/v1/customers/" + req.user.billing.mercadopago + "/cards", card);
@@ -39,6 +39,104 @@ router.post('/card/associate/', function(req, res) {
             );
         });
 
+});
+
+/**
+ * @api {post} / Associate card
+ * @apiName associateCard
+ * @apiDescription Associate card to customer
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "Tarjeta asociada correctamente."
+ * }
+ * 
+ */
+router.get('/card/list', session.authorize, function(req, res) {
+    let searchCards = mp.get("/v1/customers/" + req.user.billing.mercadopago + "/cards");
+
+    searchCards.then(function(cards) {
+            res.status(billingResponse.success.status).json(
+                new Response(billingResponse.success.cardAssociated, cards.response)
+            );
+        },
+        function(error) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, error)
+            );
+        });
+});
+
+/**
+ * @api {delete} / Remove card
+ * @apiName removeCard
+ * @apiDescription Remove card from a customer
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "Tarjeta eliminada correctamente."
+ * }
+ * 
+ */
+router.delete('/card/delete/:cardId', session.authorize, function(req, res) {
+    let deleteCard = mp.delete("/v1/customers/" + req.user.billing.mercadopago + "/cards/" + req.params.cardId);
+
+    deleteCard.then(function() {
+            res.status(billingResponse.success.status).json(
+                new Response(billingResponse.success.cardDeleted)
+            );
+        },
+        function(error) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, error)
+            );
+        });
+});
+
+/**
+ * @api {post} / Create plan
+ * @apiName createPlan
+ * @apiDescription Create plan (Only for Tundide Administrator)
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "El plan se creo correctamente."
+ * }
+ * 
+ */
+router.post('/plan/', session.authorize, function(req, res) {
+    let planData = mp.post("/v1/plans", {
+        "description": "Subscripcion de Plata",
+        "auto_recurring": {
+            "debit_date": 1,
+            "frequency": 1,
+            "frequency_type": "months",
+            "transaction_amount": 49,
+            "currency_id": "ARS",
+            "free_trial": {
+                "frequency": 1,
+                "frequency_type": "months",
+            }
+        }
+    });
+
+    planData.then(
+        function(response) {
+            res.status(billingResponse.created.status).json(
+                new Response(billingResponse.created.planCreated, response.response)
+            );
+        },
+        function() {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, err)
+            );
+        });
 });
 
 module.exports = router;

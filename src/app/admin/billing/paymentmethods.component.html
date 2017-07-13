@@ -1,0 +1,34 @@
+<div [ngBusy]="busy"></div>
+<div class="card">
+    <div class="card-block">
+        <h3 class="card-title">Tarjetas Registradas</h3>
+        <table *ngIf="this.cards" class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Titular</th>
+                    <th>Numero</th>
+                    <th>Vencimiento</th>
+                    <th>Banco</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let card of cards">
+                    <td>
+                        <img [src]="card.payment_method.secure_thumbnail" />
+                    </td>
+                    <td>{{card.cardholder.name}}</td>
+                    <td>{{card.first_six_digits}}XXXXXXXXXX</td>
+                    <td>{{card.expiration_month}}/{{card.expiration_year}}</td>
+                    <td>{{card.issuer.name}}</td>
+                    <td>
+                        <a mwlConfirmationPopover title="Confirmar eliminaci&oacute;n" message="Esta seguro que desea desvincular este medio de pago?" confirmText="Si" cancelText="No" placement="left" (confirm)="deleteCard(card.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -32,4 +32,38 @@ export class BillingService {
                 return Observable.throw(error.json());
             });
     }
+
+    /**
+     * Get customer cards
+     */
+    getCards() {
+        let token = localStorage.getItem('token');
+        const headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
+        return this.http.get(this.host + '/billing/card/list/', { headers: headers })
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
+     * Delete customer card
+     */
+    deleteCard(cardId) {
+        let token = localStorage.getItem('token');
+        const headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
+        return this.http.delete(this.host + '/billing/card/delete/' + cardId, { headers: headers })
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

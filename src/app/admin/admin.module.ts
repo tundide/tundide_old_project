@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { BillingComponent } from './billing/billing.component';
 import { PayComponent } from './billing/pay.component';
+import { PaymentMethodsComponent } from './billing/paymentmethods.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PublicationActiveComponent } from './publication/active.component';
 import { PublicationPausedComponent } from './publication/paused.component';
@@ -19,11 +20,13 @@ import { ReservationService } from '../publication/reservation.service';
 import { BillingService } from './billing/billing.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BusyModule } from 'angular2-busy';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 @NgModule({
     declarations: [AdminComponent,
         BillingComponent,
         PayComponent,
+        PaymentMethodsComponent,
         ProfileComponent,
         SidebarComponent,
         AlertComponent,
@@ -43,7 +46,10 @@ import { BusyModule } from 'angular2-busy';
         BrowserAnimationsModule,
         DataTableModule,
         BusyModule,
-        SharedModule.forRoot()],
+        SharedModule.forRoot(),
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: 'danger'
+        })],
     providers: [ReservationService, BillingService]
 })
 

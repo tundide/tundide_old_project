@@ -79,7 +79,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 2500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" }
+            "default": { "code": 2500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" }
         }
     },
     "publication": {
@@ -116,7 +116,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 3500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 3500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 3501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     },
@@ -212,7 +212,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     },
@@ -254,7 +254,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     },
@@ -292,7 +292,7 @@
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     },
@@ -303,11 +303,22 @@
             "cardAssociated": {
                 "status": "associated",
                 "message": "Tarjeta asociada correctamente."
+            },
+            "cardDeleted": {
+                "status": "deleted",
+                "message": "Tarjeta eliminada correctamente."
+            }
+        },
+        "created": {
+            "status": 201,
+            "planCreated": {
+                "status": "created",
+                "message": "El plan se creo correctamente."
             }
         },
         "internalservererror": {
             "status": 500,
-            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
+            "default": { "code": 4500, "error": "Unespected Error", "message": "Ocurrio un error inesperado" },
             "database": { "code": 4501, "error": "Mongoose error", "message": "Ocurrio un error de conexion con la base de datos" }
         }
     }

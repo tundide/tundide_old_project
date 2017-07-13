@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { AppConfig } from '../app.config';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BusyModule } from 'angular2-busy';
 
 @NgModule({
     declarations: [SearchComponent, ResultComponent],
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         CommonModule,
         SharedModule.forRoot(),
         NgbModule.forRoot(),
+        BusyModule,
         AgmCoreModule.forRoot({
             apiKey: process.env.publickey.maps
         })

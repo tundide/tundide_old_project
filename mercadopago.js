@@ -69,30 +69,6 @@ module.exports = {
     // };
 
     // 46420739-xuekai5qaPVYdD mpanichella@live.com
-    createPlan: function() {
-        let preapprovalData = mp.post("/v1/plans", {
-            "description": "Subscripcion de Plata",
-            "auto_recurring": {
-                "debit_date": 1,
-                "frequency": 1,
-                "frequency_type": "months",
-                "transaction_amount": 49,
-                "currency_id": "ARS",
-                "free_trial": {
-                    "frequency": 1,
-                    "frequency_type": "months",
-                }
-            }
-        });
-
-        preapprovalData.then(
-            function(customerData) {
-                console.log(customerData);
-            },
-            function(error) {
-                console.log(error);
-            });
-    },
     asosciateCustomerWithPlan: function() {
         let customerToPlan = mp.post("/v1/subscriptions", {
             "plan_id": "85cdebd319bb4bf8a2b2f2934bf775d8",
@@ -110,23 +86,8 @@ module.exports = {
             });
 
     },
-    associateCard: function(customerId, cardId) {
-        let card = { "token": cardId };
-
-        let addCard = mp.post("/v1/customers/" + customerId + "/cards", card);
-
-        addCard.then(
-            function(cardData) {
-                console.log(cardData);
-            },
-            function(error) {
-                console.log(error);
-            });
-    },
     createCustomer: function(customer) {
         return mp.post("/v1/customers", customer);
-
-
         // saved_customer = mp.get("/v1/customers/search", customer);
 
         // saved_customer.then(function(customer) {

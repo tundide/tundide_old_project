@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../publication/publication.service';
 import { LocationService } from '../shared/location.service';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 @Component({
@@ -10,6 +11,7 @@ import * as _ from 'lodash';
   templateUrl: 'search.component.html'
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  public busy: Subscription;
   stringBuscado: string;
 
   private lat = 0;
@@ -23,14 +25,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     private publicationService: PublicationService) { }
 
   ngOnInit() {
-    this.locationService.list().subscribe(
+    this.busy = this.locationService.list().subscribe(
       res => {
         this.provinces = res.data;
 
         this.sub = this.route.params.subscribe(params => {
           this.stringBuscado = params['b'];
 
-          this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
+          this.busy = this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
             respub => {
 
               this.publications = new Array();

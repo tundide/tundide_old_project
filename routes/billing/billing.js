@@ -2,10 +2,12 @@ let express = require('express');
 let mongoose = require('mongoose');
 let router = express.Router();
 let Paid = require('../../models/paid');
+let Suscription = require('../../models/suscription');
 let session = require('../auth/session');
 let billingResponse = require('../../config/response').billing;
 let Response = require('../shared/response.js');
 let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
+let _ = require('lodash');
 let MP = require("mercadopago");
 let mp = new MP(config.billing.accessToken);
 
@@ -23,7 +25,9 @@ let mp = new MP(config.billing.accessToken);
  * 
  */
 router.post('/card/associate/', session.authorize, function(req, res) {
-    let card = { "token": req.body.cardId };
+    let card = {
+        "token": req.body.cardId
+    };
 
     let addCard = mp.post("/v1/customers/" + req.user.billing.mercadopago + "/cards", card);
 
@@ -98,20 +102,20 @@ router.delete('/card/delete/:cardId', session.authorize, function(req, res) {
 });
 
 /**
- * @api {post} / Create plan
- * @apiName createPlan
- * @apiDescription Create plan (Only for Tundide Administrator)
+ * @api {post} / Create suscription
+ * @apiName createSuscription
+ * @apiDescription Create suscription (Only for Tundide Administrator)
  * @apiGroup Billing
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "El plan se creo correctamente."
+ * 	"message": "La suscripcion se creo correctamente."
  * }
  * 
  */
-router.post('/plan/', session.authorize, function(req, res) {
-    let planData = mp.post("/v1/plans", {
+router.post('/suscription/', session.authorize, function(req, res) {
+    let suscriptionData = mp.post("/v1/plans", {
         "description": "Subscripcion de Plata",
         "auto_recurring": {
             "debit_date": 1,
@@ -126,10 +130,14 @@ router.post('/plan/', session.authorize, function(req, res) {
         }
     });
 
-    planData.then(
+    suscriptionData.then(
         function(response) {
+            let suscription = new Suscription();
+            suscription.id = response.response.id;
+            suscription.description = response.response.description;
+            suscription.save();
             res.status(billingResponse.created.status).json(
-                new Response(billingResponse.created.planCreated, response.response)
+                new Response(billingResponse.created.suscriptionCreated, response.response)
             );
         },
         function() {
@@ -139,4 +147,114 @@ router.post('/plan/', session.authorize, function(req, res) {
         });
 });
 
+/**
+ * @api {get} / Get suscription
+ * @apiName getSuscription
+ * @apiDescription Get suscription (Only for Tundide Administrator)
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "Suscripcion recuperada correctamente."
+ * }
+ * 
+ */
+router.get('/suscription/:id', session.authorize, function(req, res) {
+    let suscriptionData = mp.get("/v1/plans/" + req.params.id);
+
+    suscriptionData.then(
+        function(response) {
+            res.status(billingResponse.created.status).json(
+                new Response(billingResponse.success.suscriptionRetrieved, response.response)
+            );
+        },
+        function(err) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, err)
+            );
+        });
+});
+
+
+/**
+ * @api {put} / Update suscription
+ * @apiName updateSuscription
+ * @apiDescription Update suscription (Only for Tundide Administrator)
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "La suscripcion se actualizo correctamente."
+ * }
+ * 
+ */
+router.put('/suscription/:id', function(req, res) {
+    let suscriptionData = mp.put("/v1/plans/" + req.params.id, {
+        "description": "Subscripciones de Plata",
+        "auto_recurring": {
+            "transaction_amount": 70
+        }
+    });
+
+    suscriptionData.then(
+        function(response) {
+            res.status(billingResponse.success.status).json(
+                new Response(billingResponse.success.suscriptionUpdated, response.response)
+            );
+        },
+        function(err) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, err)
+            );
+        });
+});
+
+
+/**
+ * @api {get} / Get all suscriptions
+ * @apiName getAllSuscription
+ * @apiDescription Get All suscriptions (Only for Tundide Administrator)
+ * @apiGroup Billing
+ * 
+ * @apiSuccess {Object} Success Message.
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ * 	"message": "La suscripcion se creo correctamente."
+ * }
+ * 
+ */
+router.get('/suscription', session.authorize, function(req, res) {
+    Suscription.find({}, function(err, suscriptions) {
+        if (err) {
+            res.status(billingResponse.internalservererror.status).json(
+                new Response(billingResponse.internalservererror.default, err)
+            );
+        } else {
+            let all = new Array;
+            let finished = _.after(suscriptions.length, () => {
+                res.status(billingResponse.created.status).json(
+                    new Response(billingResponse.success.suscriptionRetrieved, all)
+                );
+            });
+
+            _.forEach(suscriptions, function(suscription) {
+                let suscriptionData = mp.get("/v1/plans/" + suscription.id);
+
+                suscriptionData.then(
+                    function(response) {
+                        all.push(response.response);
+                        finished();
+                    },
+                    function(err) {
+                        res.status(billingResponse.internalservererror.status).json(
+                            new Response(billingResponse.internalservererror.default, err)
+                        );
+                    });
+            });
+
+        }
+    });
+});
 module.exports = router;

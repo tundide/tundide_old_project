@@ -9,9 +9,7 @@ module.exports = {
             if (err) throw err;
 
             if (data != null) {
-                // TODO: Verificar que funciona bien el cache sin retornar el body nuevamente
-                //return res.status(304).json({ data: JSON.parse(data) })
-                return res.status(304).send();
+                return res.status(304).json({ data: JSON.parse(data) });
             } else {
                 next();
             }

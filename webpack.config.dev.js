@@ -2,7 +2,7 @@ const webpack = require('webpack');
 let webpackMerge = require('webpack-merge');
 let commonConfig = require('./webpack.config.common.js');
 let LiveReloadPlugin = require('webpack-livereload-plugin');
-console.log(process.env.NODE_ENV);
+
 module.exports = webpackMerge(commonConfig, {
     devtool: 'source-map',
 

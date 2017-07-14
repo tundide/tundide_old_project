@@ -307,13 +307,21 @@
             "cardDeleted": {
                 "status": "deleted",
                 "message": "Tarjeta eliminada correctamente."
+            },
+            "suscriptionRetrieved": {
+                "status": "accepted",
+                "message": "Suscripcion recuperada correctamente."
+            },
+            "suscriptionUpdated": {
+                "status": "updated",
+                "message": "La suscripcion se actualizo correctamente."
             }
         },
         "created": {
             "status": 201,
-            "planCreated": {
+            "suscriptionCreated": {
                 "status": "created",
-                "message": "El plan se creo correctamente."
+                "message": "La suscripcion se creo correctamente."
             }
         },
         "internalservererror": {

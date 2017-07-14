@@ -8,7 +8,7 @@
     "main": "gulpfile.js",
     "scripts": {
         "start": "node ./bin/www",
-        "build": "del-cli public/js/app  && webpack --config webpack.config.dev.js --progress --profile --watch",
+        "build": "del-cli public/js/app  && SET NODE_ENV=development && webpack --config webpack.config.dev.js --progress --profile --watch",
         "postinstall": "npm install --global del-cli && del-cli public/js/app  && webpack --config webpack.config.prod.js --progress --profile"
     },
     "dependencies": {

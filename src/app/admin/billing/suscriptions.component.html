@@ -1,0 +1,29 @@
+<div [ngBusy]="busy"></div>
+<div class="card">
+    <div class="card-block">
+        <h3 class="card-title">Suscripciones</h3>
+        <table *ngIf="this.suscriptions" class="table">
+            <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Estado</th>
+                    <th>Monto</th>
+                    <th>Frequencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let suscription of suscriptions">
+                    <td>{{suscription.description}}</td>
+                    <td>{{suscription.status}}</td>
+                    <td>{{suscription.auto_recurring.transaction_amount}}</td>
+                    <td>{{suscription.auto_recurring.frequency}} {{suscription.auto_recurring.frequency_type}}</td>
+                    <td>
+                        <a mwlConfirmationPopover title="Confirmar eliminaci&oacute;n" message="Esta seguro que desea desvincular este medio de pago?" confirmText="Si" cancelText="No" placement="left" (confirm)="deleteCard(card.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

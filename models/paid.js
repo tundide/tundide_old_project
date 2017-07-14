@@ -10,7 +10,7 @@ let paidSchema = mongoose.Schema({
  *
  * @class Paid
  * @memberof module:Billing
- * @property {String}       id             - Score of the publication
- * @property {String}       topic          - Identifica de qué se trata. Puede ser:
+ * @property {String}       id             - id of pay
+ * @property {String}       topic          - Identifica de qué se trata. Puede ser: // TODO: Completar que es este parametro
  */
 module.exports = mongoose.model('Paid', paidSchema);

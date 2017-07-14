@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BillingComponent } from './billing/billing.component';
 import { PayComponent } from './billing/pay.component';
 import { PaymentMethodsComponent } from './billing/paymentmethods.component';
+import { SuscriptionsComponent } from './billing/suscriptions.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AlertComponent } from './settings/alert.component';
 import { ScheduleComponent } from './settings/schedule.component';
@@ -29,6 +30,11 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 component: PaymentMethodsComponent,
                 path: 'paymentmethods'
+            },
+            {
+                canActivate: [AuthGuard],
+                component: SuscriptionsComponent,
+                path: 'suscriptions'
             },
             {
                 canActivate: [AuthGuard],

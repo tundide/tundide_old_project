@@ -4,41 +4,41 @@
  */
 // TODO: Armar los jobs
 
-let CronJob = require('cron').CronJob;
+// let CronJob = require('cron').CronJob;
 
-let jobSendMailPendingToQualify = new CronJob('5 * * * * *', function() {
-    console.log('Se enviaron 10 emails para calificar publicacion');
-}, null, true);
+// let jobSendMailPendingToQualify = new CronJob('5 * * * * *', function() {
+//     console.log('Se enviaron 10 emails para calificar publicacion');
+// }, null, true);
 
-jobSendMailPendingToQualify.start();
+// jobSendMailPendingToQualify.start();
 
 
-let jobLockExpiredUser = new CronJob('5 * * * * *', function() {
-    console.log('Se bloquearon 10 usuarios vencidos');
-}, null, true);
+// let jobLockExpiredUser = new CronJob('5 * * * * *', function() {
+//     console.log('Se bloquearon 10 usuarios vencidos');
+// }, null, true);
 
-jobLockExpiredUser.start();
+// jobLockExpiredUser.start();
 
-let jobRemoveUnusedUsers = new CronJob('5 * * * * *', function() {
-    console.log('Se eliminaron 10 usuarios sin uso');
-}, null, true);
+// let jobRemoveUnusedUsers = new CronJob('5 * * * * *', function() {
+//     console.log('Se eliminaron 10 usuarios sin uso');
+// }, null, true);
 
-jobRemoveUnusedUsers.start();
+// jobRemoveUnusedUsers.start();
 
-let jobDeleteExpiredPublications = new CronJob('5 * * * * *', function() {
-    console.log('Se eliminar 5 publicaciones vencidas');
-}, null, true);
+// let jobDeleteExpiredPublications = new CronJob('5 * * * * *', function() {
+//     console.log('Se eliminar 5 publicaciones vencidas');
+// }, null, true);
 
-jobDeleteExpiredPublications.start();
+// jobDeleteExpiredPublications.start();
 
-let jobCalculateUserScore = new CronJob('5 * * * * *', function() {
-    console.log('Se calcularon los scores de los usuarios');
-}, null, true);
+// let jobCalculateUserScore = new CronJob('5 * * * * *', function() {
+//     console.log('Se calcularon los scores de los usuarios');
+// }, null, true);
 
-jobCalculateUserScore.start();
+// jobCalculateUserScore.start();
 
-let jobCalculatePublicationScore = new CronJob('5 * * * * *', function() {
-    console.log('Se calcularon los scores de las publicaciones');
-}, null, true);
+// let jobCalculatePublicationScore = new CronJob('5 * * * * *', function() {
+//     console.log('Se calcularon los scores de las publicaciones');
+// }, null, true);
 
-jobCalculatePublicationScore.start();
+// jobCalculatePublicationScore.start();

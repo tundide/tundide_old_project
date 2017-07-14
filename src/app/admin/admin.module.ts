@@ -6,6 +6,7 @@ import { AdminComponent } from './admin.component';
 import { BillingComponent } from './billing/billing.component';
 import { PayComponent } from './billing/pay.component';
 import { PaymentMethodsComponent } from './billing/paymentmethods.component';
+import { SuscriptionsComponent } from './billing/suscriptions.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PublicationActiveComponent } from './publication/active.component';
 import { PublicationPausedComponent } from './publication/paused.component';
@@ -27,6 +28,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
         BillingComponent,
         PayComponent,
         PaymentMethodsComponent,
+        SuscriptionsComponent,
         ProfileComponent,
         SidebarComponent,
         AlertComponent,

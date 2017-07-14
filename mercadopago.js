@@ -3,12 +3,10 @@ let MP = require("mercadopago");
 let mp = new MP(config.billing.accessToken);
 
 
+let suscriptions = mp.get("/v1/subscriptions/search");
 
-saved_customer = mp.get("/v1/customers/search", {
-    "email": "marcos.panichella@gmail.com"
-});
-
-saved_customer.then(function(customer) {
+suscriptions.then(function(customer) {
+    console.log(cusrtomer);
     if (customer.response.results.length > 0) {
         let card = { "token": "e45c5e788623a26c6c08ccf6121c8b6e" };
 
@@ -24,7 +22,35 @@ saved_customer.then(function(customer) {
     } else {
 
     }
+}, function(err) {
+    let asd = err;
 });
+
+
+
+
+
+// saved_customer = mp.get("/v1/customers/search", {
+//     "email": "marcos.panichella@gmail.com"
+// });
+
+// saved_customer.then(function(customer) {
+//     if (customer.response.results.length > 0) {
+//         let card = { "token": "e45c5e788623a26c6c08ccf6121c8b6e" };
+
+//         let addCard = mp.post("/v1/customers/" + customer.response.results[0].id + "/cards", card);
+
+//         addCard.then(
+//             function(cardData) {
+//                 console.log(cardData);
+//             },
+//             function(error) {
+//                 console.log(error);
+//             });
+//     } else {
+
+//     }
+// });
 
 
 

@@ -9,6 +9,8 @@ import { Property } from './property/property.model';
 import { Service } from './service/service.model';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+declare var $: JQueryStatic;
+declare var CKEDITOR;
 
 @Component({
   selector: 'publication',
@@ -42,6 +44,7 @@ export class PublicationNewComponent implements OnInit {
   }
 
   ngOnInit() {
+    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
     this.loadValidators();
   }
 

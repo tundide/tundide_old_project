@@ -9,6 +9,7 @@ export const routes: Routes = [
         //     user: UserResolver
         // }
     },
+    { path: 'auth', loadChildren: './auth/auth.module#AuthModule' },
     { path: 'publication', loadChildren: './publication/publication.module#PublicationModule' },
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'price', loadChildren: './price/price.module#PriceModule' },

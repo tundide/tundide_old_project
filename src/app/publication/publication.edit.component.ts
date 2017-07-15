@@ -1,4 +1,4 @@
-import { Component, OnInit,  OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PublicationService } from './publication.service';
@@ -25,24 +25,26 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     private location: Location,
     private modalService: NgbModal,
     private publicationService: PublicationService) {
-      // Si cambia algo de la publicacion tengo que actualizar el modelo local
-    }
+    // Si cambia algo de la publicacion tengo que actualizar el modelo local
+  }
 
   publicationChange(event) {
-        this.publicationService.saveToStorage(this.publication);
-        this.changeDetected = true;
+    this.publicationService.saveToStorage(this.publication);
+    this.changeDetected = true;
   }
 
   ngOnInit() {
     window.scrollTo(0, 0);
+    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
 
     this.sub = this.route.params.subscribe(params => {
+
       this.publicationService.getFromDatabase(params['id']).subscribe(
-              res => {
-                this.whatType = res.data._type;
-                this.publication = res.data;
-              }
-          );
+        res => {
+          this.whatType = res.data._type;
+          this.publication = res.data;
+        }
+      );
     });
   }
 
@@ -53,12 +55,12 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     let publication = this.publicationService.getFromStorage();
 
     this.publicationService.updateToDatabase(publication).subscribe(
-                  res => {
-                    this.publicationService.deleteInStorage();
+      res => {
+        this.publicationService.deleteInStorage();
 
-                    this.router.navigate(['/view', res.data._id]);
-                  }
-              );
+        this.router.navigate(['/view', res.data._id]);
+      }
+    );
   }
 
   ngOnDestroy() {

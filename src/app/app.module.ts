@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
-import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { UserResolver } from './auth/user.resolver';
 import { SocketService } from './shared/socket.service';
@@ -19,7 +18,6 @@ import { APP_CONFIG, AppConfig } from './app.config';
     imports: [BrowserModule,
         BrowserAnimationsModule,
         routing,
-        AuthModule,
         MainModule,
         NgbModule.forRoot(),
         ToastyModule.forRoot()

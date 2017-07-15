@@ -20,6 +20,10 @@ import { DataTableModule } from 'angular2-datatable';
 import { ReservationService } from '../publication/reservation.service';
 import { BillingService } from './billing/billing.service';
 import { FavoriteService } from '../publication/favorite.service';
+import { ErrorService } from '../errors/error.service';
+import { SocketService } from '../shared/socket.service';
+import { PublicationService } from '../publication/publication.service';
+import { AuthGuard } from '../auth/auth-guard.service';
 import { BusyModule } from 'angular2-busy';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
@@ -51,7 +55,13 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger'
         })],
-    providers: [ReservationService, BillingService, FavoriteService]
+    providers: [AuthGuard,
+        PublicationService,
+        ReservationService,
+        BillingService,
+        FavoriteService,
+        ErrorService,
+        SocketService]
 })
 
 export class AdminModule {

@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private lon = 0;
   private sub: any;
   private provinces = [];
-  private publications: Array<any>;
+  private publications = [];
 
   constructor(private route: ActivatedRoute,
     private locationService: LocationService,
@@ -26,39 +26,16 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.busy = this.locationService.list().subscribe(
-      res => {
-        this.provinces = res.data;
-
-        this.sub = this.route.params.subscribe(params => {
-          this.stringBuscado = params['b'];
-          this.busy = this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
-            respub => {
-
-              this.publications = new Array();
-              if (respub.status !== 204) {
-                _.forEach(respub.body.data, (publication, key) => {
-                  if (publication.location.province && publication.location.place) {
-                    let prov = _.find(this.provinces, (o: any) => {
-                      return o.code === publication.location.province;
-                    });
-                    if (prov) {
-                      let place = _.find(prov.locations, (o: any) => {
-                        return o.code === publication.location.place;
-                      });
-
-                      publication.location.provinceDescription = prov.description;
-                      publication.location.placeDescription = place.description;
-                      this.publications.push(publication);
-                    }
-                  }
-                });
-              }
-            }
-          );
-        });
-      }
-    );
+    this.sub = this.route.params.subscribe(params => {
+      this.stringBuscado = params['b'];
+      this.busy = this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
+        res => {
+          if (res.body) {
+            this.publications = res.body.data;
+          }
+        }
+      );
+    });
 
     navigator.geolocation.getCurrentPosition((e) => {
       this.lat = e.coords.latitude;

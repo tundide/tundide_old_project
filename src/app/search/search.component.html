@@ -12,7 +12,7 @@
                                         <a href="#">
                                             <div style="width:180px;float:left">
                                                 <h1 style="font-size:18px;">{{ pub.title }}</h1>
-                                                <span class="address" style="width:50px">{{ pub.location.street }} {{ pub.location.number }}, {{ pub.location.placeDescription | camelCase }}, {{ pub.location.provinceDescription | camelCase }}</span>
+                                                <span class="address" style="width:50px">{{ pub.location.street }} {{ pub.location.number }}, {{ pub.location.placeDescription }}, {{ pub.location.provinceDescription }}</span>
                                             </div>
                                             <div style="width:50px; float:left">
                                                 <span class="list-cover has-image" [ngStyle]="{'background-image': 'url(/files/' + pub.images[0] + ')'}"></span>

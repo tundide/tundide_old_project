@@ -4,12 +4,14 @@ let router = express.Router();
 let Publication = require('../../models/publication');
 let Property = require('../../models/property');
 let Service = require('../../models/service');
+let Province = require('../../models/province');
 let extend = require('util')._extend;
 let shortid = require('shortid');
 let session = require('../auth/session');
 let publicationResponse = require('../../config/response').publication;
 let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
+let _ = require('lodash');
 
 // TODO:Completar ejemplos
 /**
@@ -174,9 +176,25 @@ router.get('/find/:value', function(req, res) {
             );
         };
         if (publications.length > 0) {
-            return res.status(publicationResponse.success.status).json(
-                new Response(publicationResponse.success.retrievedSuccessfully, publications)
-            );
+            let finished = _.after(publications.length, (publications) => {
+                return res.status(publicationResponse.success.status).json(
+                    new Response(publicationResponse.success.retrievedSuccessfully, publications)
+                );
+            });
+
+            _.forEach(publications, (publication, key) => {
+                Province.findOne({ "code": publication.location.province }, function(err, prov) {
+                    publication._doc.location.provinceDescription = prov.description;
+
+                    let place = _.find(prov.locations, (o) => {
+                        return o.code === publication.location.place;
+                    });
+
+                    publication._doc.location.placeDescription = place.description;
+
+                    finished(publications);
+                });
+            });
         } else {
             return res.status(publicationResponse.successnocontent.status).json(
                 new Response(publicationResponse.successnocontent.publicationNotExist)

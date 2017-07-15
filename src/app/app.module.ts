@@ -10,7 +10,6 @@ import { UserResolver } from './auth/user.resolver';
 import { SocketService } from './shared/socket.service';
 import { ErrorService } from './errors/error.service';
 import { BudgetModule } from './budget/budget.module';
-import { SearchModule } from './search/search.module';
 import { MainModule } from './main/main.module';
 import { MessageModule } from './message/message.module';
 import { ToastyModule } from 'ng2-toasty';
@@ -24,7 +23,6 @@ import { APP_CONFIG, AppConfig } from './app.config';
         routing,
         AuthModule,
         BudgetModule,
-        SearchModule,
         MainModule,
         MessageModule,
         NgbModule.forRoot(),

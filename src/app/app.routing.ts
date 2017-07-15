@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './main/home/home.component';
-import { SearchComponent } from './search/search.component';
 // import { UserResolver } from './auth/user.resolver';
 
 export const routes: Routes = [
@@ -13,7 +12,7 @@ export const routes: Routes = [
     { path: 'publication', loadChildren: './publication/publication.module#PublicationModule' },
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'price', loadChildren: './price/price.module#PriceModule' },
-    { component: SearchComponent, path: 'search' }
+    { path: 'search', loadChildren: './search/search.module#SearchModule' }
 ];
 
 export const routing = RouterModule.forRoot(routes, { useHash: true });

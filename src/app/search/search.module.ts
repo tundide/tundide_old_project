@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { routing } from './search.routing';
 import { SearchComponent } from './search.component';
 import { ResultComponent } from './result.component';
 import { SharedModule } from '../shared/shared.module';
@@ -16,7 +17,8 @@ import { BusyModule } from 'angular2-busy';
 @NgModule({
     declarations: [SearchComponent, ResultComponent],
     exports: [SearchComponent],
-    imports: [FormsModule,
+    imports: [routing,
+        FormsModule,
         RouterModule,
         CommonModule,
         SharedModule.forRoot(),

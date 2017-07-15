@@ -25,19 +25,15 @@ export class SearchComponent implements OnInit, OnDestroy {
     private publicationService: PublicationService) { }
 
   ngOnInit() {
-    console.log('aa');
 
     this.busy = this.locationService.list().subscribe(
       res => {
         this.provinces = res.data;
-        console.log('d');
 
         this.sub = this.route.params.subscribe(params => {
           this.stringBuscado = params['b'];
-          console.log('a');
           this.busy = this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
             respub => {
-              console.log('b');
 
               this.publications = new Array();
               if (respub.status !== 204) {

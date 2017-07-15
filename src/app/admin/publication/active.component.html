@@ -23,7 +23,7 @@
                         <td>{{pub.shortId}}</td>
                         <td>{{pub.title}}</td>
                         <td>
-                            <button class="btn btn-primary" [routerLink]="['/edit',pub._id]" type="button">
+                            <button class="btn btn-primary" [routerLink]="['/publication/edit',pub._id]" type="button">
                                 <span class="fa fa-pencil-square-o"></span>
                             </button>
                             <button class="btn btn-primary" (click)="pause(pub._id)" type="button">

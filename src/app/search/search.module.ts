@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { ResultComponent } from './result.component';
 import { SharedModule } from '../shared/shared.module';
+import { PublicationService } from '../publication/publication.service';
+import { ReviewService } from '../publication/review.service';
+import { LocationService } from '../shared/location.service';
 import { AgmCoreModule } from '@agm/core';
 import { AppConfig } from '../app.config';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,6 +25,11 @@ import { BusyModule } from 'angular2-busy';
         AgmCoreModule.forRoot({
             apiKey: process.env.publickey.maps
         })
+    ],
+    providers: [
+        LocationService,
+        PublicationService,
+        ReviewService
     ]
 })
 

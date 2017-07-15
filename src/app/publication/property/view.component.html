@@ -34,7 +34,7 @@
                         <span *ngIf="!favorite && user" class="fa fa-heart-o"></span>
                         <span *ngIf="favorite && user" class="fa fa-heart"></span>
                     </button>
-                        <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
+                        <button class="btn btn-primary" *ngIf="myPublication" [routerLink]="['/publication/edit',property._id]" type="button"><span class="fa fa-pencil-square-o"></span>
                     </button>
                         <button *ngIf="!myPublication" class="btn btn-warning" type="button"><span class="fa fa-times"></span> Denunciar</button>
                         <button *ngIf="user&& !myPublication" (click)="onContactAdvertiser()" class="btn btn-success" title="Escribile al due&ntilde;o" type="button"><span class="fa fa-share"></span>

@@ -6,7 +6,9 @@ let client = redis.createClient(config.database.redis.connectionString);
 module.exports = {
     cache: function(req, res, next) {
         client.get(req.baseUrl, function(err, data) {
-            if (err) throw err;
+            if (err) {
+                next();
+            }
 
             if (data != null) {
                 return res.status(200).json({ data: JSON.parse(data) });

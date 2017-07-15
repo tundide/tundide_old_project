@@ -8,7 +8,7 @@ const routes: Routes = [
     {
         canActivate: [AuthGuard],
         component: PublicationNewComponent,
-        path: 'publication'
+        path: ''
     },
     {
         component: PublicationViewComponent,

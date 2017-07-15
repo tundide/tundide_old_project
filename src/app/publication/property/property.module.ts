@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PropertyEditComponent } from './edit.component';
 import { PropertyViewComponent } from './view.component';
 import { ReviewViewComponent } from '../review.view.component';
@@ -21,7 +20,6 @@ import { UiSwitchModule } from 'ng2-ui-switch';
         ReactiveFormsModule,
         RouterModule,
         CommonModule,
-        BrowserAnimationsModule,
         CKEditorModule,
         SharedModule.forRoot(),
         NgbModule.forRoot(),

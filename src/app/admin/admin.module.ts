@@ -19,7 +19,6 @@ import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
 import { ReservationService } from '../publication/reservation.service';
 import { BillingService } from './billing/billing.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BusyModule } from 'angular2-busy';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
@@ -45,7 +44,6 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
         FormsModule,
         RouterModule,
         CommonModule,
-        BrowserAnimationsModule,
         DataTableModule,
         BusyModule,
         SharedModule.forRoot(),

@@ -9,7 +9,7 @@ module.exports = {
             if (err) throw err;
 
             if (data != null) {
-                return res.status(304).json({ data: JSON.parse(data) });
+                return res.status(200).json({ data: JSON.parse(data) });
             } else {
                 next();
             }

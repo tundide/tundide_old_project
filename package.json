@@ -100,13 +100,14 @@
         "tslint-loader": "^3.5.2",
         "typescript": "2.4.1",
         "typings": "^2.1.1",
-        "zone.js": "^0.8.13"
+        "zone.js": "^0.8.12"
     },
     "devDependencies": {
         "@compodoc/gulp-compodoc": "0.0.7",
         "@types/core-js": "^0.9.42",
         "@types/jquery": "^3.2.7",
         "@types/node": "^8.0.11",
+        "angular-router-loader": "^0.6.0",
         "angular2-router-loader": "^0.3.5",
         "angular2-template-loader": "^0.6.2",
         "awesome-typescript-loader": "^3.2.1",

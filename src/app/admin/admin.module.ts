@@ -19,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
 import { ReservationService } from '../publication/reservation.service';
 import { BillingService } from './billing/billing.service';
+import { FavoriteService } from '../publication/favorite.service';
 import { BusyModule } from 'angular2-busy';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
@@ -50,7 +51,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger'
         })],
-    providers: [ReservationService, BillingService]
+    providers: [ReservationService, BillingService, FavoriteService]
 })
 
 export class AdminModule {

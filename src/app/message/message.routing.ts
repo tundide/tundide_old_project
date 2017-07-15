@@ -6,7 +6,7 @@ const routes: Routes = [
     {
         canActivate: [AuthGuard],
         component: MessageComponent,
-        path: 'message'
+        path: ''
     }
 ];
 

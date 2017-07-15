@@ -12,6 +12,8 @@ export const routes: Routes = [
     { path: 'publication', loadChildren: './publication/publication.module#PublicationModule' },
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'price', loadChildren: './price/price.module#PriceModule' },
+    { path: 'budget', loadChildren: './budget/budget.module#BudgetModule' },
+    { path: 'message', loadChildren: './message/message.module#MessageModule' },
     { path: 'search', loadChildren: './search/search.module#SearchModule' }
 ];
 

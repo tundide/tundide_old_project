@@ -43,15 +43,19 @@
                     </button>
                         <ul aria-labelledby="single-button" class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+                                <a class="dropdown-item" ceiboShare [facebook]="{u: publicationUrl + property._id}"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-twitter"></i> Twitter</a> </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
+                                <a class="dropdown-item" ceiboShare [twitter]="{url:publicationUrl + property._id, text:'Mira esta publicacion', hashtags:'angular2, social, ceiboIT'}"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:;"><i class="fa fa-fw fa-instagram"></i> Instagram</a>
+                                <a class="dropdown-item" ceiboShare [linkedIn]="{url:publicationUrl  + property._id}"><i class="fa fa-fw fa-linkedin"></i> Linkedin</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" ceiboShare [pinterest]="{url:publicationUrl + property._id, media: imageUrl, description:'property.title'}"><i class="fa fa-fw fa-pinterest"></i> Pinterest</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" ceiboShare [googlePlus]="{u: publicationUrl + property._id}"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
                             </li>
                         </ul>
                     </div>

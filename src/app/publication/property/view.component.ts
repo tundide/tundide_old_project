@@ -8,6 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 import { AdvertiserService } from '../../advertiser/advertiser.service';
 import { FavoriteService } from '../favorite.service';
 import { Property } from './property.model';
+import { CeiboShare } from 'ng2-social-share';
 import * as _ from 'lodash';
 
 @Component({
@@ -16,6 +17,8 @@ import * as _ from 'lodash';
   templateUrl: 'view.component.html'
 })
 export class PropertyViewComponent implements OnInit {
+  public publicationUrl: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
+  + '/#/publication/view/';
 
   @Input()
   public favorite: Boolean = false;
@@ -46,7 +49,6 @@ export class PropertyViewComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-
     if (this.user) {
       this.myPublication = (this.user.id === this.property.user);
     }

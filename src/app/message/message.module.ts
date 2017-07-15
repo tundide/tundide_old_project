@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { MessageComponent } from './message.component';
 import { HttpModule } from '@angular/http';
 import { SocketService } from '../shared/socket.service';
+import { ErrorService } from '../errors/error.service';
+import { AuthService } from '../auth/auth.service';
+import { MessageService } from '../message/message.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -21,7 +24,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [SocketService]
+    providers: [SocketService,
+        ErrorService,
+        AuthService,
+        MessageService]
 })
 
-export class MessageModule {}
+export class MessageModule { }

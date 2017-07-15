@@ -12,9 +12,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule, MarkerManager, GoogleMapsAPIWrapper } from '@agm/core';
 import { UiSwitchModule } from 'ng2-ui-switch';
+import { CeiboShare } from 'ng2-social-share';
 
 @NgModule({
-    declarations: [PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
+    declarations: [CeiboShare, PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
     exports: [PropertyEditComponent, PropertyViewComponent, ReviewViewComponent, ReviewNewComponent],
     imports: [FormsModule,
         ReactiveFormsModule,

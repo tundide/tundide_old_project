@@ -14,8 +14,6 @@ module.exports = function(server) {
     });
 
     io.sockets.on('connection', function(socket) {
-        console.log('Un cliente se ha conectado');
-
         socket.on('sendMessage', (data) => {
             if (data.message === '') {
                 io.to(socket.id).emit(`sendMessageResponse`, `El mensaje no puede estar vacio`);

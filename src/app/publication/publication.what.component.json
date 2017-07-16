@@ -1,0 +1,17 @@
+[{
+    "image": "/images/property.jpg",
+    "title": "Inmuebles",
+    "type": "Property"
+}, {
+    "image": "/images/service.jpg",
+    "title": "Servicios",
+    "type": "Service"
+}, {
+    "image": "/images/entreteinment.jpg",
+    "title": "Entretenimiento",
+    "type": "Entreteinment"
+}, {
+    "image": "/images/others.jpg",
+    "title": "Otros",
+    "type": "Others"
+}]

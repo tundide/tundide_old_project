@@ -1,50 +1,26 @@
+<!-- Inmueble
+<p class="detail">Oficina</p>
+<p class="detail">Consultorio</p>
+<p class="detail">Salon de Fiesta</p>
+<p class="detail">Salas de Reunion</p> -->
+<!-- Servicios
+<p class="detail">Maestra particular</p>
+<p class="detail">Programador</p> -->
+<!-- Entretenimiento
+<p class="detail">Metegol</p>
+<p class="detail">Inflables</p> -->
+<!-- Otros
+<p class="detail">Indumentaria</p>
+<p class="detail">Herramientas</p>
+<p class="detail">Vehiculos</p> -->
 <div class="row" data-toggle="buttons">
-    <div class="col-md-3">
-        <main class="cardType btn btn-default active" (click)="onTypeClick('Property')">
+    <div *ngFor="let pub of publicationTypes" class="col-md-3">
+        <main class="cardType btn btn-default" (click)="onTypeClick(pub.type)">
             <input type="radio" name="rent">
-            <h2>Inmuebles</h2>
+            <h2>{{ pub.title }}</h2>
             <div class="img-wrapper">
-                <img src="/images/property.jpg" alt="Propiedades">
+                <img class="rounded-circle" [src]="pub.image" [alt]="pub.title">
             </div>
-            <p class="detail">Oficina</p>
-            <p class="detail">Consultorio</p>
-            <p class="detail">Salon de Fiesta</p>
-            <p class="detail">Salas de Reunion</p>
-
-        </main>
-    </div>
-    <div class="col-md-3">
-        <main class="cardType btn btn-default" (click)="onTypeClick('Service')">
-            <input type="radio" name="rent">
-            <h3>Servicios</h3>
-            <div class="img-wrapper">
-                <img src="/images/service.jpg" alt="Servicios">
-            </div>
-            <p class="detail">Maestra particular</p>
-            <p class="detail">Programador</p>
-        </main>
-    </div>
-    <div class="col-md-3">
-        <main class="cardType btn btn-default" (click)="onTypeClick('Entreteniment')">
-            <input type="radio" name="rent">
-            <h4>Etretenimiento</h4>
-            <div class="img-wrapper">
-                <img src="/images/entreteinment.jpg" alt="Entretenimiento">
-            </div>
-            <p class="detail">Metegol</p>
-            <p class="detail">Inflables</p>
-        </main>
-    </div>
-    <div class="col-md-3">
-        <main class="cardType btn btn-default" (click)="onTypeClick('Others')">
-            <input type="radio" name="rent">
-            <h5>Otros</h5>
-            <div class="img-wrapper">
-                <img src="/images/others.jpg" alt="Otros">
-            </div>
-            <p class="detail">Indumentaria</p>
-            <p class="detail">Herramientas</p>
-            <p class="detail">Vehiculos</p>
         </main>
     </div>
 </div>

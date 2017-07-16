@@ -169,37 +169,38 @@ router.get('/find/:value', function(req, res) {
             { "status": 1 }
         ]
 
-    }, function(err, publications) {
-        if (err) {
-            return res.status(publicationResponse.internalservererror.status).json(
-                new Response(publicationResponse.internalservererror.database, err)
-            );
-        };
-        if (publications.length > 0) {
-            let finished = _.after(publications.length, (publications) => {
-                return res.status(publicationResponse.success.status).json(
-                    new Response(publicationResponse.success.retrievedSuccessfully, publications)
-                );
-            });
-
-            _.forEach(publications, (publication, key) => {
-                Province.findOne({ "code": publication.location.province }, function(err, prov) {
-                    publication._doc.location.provinceDescription = prov.description;
-
-                    let place = _.find(prov.locations, (o) => {
-                        return o.code === publication.location.place;
-                    });
-
-                    publication._doc.location.placeDescription = place.description;
-
-                    finished(publications);
+    }).then(
+        function(publications) {
+            if (publications.length > 0) {
+                let finished = _.after(publications.length, (publications) => {
+                    return res.status(publicationResponse.success.status).json(
+                        new Response(publicationResponse.success.retrievedSuccessfully, publications)
+                    );
                 });
-            });
-        } else {
-            return res.status(publicationResponse.successnocontent.status).json(
-                new Response(publicationResponse.successnocontent.publicationNotExist)
-            );
+
+                _.forEach(publications, (publication, key) => {
+                    Province.findOne({ "code": publication.location.province }).then(function(prov) {
+                        publication._doc.location.provinceDescription = prov.description;
+
+                        let place = _.find(prov.locations, (o) => {
+                            return o.code === publication.location.place;
+                        });
+
+                        publication._doc.location.placeDescription = place.description;
+
+                        finished(publications);
+                    });
+                });
+            } else {
+                return res.status(publicationResponse.successnocontent.status).json(
+                    new Response(publicationResponse.successnocontent.publicationNotExist)
+                );
+            }
         }
+    ).catch(function(err) {
+        return res.status(publicationResponse.internalservererror.status).json(
+            new Response(publicationResponse.internalservererror.database, err)
+        );
     });
 });
 

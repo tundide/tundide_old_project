@@ -104,6 +104,9 @@ export class PublicationNewComponent implements OnInit {
         province: provinceControl,
         street: streetControl,
         title: this.formBuilder.control('', [Validators.required])
+      }),
+      whatgroup: this.formBuilder.group({ // TODO: Completar para validar que se haya elegido la categoria correctamente
+        active: this.formBuilder.control('', [Validators.required])
       })
     });
   }

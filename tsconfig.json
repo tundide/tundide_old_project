@@ -13,6 +13,7 @@
         "allowJs": true
     },
     "exclude": [
+        "docs",
         "node_modules",
         "**/*.aot.ts"
     ],

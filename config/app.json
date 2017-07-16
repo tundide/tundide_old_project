@@ -31,9 +31,8 @@
             "mongodb": {
                 "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
                 "config": {
-                    "server": {
-                        "sslValidate": true
-                    }
+                    "useMongoClient": true,
+                    "sslValidate": true
                 }
             },
             "redis": {
@@ -77,9 +76,8 @@
             "mongodb": {
                 "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
                 "config": {
-                    "server": {
-                        "sslValidate": true
-                    }
+                    "useMongoClient": true,
+                    "sslValidate": true
                 }
             },
             "redis": {

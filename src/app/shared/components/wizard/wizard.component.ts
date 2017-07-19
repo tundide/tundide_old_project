@@ -3,17 +3,7 @@ import { WizardStepComponent } from './wizard-step.component';
 
 @Component({
   selector: 'form-wizard',
-  styles: [
-    '.card { height: 100%; }',
-    '.card-header { background-color: #fff; padding: 0; font-size: 1.25rem; }',
-    '.card-block { overflow-y: auto; }',
-    '.card-footer { background-color: #fff; border-top: 0 none; }',
-    '.nav-item { padding: 1rem 0rem; border-bottom: 0.5rem solid #ccc; }',
-    '.active { font-weight: bold; color: black; border-bottom-color: #689550 !important; }',
-    '.enabled { cursor: pointer; border-bottom-color: #85c446; }',
-    '.disabled { color: #ccc; }',
-    '.completed { cursor: default; }'
-  ],
+  styleUrls: ['wizard.component.scss'],
   template:
   `<div class="card">
     <div class="card-header">

@@ -9,6 +9,7 @@ import { Property } from './property/property.model';
 import { Service } from './service/service.model';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 declare var $: JQueryStatic;
 declare var CKEDITOR;
 
@@ -19,7 +20,7 @@ declare var CKEDITOR;
 })
 export class PublicationNewComponent implements OnInit {
 
-  public whatType = 'Property';
+  public whatType;
   public publication: Publication;
   public publicationValid: boolean;
   @ViewChild('confirmNewPublicationModal') modal: NgbModal;
@@ -69,7 +70,7 @@ export class PublicationNewComponent implements OnInit {
       || !placeControl.valid
     }, [Validators.required,
     Validators.minLength(2),
-    Validators.maxLength(10)]);
+    Validators.maxLength(20)]);
 
     placeControl.statusChanges.subscribe((newStatus) => {
       if (provinceControl.valid && placeControl.valid) {
@@ -79,9 +80,8 @@ export class PublicationNewComponent implements OnInit {
       }
     });
 
-    let numberControl = this.formBuilder.control([{
-      disabled: !streetControl.valid
-    }, Validators.required,
+    let numberControl = this.formBuilder.control('', [Validators.required,
+    Validators.pattern('[0-9]*'),
     Validators.minLength(2),
     Validators.maxLength(10)]);
 
@@ -106,7 +106,7 @@ export class PublicationNewComponent implements OnInit {
         title: this.formBuilder.control('', [Validators.required])
       }),
       whatgroup: this.formBuilder.group({ // TODO: Completar para validar que se haya elegido la categoria correctamente
-        active: this.formBuilder.control('', [Validators.required])
+        category: this.formBuilder.control('', [Validators.required])
       })
     });
   }
@@ -150,7 +150,7 @@ export class PublicationNewComponent implements OnInit {
       inStorage = true;
       this.publication = this.publicationService.getFromStorage();
 
-      if (this.publication.type === this.whatType) {
+      if (this.publication.type === this.whatType.type) {
         sameType = true;
       }
     }
@@ -158,7 +158,7 @@ export class PublicationNewComponent implements OnInit {
     if (inStorage && sameType) {
       this.toastyService.info(toastOptions);
     } else {
-      switch (this.whatType) {
+      switch (this.whatType.type) {
         case 'Property':
           this.publication = new Property();
           break;
@@ -172,6 +172,8 @@ export class PublicationNewComponent implements OnInit {
           this.publication = new Property();
           break;
       }
+      this.publication.configuration.category = this.whatType.category;
+      this.publication.configuration.subcategory = this.whatType.subcategory;
     }
   }
 
@@ -184,14 +186,14 @@ export class PublicationNewComponent implements OnInit {
       res => {
         this.publicationService.deleteInStorage();
 
-        this.router.navigate(['/view', res.data._id]);
+        this.router.navigate(['/publication/view', res.data._id]);
       }
     );
   }
   /**
    * Change type of publication
    */
-  rentWhatChange(value) {
-    this.whatType = value;
+  rentWhatChange(whatType) {
+    this.whatType = whatType;
   }
 }

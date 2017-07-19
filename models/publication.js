@@ -15,7 +15,9 @@ let PublicationSchema = mongoose.Schema({
     images: [{ type: Schema.Types.ObjectId }],
     price: Number,
     configuration: {
-        showCalendar: Boolean
+        category: Number,
+        showCalendar: Boolean,
+        subcategory: Number
     },
     publishedDate: { type: Date, default: Date.now },
     reviews: [review.schema],
@@ -34,6 +36,7 @@ let PublicationSchema = mongoose.Schema({
  * @property {Date}                  dateOfExpiration              - Indicates the expiration of the publication
  * @property {String}                description                   - Descriptio nof publication
  * @property {ObjectId}              id                            - Id of publication
+ * @property {Caegory}               category                      - Category of publication
  * @property {Array.<ObjectId>}      images                        - Images of publication
  * @property {Number}                price                         - Price per hour of publication
  * @property {Configuration}         configuration                 - Custom configuration of publication

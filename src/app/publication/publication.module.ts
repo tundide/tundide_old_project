@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routing } from './publication.routing';
-import { CustomFormsModule } from 'ng2-validation';
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
 import { WizardStepComponent } from '../shared/components/wizard/wizard-step.component';
 import { PublicationNewComponent } from './publication.new.component';
@@ -58,7 +58,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         RouterModule,
         CommonModule,
         NgbModule,
-        CustomFormsModule,
+        NgxErrorsModule,
         SharedModule.forRoot(),
         ToastyModule.forRoot(),
         UiSwitchModule],

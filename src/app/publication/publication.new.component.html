@@ -1,23 +1,26 @@
 <form [formGroup]="formNew">
+    <div *ngIf="formNew.title" class="alert alert-danger">
+        {{ formErrors.title }}
+    </div>
     <form-wizard #wizard>
-        <wizard-step [title]="'Que queres alguilar?'" (onNext)="onStepWhat($event)">
-            <publication-what (whatChange)="rentWhatChange($event)"></publication-what>
+        <wizard-step [title]="'Que queres alguilar?'" [isValid]="formNew.controls.whatgroup.valid" (onNext)="onStepWhat($event)">
+            <publication-what [whatGroup]="formNew.controls.whatgroup" (whatChange)="rentWhatChange($event)"></publication-what>
         </wizard-step>
-        <wizard-step [title]="'Danos un poco mas de detalle'" [isValid]="formNew.valid">
+        <wizard-step [title]="'Danos un poco mas de detalle'" [isValid]="formNew.controls.propertygroup.valid">
             <div *ngIf="publication">
-                <edit-property *ngIf="whatType=='Property'" [publication]="publication" [propertyGroup]="formNew.controls.propertygroup" (change)="publicationChange($event)"></edit-property>
-                <edit-service *ngIf="whatType=='Service'"></edit-service>
+                <edit-property *ngIf="whatType.type=='Property'" [publication]="publication" [propertyGroup]="formNew.controls.propertygroup" (change)="publicationChange($event)"></edit-property>
+                <edit-service *ngIf="whatType.type=='Service'"></edit-service>
                 <!--
                 Cuando esten desarrollando los dos descomentarlo
-                <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>
-            <edit-others *ngIf="whatType==4"></edit-others>-->
+                <edit-entreteinment *ngIf="whatType.type==3"></edit-entreteinment>
+            <edit-others *ngIf="whatType.type==4"></edit-others>-->
 
                 <div class="wizard-buttons">
                     <button class="btn btn-info" (click)="onResetPublication()">Nueva Publicaci&oacute;n</button>
                 </div>
             </div>
         </wizard-step>
-        <wizard-step [title]="'Disponibilidad y precio'" [isValid]="formNew.valid">
+        <wizard-step [title]="'Disponibilidad y precio'" [isValid]="formNew.controls.pricegroup.valid">
             <publication-price *ngIf="publication" [publication]="publication" [priceGroup]="formNew.controls.pricegroup" (change)="publicationChange($event)"></publication-price>
             <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
         </wizard-step>

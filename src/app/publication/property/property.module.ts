@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { PropertyEditComponent } from './edit.component';
 import { PropertyViewComponent } from './view.component';
 import { ReviewViewComponent } from '../review.view.component';
@@ -24,6 +25,7 @@ import { CeiboShare } from 'ng2-social-share';
         CKEditorModule,
         SharedModule.forRoot(),
         NgbModule.forRoot(),
+        NgxErrorsModule,
         AgmCoreModule.forRoot({
             apiKey: process.env.publickey.maps
         }),

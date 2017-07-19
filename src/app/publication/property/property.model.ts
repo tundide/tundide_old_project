@@ -50,5 +50,7 @@ class Facilities {
 }
 
 class Configuration {
+    category = 0;
+    subcategory = 0;
     showCalendar = false;
 }

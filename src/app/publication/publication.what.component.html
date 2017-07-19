@@ -1,20 +1,5 @@
-<!-- Inmueble
-<p class="detail">Oficina</p>
-<p class="detail">Consultorio</p>
-<p class="detail">Salon de Fiesta</p>
-<p class="detail">Salas de Reunion</p> -->
-<!-- Servicios
-<p class="detail">Maestra particular</p>
-<p class="detail">Programador</p> -->
-<!-- Entretenimiento
-<p class="detail">Metegol</p>
-<p class="detail">Inflables</p> -->
-<!-- Otros
-<p class="detail">Indumentaria</p>
-<p class="detail">Herramientas</p>
-<p class="detail">Vehiculos</p> -->
-<div class="row" data-toggle="buttons">
-    <div *ngFor="let pub of publicationTypes" class="col-md-3">
+<div class="row" [formGroup]="whatGroup" *ngIf="whatGroup" data-toggle="buttons">
+    <div [hidden]="whatSelected.type && whatSelected.type != pub.type" *ngFor="let pub of publicationTypes" class="col-md-3">
         <main class="cardType btn btn-default" (click)="onTypeClick(pub.type)">
             <input type="radio" name="rent">
             <h2>{{ pub.title }}</h2>
@@ -22,5 +7,11 @@
                 <img class="rounded-circle" [src]="pub.image" [alt]="pub.title">
             </div>
         </main>
+    </div>
+
+    <div *ngIf="categories" class="col-md-3">
+        <select size="14" name="category" formControlName="category" [(ngModel)]="whatSelected.category" (ngModelChange)="onCategorySelected($event)" class="form-control">
+            <option *ngFor="let cat of categories" [ngValue]="cat.id">{{cat.description}}</option>
+        </select>
     </div>
 </div>

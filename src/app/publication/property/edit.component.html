@@ -9,15 +9,23 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Contanos como es el lugar</h4>
-            <div class="form-group" [formGroup]="propertyGroup">
+            <div *ngIf="propertyGroup" class="form-group" [formGroup]="propertyGroup">
 
                 <label class="form-control-label" for="inputTitle">Titulo</label>
-                <input type="text" name="title" formControlName="title" class="form-control form-control-danger" [(ngModel)]='publication.title' (ngModelChange)="publicationChange($event)" />
-                <!--<ng2-mdf-validation-message [class]="'alert-danger form-control'" [control]="title" *ngIf="!title.pristine"></ng2-mdf-validation-message>-->
+                <input type="text" name="title" formControlName="title" [class.errors]="title.hasError('*', ['dirty'])" class="form-control" [(ngModel)]='publication.title' (ngModelChange)="publicationChange($event)" />
+                <div ngxErrors="title" #title="ngxErrors">
+                    <div class="error" ngxError="required">
+                        El Titulo es requerido
+                    </div>
+                </div>
                 <label class="form-control-label" for="inputTitle">Descripci&oacute;n</label>
-                <ckeditor debounce="500" name="description" formControlName="description" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.description" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">
+                <ckeditor debounce="500" name="description" [class.errors]="description.hasError('*', ['dirty'])" formControlName="description" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.description" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">
                 </ckeditor>
-                <!--<ng2-mdf-validation-message [class]="'alert-danger form-control'" [control]="description" *ngIf="!description.pristine"></ng2-mdf-validation-message>-->
+                <div ngxErrors="description" #description="ngxErrors">
+                    <div class="error" ngxError="required">
+                        La Descripcion es requerida
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -27,26 +35,54 @@
             <h4 class="card-title">Ingresa la ubicaci&oacute;n</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group" [formGroup]="propertyGroup">
+                    <div *ngIf="propertyGroup" class="form-group" [formGroup]="propertyGroup">
                         <label for="inputProvince">Provincia</label>
-                        <select id="inputProvince" formControlName="province" name="province" class="form-control" [(ngModel)]="publication.location.province">
+                        <select id="inputProvince" formControlName="province" [class.errors]="province.hasError('*', ['dirty'])" name="province" class="form-control" [(ngModel)]="publication.location.province">
                                 <option *ngFor="let p of provinces" [ngValue]="p.code">{{p.description}}</option>
-                            </select>
+                        </select>
+                        <div ngxErrors="province" #province="ngxErrors">
+                            <div class="error" ngxError="required">
+                                La Provincia es requerida
+                            </div>
+                        </div>
 
                         <label for="inputPlace">Localidad</label>
 
                         <ng-template #rt let-r="result" let-t="term">
                             {{ r.description}} - ({{ r.zip}})
                         </ng-template>
-
-                        <input id="inputPlace" name="place" formControlName="place" name="place" type="text" class="form-control" [editable]="false" [inputFormatter]="formatter" [resultTemplate]="rt" [(ngModel)]="selectedPlace" (selectItem)="placeChange($event)" [ngbTypeahead]="searchLocation"
-                        />
+                        <input id="inputPlace" name="place" [class.errors]="place.hasError('*', ['dirty'])" formControlName="place" name="place" type="text" class="form-control" [editable]="false" [inputFormatter]="formatter" [resultTemplate]="rt" [(ngModel)]="selectedPlace"
+                            (selectItem)="placeChange($event)" [ngbTypeahead]="searchLocation" />
+                        <div ngxErrors="place" #place="ngxErrors">
+                            <div class="error" ngxError="required">
+                                La Localidad es requerida
+                            </div>
+                        </div>
 
                         <label for="inputStreet">Calle</label>
-                        <input type="text" id="inputStreet" name="street" formControlName="street" [(ngModel)]="publication.location.street" class="form-control" />
+                        <input type="text" id="inputStreet" name="street" [class.errors]="street.hasError('*', ['dirty'])" formControlName="street" [(ngModel)]="publication.location.street" class="form-control" />
+                        <div ngxErrors="street" #street="ngxErrors">
+                            <div class="error" ngxError="required">
+                                La Calle es requerida
+                            </div>
+                            <div class="error" [ngxError]="['minlength', 'maxlength']">
+                                La Calle debe estar entre 2 y 20 digitos
+                            </div>
+                        </div>
 
-                        <label class="form-control-label" for="inputNumber">Numero</label>
-                        <input type="text" id="inputNumber" name="number" formControlName="number" (change)="positioningMap()" [(ngModel)]="publication.location.number" class="form-control" />
+                        <label class="form-control-label">Numero</label>
+                        <input type="text" name="number" [class.errors]="number.hasError('*', ['dirty'])" formControlName="number" (change)="positioningMap()" [(ngModel)]="publication.location.number" class="form-control" />
+                        <div ngxErrors="number" #number="ngxErrors">
+                            <div class="error" ngxError="required">
+                                El Numero es requerido
+                            </div>
+                            <div class="error" [ngxError]="['minlength', 'maxlength']">
+                                El Numero debe estar entre 2 y 10 digitos
+                            </div>
+                            <div class="error" ngxError="pattern">
+                                Solo deben ingresarse caracteres numericos
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">

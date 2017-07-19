@@ -19,6 +19,8 @@ export class Reservation {
 }
 
 export class Configuration {
+    category: number;
+    subcategory: number;
     showCalendar: boolean;
 }
 

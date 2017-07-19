@@ -33,8 +33,6 @@ export class PropertyEditComponent implements OnInit {
     public locations = [];
     public selectedPlace: any;
 
-    private title: FormControl;
-    private description: FormControl;
     searchLocation = (text$: Observable<string>) =>
         text$
             .debounceTime(200)

@@ -103,7 +103,8 @@ export class PublicationNewComponent implements OnInit {
         place: placeControl,
         province: provinceControl,
         street: streetControl,
-        title: this.formBuilder.control('', [Validators.required])
+        title: this.formBuilder.control('', [Validators.required, Validators.minLength(5),
+        Validators.maxLength(50)])
       }),
       whatgroup: this.formBuilder.group({ // TODO: Completar para validar que se haya elegido la categoria correctamente
         category: this.formBuilder.control('', [Validators.required])

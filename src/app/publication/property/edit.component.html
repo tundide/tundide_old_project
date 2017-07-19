@@ -17,6 +17,9 @@
                     <div class="error" ngxError="required">
                         El Titulo es requerido
                     </div>
+                    <div class="error" [ngxError]="['minlength', 'maxlength']">
+                        El Titulo debe estar entre 5 y 50 digitos
+                    </div>
                 </div>
                 <label class="form-control-label" for="inputTitle">Descripci&oacute;n</label>
                 <ckeditor debounce="500" name="description" [class.errors]="description.hasError('*', ['dirty'])" formControlName="description" (ngModelChange)="publicationChange($event)" [(ngModel)]="publication.description" [config]="{removePlugins: 'forms, link, unlink, anchor, creatediv, insert, templates, newpage,save, preview, print, image, flash, horizontalrule, smiley, specialchar, pagebreak, iframe, about', removeButtons: 'Underline,JustifyCenter'}">

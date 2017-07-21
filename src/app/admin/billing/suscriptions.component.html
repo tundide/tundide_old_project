@@ -14,11 +14,28 @@
             <tbody>
                 <tr *ngFor="let suscription of suscriptions">
                     <td>{{suscription.description}}</td>
-                    <td>{{suscription.status}}</td>
+                    <td [ngSwitch]="suscription.status">
+                        <b class="text-primary" *ngSwitchCase="'active'">
+                            Activa
+                        </b>
+                        <b class="text-info" *ngSwitchCase="'inactive'">
+                            Pausada
+                        </b>
+                        <b class="text-danger" *ngSwitchCase="'cancelled'">
+                            Cancelada
+                        </b>
+                    </td>
                     <td>{{suscription.auto_recurring.transaction_amount}}</td>
                     <td>{{suscription.auto_recurring.frequency}} {{suscription.auto_recurring.frequency_type}}</td>
                     <td>
-                        <a mwlConfirmationPopover title="Confirmar eliminaci&oacute;n" message="Esta seguro que desea desvincular este medio de pago?" confirmText="Si" cancelText="No" placement="left" (confirm)="deleteCard(card.id)" class="btn btn-primary btn-sm">
+                        <a mwlConfirmationPopover *ngIf="suscription.status == 'inactive'" title="Reanudar" message="Esta seguro que desea reanudar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="activateSuscription(suscription.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-play"></i>
+                        </a>
+                        <a mwlConfirmationPopover *ngIf="suscription.status == 'active'" title="Pausar" message="Esta seguro que desea pausar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="pauseSuscription(suscription.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-pause"></i>
+                        </a>
+                        <a mwlConfirmationPopover *ngIf="suscription.status == 'active' || suscription.status == 'inactive'" title="Cancelar" message="Esta seguro que desea cancelar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="cancelSuscription(suscription.id)"
+                            class="btn btn-primary btn-sm">
                             <i class="fa fa-times"></i>
                         </a>
                     </td>

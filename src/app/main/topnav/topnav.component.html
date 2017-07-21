@@ -21,7 +21,7 @@
         </ul>
         <form class="form-inline mr-auto" #f="ngForm" [formGroup]="formGroupSearch" (ngSubmit)="search(); f.reset()">
             <input required class="form-control mr-sm-2" formControlName="search" type="text" name="searchSpace" [(ngModel)]="searchWord" placeholder="Busca lo que necesitas">
-            <button class="btn btn-outline-info my-2 my-sm-0" [disabled]="!formGroupSearch.valid" type="submit">Buscar</button>
+            <button class="btn btn-outline-primary my-2 my-sm-0" [disabled]="!formGroupSearch.valid" type="submit">Buscar</button>
         </form>
         <ul class="navbar-nav top-nav navbar-right pull-xs-right top-right-nav">
             <li *ngIf="user" class="dropdown nav-item" dropdown="">

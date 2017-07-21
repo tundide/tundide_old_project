@@ -190,9 +190,10 @@ router.get('/suscription/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.put('/suscription/:id', function(req, res) {
+router.put('/suscription/:id', session.authorize, function(req, res) {
     let suscriptionData = mp.put("/v1/plans/" + req.params.id, {
         "description": "Subscripciones de Plata",
+        "status": req.body.status,
         "auto_recurring": {
             "transaction_amount": 70
         }
@@ -210,7 +211,6 @@ router.put('/suscription/:id', function(req, res) {
             );
         });
 });
-
 
 /**
  * @api {get} / Get all suscriptions

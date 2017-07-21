@@ -32,9 +32,62 @@ export class SuscriptionsComponent implements OnInit {
                     timeout: 5000,
                     title: 'Obtencion de suscripciones.'
                 });
-                console.log(res.data);
                 this.suscriptions = res.data;
             }
         );
+    }
+
+    cancelSuscription(id) {
+        this.busy = this.billingService.updateSuscription(id, {
+            status: 'cancelled'
+        }).subscribe(
+            res => {
+                this.toastyService.success({
+                    msg: 'Suscripcion cancelada correctamente.',
+                    showClose: true,
+                    theme: 'bootstrap',
+                    timeout: 5000,
+                    title: 'Suscripcion'
+                });
+
+                let obj = _.find(this.suscriptions, { id: id });
+                _.set(obj, 'status', 'cancelled');
+            });
+    }
+
+    activateSuscription(id) {
+        this.busy = this.billingService.updateSuscription(id, {
+            status: 'active'
+        }).subscribe(
+            res => {
+                this.toastyService.success({
+                    msg: 'Suscripcion activada correctamente.',
+                    showClose: true,
+                    theme: 'bootstrap',
+                    timeout: 5000,
+                    title: 'Suscripcion'
+                });
+
+                let obj = _.find(this.suscriptions, { id: id });
+                _.set(obj, 'status', 'active');
+            });
+    }
+
+    pauseSuscription(id) {
+        this.busy = this.billingService.updateSuscription(id, {
+            status: 'inactive'
+        }).subscribe(
+            res => {
+                this.toastyService.success({
+                    msg: 'Suscripcion pausada correctamente.',
+                    showClose: true,
+                    theme: 'bootstrap',
+                    timeout: 5000,
+                    title: 'Suscripcion'
+                });
+
+                let obj = _.find(this.suscriptions, { id: id });
+                _.set(obj, 'status', 'inactive');
+            });
     }
 }

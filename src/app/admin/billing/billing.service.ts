@@ -83,4 +83,21 @@ export class BillingService {
                 return Observable.throw(error.json());
             });
     }
+
+    /**
+     * Update suscription
+     */
+    updateSuscription(id, suscription) {
+        let token = localStorage.getItem('token');
+        const headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
+        return this.http.put(this.host + '/billing/suscription/' + id, suscription, { headers: headers })
+            .map((response: Response) => {
+                const result = response.json();
+                return result;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

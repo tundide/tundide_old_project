@@ -1,14 +1,14 @@
-<edit-property *ngIf="whatType=='Property' && publication" [publication]="publication" (change)="publicationChange($event)"></edit-property>
+<edit-property *ngIf="whatType=='Property' && publication" [propertyGroup]="formEdit.controls.propertygroup" [publication]="publication" (change)="publicationChange($event)"></edit-property>
 <edit-service *ngIf="whatType=='Service'"></edit-service>
 <!--
     Cuando esten desarrollando los dos descomentarlo
     <edit-entreteinment *ngIf="whatType==3"></edit-entreteinment>
 <edit-others *ngIf="whatType==4"></edit-others>-->
-<publication-price *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-price>
+<publication-price *ngIf="publication" [priceGroup]="formEdit.controls.pricegroup" [publication]="publication" (change)="publicationChange($event)"></publication-price>
 <publication-availability *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-availability>
 <publication-configuration *ngIf="publication" [publication]="publication" (change)="publicationChange($event)"></publication-configuration>
 
 <div>
     <button class="btn btn-danger" type="button">Cancelar</button>
-    <button class="btn btn-primary pull-right" [disabled]="!changeDetected" (click)="onSaveChanges()" type="button">Guardar cambios</button>
+    <button class="btn btn-primary pull-right" [disabled]="!changeDetected || !formEdit.valid" (click)="onSaveChanges()" type="button">Guardar cambios</button>
 </div>

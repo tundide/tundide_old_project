@@ -8,6 +8,7 @@ import { Publication } from './publication.model';
 import { Property } from './property/property.model';
 import { Service } from './service/service.model';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
+import { MinImages } from '../shared/customValidators/image.validator';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 declare var $: JQueryStatic;
@@ -95,10 +96,11 @@ export class PublicationNewComponent implements OnInit {
 
     this.formNew = this.formBuilder.group({
       pricegroup: this.formBuilder.group({
-        price: this.formBuilder.control('', [Validators.required])
+        price: this.formBuilder.control('', [Validators.required, Validators.minLength(1)])
       }),
       propertygroup: this.formBuilder.group({
         description: this.formBuilder.control('', [Validators.required]),
+        images: this.formBuilder.control('', [MinImages]),
         number: numberControl,
         place: placeControl,
         province: provinceControl,
@@ -111,6 +113,7 @@ export class PublicationNewComponent implements OnInit {
       })
     });
   }
+
   /**
    * Remove Publication from localStorage and reinitialize the actual publication
    */

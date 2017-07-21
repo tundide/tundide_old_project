@@ -24,9 +24,14 @@ export class PublicationWhatComponent {
   public whatGroup: FormGroup;
 
   onTypeClick(typeSelected) {
-    this.whatSelected.type = typeSelected;
-    let cat = (<any>_.find((<any>json), { type: this.whatSelected.type }));
-    this.categories = cat.categories;
+    if (!this.whatSelected.type) {
+      this.whatSelected.type = typeSelected;
+      let cat = (<any>_.find((<any>json), { type: this.whatSelected.type }));
+      this.categories = cat.categories;
+    } else {
+      this.whatSelected.type = null;
+      this.categories = null;
+    }
   }
 
   onCategorySelected() {

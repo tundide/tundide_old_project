@@ -1,8 +1,13 @@
 <div class="form-group">
     <div class="card">
-        <div class="card-block">
+        <div class="card-block" *ngIf="propertyGroup" class="form-group" [formGroup]="propertyGroup">
             <h4 class="card-title">Ingresa fotos de tu Inmbueble</h4>
-            <file-upload [files]="publication.images" (onUploadComplete)="publicationChange($event)" (onDeleteComplete)="publicationChange($event)"></file-upload>
+            <file-upload [class.errors]="images.hasError('*', ['dirty'])" formControlName="images" [ngModel]="publication.images.length" [files]="publication.images" (onUploadComplete)="publicationChange($event)" (onDeleteComplete)="publicationChange($event)" ngDefaultControl></file-upload>
+            <div ngxErrors="images" #images="ngxErrors">
+                <div class="error" ngxError="MinImages">
+                    Al menos debe cargar una imagen
+                </div>
+            </div>
         </div>
     </div>
 

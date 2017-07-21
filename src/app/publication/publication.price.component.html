@@ -2,9 +2,14 @@
     <div class="card-block">
         <div class="form-group" [formGroup]="priceGroup" *ngIf="priceGroup">
             <h4 class="card-title">Precio</h4>
-            <input required class="form-control" formControlName="price" type="number" [(ngModel)]="publication.price" (ngModelChange)="priceChange($event)" placeholder="Precio">
-            <div class="alert alert-danger" *ngIf="!priceGroup.controls.price.valid && !priceGroup.controls.price.pristine">
-                <p *ngIf="priceGroup.controls.price.hasError('required')">El campo Precio es requerido</p>
+            <input required class="form-control" formControlName="price" [class.errors]="price.hasError('*', ['dirty'])" type="number" [(ngModel)]="publication.price" (ngModelChange)="priceChange($event)" placeholder="Precio">
+            <div ngxErrors="price" #price="ngxErrors">
+                <div class="error" ngxError="required">
+                    El Precio es requerido
+                </div>
+                <div class="error" [ngxError]="['minlength']">
+                    El Precio debe ser mayor a 0
+                </div>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
     <div [hidden]="whatSelected.type && whatSelected.type != pub.type" *ngFor="let pub of publicationTypes" class="col-md-3">
         <main class="cardType btn btn-default" (click)="onTypeClick(pub.type)">
             <input type="radio" name="rent">
-            <h2>{{ pub.title }}</h2>
+            <h2><i *ngIf="whatSelected.type" class="fa fa-backward" aria-hidden="true"></i> {{ pub.title }}</h2>
             <div class="img-wrapper">
                 <img class="rounded-circle" [src]="pub.image" [alt]="pub.title">
             </div>

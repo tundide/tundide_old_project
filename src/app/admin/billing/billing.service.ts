@@ -68,12 +68,12 @@ export class BillingService {
     }
 
     /**
-     * Get suscriptions
+     * Get plans
      */
-    getSuscriptions() {
+    getPlans() {
         let token = localStorage.getItem('token');
         const headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
-        return this.http.get(this.host + '/billing/suscription/', { headers: headers })
+        return this.http.get(this.host + '/billing/plan/', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 return result;
@@ -85,12 +85,12 @@ export class BillingService {
     }
 
     /**
-     * Update suscription
+     * Update plan
      */
-    updateSuscription(id, suscription) {
+    updatePlan(id, plan) {
         let token = localStorage.getItem('token');
         const headers = new Headers({ 'Authorization': token, 'Content-Type': 'application/json' });
-        return this.http.put(this.host + '/billing/suscription/' + id, suscription, { headers: headers })
+        return this.http.put(this.host + '/billing/plan/' + id, plan, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 return result;

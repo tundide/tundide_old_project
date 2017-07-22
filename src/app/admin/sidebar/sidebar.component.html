@@ -41,17 +41,17 @@
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['billing']" [routerLinkActive]="['router-link-active']">
-                            <span><i class="fa fa-history"></i>Historial</span>
+                            <span><i class="fa fa-fw fa-history"></i>Historial</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['paymentmethods']" [routerLinkActive]="['router-link-active']">
-                            <span><i class="fa fa-credit-card"></i>Medios de Pago</span>
+                        <a [routerLink]="['billing/paymentmethods']" [routerLinkActive]="['router-link-active']">
+                            <span><i class="fa fa-fw fa-credit-card"></i>Medios de Pago</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['suscriptions']" [routerLinkActive]="['router-link-active']">
-                            <span><i class="fa fa-newspaper-o"></i>Suscripciones</span>
+                        <a [routerLink]="['billing/plans']" [routerLinkActive]="['router-link-active']">
+                            <span><i class="fa fa-fw fa-list-alt"></i>Planes</span>
                         </a>
                     </li>
                 </ul>

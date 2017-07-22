@@ -2,7 +2,7 @@ let express = require('express');
 let mongoose = require('mongoose');
 let router = express.Router();
 let Paid = require('../../models/paid');
-let Suscription = require('../../models/suscription');
+let Plan = require('../../models/plan');
 let session = require('../auth/session');
 let billingResponse = require('../../config/response').billing;
 let Response = require('../shared/response.js');
@@ -102,20 +102,20 @@ router.delete('/card/delete/:cardId', session.authorize, function(req, res) {
 });
 
 /**
- * @api {post} / Create suscription
- * @apiName createSuscription
- * @apiDescription Create suscription (Only for Tundide Administrator)
+ * @api {post} / Create plan
+ * @apiName createPlan
+ * @apiDescription Create plan (Only for Tundide Administrator)
  * @apiGroup Billing
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "La suscripcion se creo correctamente."
+ * 	"message": "El plan se creo correctamente."
  * }
  * 
  */
-router.post('/suscription/', session.authorize, function(req, res) {
-    let suscriptionData = mp.post("/v1/plans", {
+router.post('/plan/', session.authorize, function(req, res) {
+    let planData = mp.post("/v1/plans", {
         "description": "Subscripcion de Plata",
         "auto_recurring": {
             "debit_date": 1,
@@ -130,14 +130,14 @@ router.post('/suscription/', session.authorize, function(req, res) {
         }
     });
 
-    suscriptionData.then(
+    planData.then(
         function(response) {
-            let suscription = new Suscription();
-            suscription.id = response.response.id;
-            suscription.description = response.response.description;
-            suscription.save();
+            let plan = new Plan();
+            plan.id = response.response.id;
+            plan.description = response.response.description;
+            plan.save();
             res.status(billingResponse.created.status).json(
-                new Response(billingResponse.created.suscriptionCreated, response.response)
+                new Response(billingResponse.created.planCreated, response.response)
             );
         },
         function() {
@@ -148,25 +148,25 @@ router.post('/suscription/', session.authorize, function(req, res) {
 });
 
 /**
- * @api {get} / Get suscription
- * @apiName getSuscription
- * @apiDescription Get suscription (Only for Tundide Administrator)
+ * @api {get} / Get plan
+ * @apiName getPlan
+ * @apiDescription Get plan (Only for Tundide Administrator)
  * @apiGroup Billing
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "Suscripcion recuperada correctamente."
+ * 	"message": "Plan recuperada correctamente."
  * }
  * 
  */
-router.get('/suscription/:id', session.authorize, function(req, res) {
-    let suscriptionData = mp.get("/v1/plans/" + req.params.id);
+router.get('/plan/:id', session.authorize, function(req, res) {
+    let planData = mp.get("/v1/plans/" + req.params.id);
 
-    suscriptionData.then(
+    planData.then(
         function(response) {
             res.status(billingResponse.created.status).json(
-                new Response(billingResponse.success.suscriptionRetrieved, response.response)
+                new Response(billingResponse.success.planRetrieved, response.response)
             );
         },
         function(err) {
@@ -178,31 +178,31 @@ router.get('/suscription/:id', session.authorize, function(req, res) {
 
 
 /**
- * @api {put} / Update suscription
- * @apiName updateSuscription
- * @apiDescription Update suscription (Only for Tundide Administrator)
+ * @api {put} / Update plan
+ * @apiName updatePlan
+ * @apiDescription Update plan (Only for Tundide Administrator)
  * @apiGroup Billing
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "La suscripcion se actualizo correctamente."
+ * 	"message": "El plan se actualizo correctamente."
  * }
  * 
  */
-router.put('/suscription/:id', session.authorize, function(req, res) {
-    let suscriptionData = mp.put("/v1/plans/" + req.params.id, {
-        "description": "Subscripciones de Plata",
+router.put('/plan/:id', session.authorize, function(req, res) {
+    let planData = mp.put("/v1/plans/" + req.params.id, {
+        "description": "Plan de Plata",
         "status": req.body.status,
         "auto_recurring": {
             "transaction_amount": 70
         }
     });
 
-    suscriptionData.then(
+    planData.then(
         function(response) {
             res.status(billingResponse.success.status).json(
-                new Response(billingResponse.success.suscriptionUpdated, response.response)
+                new Response(billingResponse.success.planUpdated, response.response)
             );
         },
         function(err) {
@@ -213,36 +213,36 @@ router.put('/suscription/:id', session.authorize, function(req, res) {
 });
 
 /**
- * @api {get} / Get all suscriptions
- * @apiName getAllSuscription
- * @apiDescription Get All suscriptions (Only for Tundide Administrator)
+ * @api {get} / Get all plans
+ * @apiName getAllPlans
+ * @apiDescription Get All plans (Only for Tundide Administrator)
  * @apiGroup Billing
  * 
  * @apiSuccess {Object} Success Message.
  * @apiSuccessExample {json} Success-Response:
  * {
- * 	"message": "La suscripcion se creo correctamente."
+ * 	"message": "Planes recuperados correctamente."
  * }
  * 
  */
-router.get('/suscription', session.authorize, function(req, res) {
-    Suscription.find({}, function(err, suscriptions) {
+router.get('/plan', session.authorize, function(req, res) {
+    Plan.find({}, function(err, plans) {
         if (err) {
             res.status(billingResponse.internalservererror.status).json(
                 new Response(billingResponse.internalservererror.default, err)
             );
         } else {
             let all = new Array;
-            let finished = _.after(suscriptions.length, () => {
+            let finished = _.after(plans.length, () => {
                 res.status(billingResponse.created.status).json(
-                    new Response(billingResponse.success.suscriptionRetrieved, all)
+                    new Response(billingResponse.success.plansRetrieved, all)
                 );
             });
 
-            _.forEach(suscriptions, function(suscription) {
-                let suscriptionData = mp.get("/v1/plans/" + suscription.id);
+            _.forEach(plans, function(plan) {
+                let planData = mp.get("/v1/plans/" + plan.id);
 
-                suscriptionData.then(
+                planData.then(
                     function(response) {
                         all.push(response.response);
                         finished();

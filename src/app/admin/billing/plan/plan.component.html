@@ -1,0 +1,71 @@
+<div [ngBusy]="busy"></div>
+<form id="plan" name="plan">
+    <div class="card">
+        <div class="card-block">
+            <h3 class="card-title">Datos del Plan</h3>
+            <div class="form-group row">
+                <label for="id" class="col-lg-2 col-form-label">Identificador:</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" id="id" placeholder="PLAN123" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-lg-2 col-form-label">Descripcion</label>
+                <div class="col-lg-10">
+                    <textarea id="description" class="form-control" name="description" type="text">
+            </textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="amount" class="col-lg-2 col-form-label">Monto:</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" id="amount" placeholder="$50" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <h3 class="card-title">Recurrencia</h3>
+            <div class="row">
+                <label for="frequency" class="col-lg-2 col-md-2 col-form-label">Frequencia:</label>
+                <div class="col-lg-1 col-md-2">
+                    <input type="text" class="form-control" id="frequency" placeholder="5" />
+                </div>
+                <div class="col-lg-2 col-md-3">
+                    <select id="frequencyType" class="form-control">
+                        <option value="days">D&iacute;as</option>
+                        <option value="months">Meses</option>
+                    </select>
+                </div>
+
+                <label for="debitDate" class="col-lg-2 col-md-2 col-form-label">D&iacute;a a debitar:</label>
+                <div class="col-lg-2 col-md-3">
+                    <input type="text" class="form-control" id="debitDate" placeholder="01/01/2000" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <h3 class="card-title">Prueba Gratuita</h3>
+            <div class="row">
+                <label for="frequency" class="col-lg-2 col-md-2 col-form-label">Frequencia:</label>
+                <div class="col-lg-1 col-md-2 ">
+                    <input type="text" class="form-control" id="frequency" placeholder="5" />
+                </div>
+                <div class="col-lg-2 col-md-3">
+                    <select id="frequencyType" class="form-control">
+                        <option value="days">D&iacute;as</option>
+                        <option value="months">Meses</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="submit" class="btn btn-primary" value="Crear" />
+</form>

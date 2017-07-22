@@ -1,4 +1,28 @@
-<sidebar></sidebar>
-<section class="main-container" [ngClass]="{sidebarPushRight: isActive}">	
-	<router-outlet></router-outlet>
-</section>
+<div class="container-fluid">
+    <div class="row d-flex d-md-block flex-nowrap wrapper">
+        <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+            <div class="list-group border-0 card text-center text-md-left">
+                <a [routerLink]="['profile']" [routerLinkActive]="['router-link-active']" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-user"></i> <span class="hidden-sm-down">Perfil</span></a>
+                <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-book"></i> <span class="hidden-sm-down">Publicaciones</span> </a>
+                <div class="collapse" id="menu1">
+                    <a [routerLink]="['active']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu1">Activas</a>
+                    <a [routerLink]="['paused']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu1">Pausadas</a>
+                    <a [routerLink]="['favorite']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu1">Favoritas</a>
+                </div>
+                <a [routerLink]="['schedule']" [routerLinkActive]="['router-link-active']" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-calendar"></i> <span class="hidden-sm-down">Horarios</span></a>
+                <a href="#menu2" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-dollar"></i> <span class="hidden-sm-down">Facturaci&oacute;n</span> </a>
+                <div class="collapse" id="menu2">
+                    <a [routerLink]="['billing']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Historial</a>
+                    <a [routerLink]="['billing/paymentmethods']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Medios de Pago</a>
+                    <a [routerLink]="['billing/plans']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Planes</a>
+                </div>
+
+                <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-wrench"></i> <span class="hidden-sm-down">Configuraci&oacute;n</span> </a>
+                <div class="collapse" id="menu3">
+                    <a [routerLink]="['alert']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu3">Alertas</a>
+                </div>
+            </div>
+        </div>
+        <router-outlet class="col-md-9 col px-5 pl-md-2 pt-2 main"></router-outlet>
+    </div>
+</div>

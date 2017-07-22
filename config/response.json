@@ -308,20 +308,24 @@
                 "status": "deleted",
                 "message": "Tarjeta eliminada correctamente."
             },
-            "suscriptionRetrieved": {
+            "planRetrieved": {
                 "status": "accepted",
-                "message": "Suscripcion recuperada correctamente."
+                "message": "Plan recuperado correctamente."
             },
-            "suscriptionUpdated": {
+            "plansRetrieved": {
+                "status": "accepted",
+                "message": "Planes recuperados correctamente."
+            },
+            "planUpdated": {
                 "status": "updated",
-                "message": "La suscripcion se actualizo correctamente."
+                "message": "El plan se actualizo correctamente."
             }
         },
         "created": {
             "status": 201,
-            "suscriptionCreated": {
+            "PlanCreated": {
                 "status": "created",
-                "message": "La suscripcion se creo correctamente."
+                "message": "El  Plan se creo correctamente."
             }
         },
         "internalservererror": {

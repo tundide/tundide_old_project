@@ -8,12 +8,12 @@ declare var $: JQueryStatic;
 declare var Mercadopago;
 
 @Component({
-    selector: 'suscriptions',
-    templateUrl: 'suscriptions.component.html'
+    selector: 'plans',
+    templateUrl: 'plans.component.html'
 })
-export class SuscriptionsComponent implements OnInit {
+export class PlansComponent implements OnInit {
     public busy: Subscription;
-    public suscriptions: any;
+    public plans: any;
 
     constructor(
         private toastyService: ToastyService,
@@ -23,70 +23,70 @@ export class SuscriptionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.busy = this.billingService.getSuscriptions().subscribe(
+        this.busy = this.billingService.getPlans().subscribe(
             res => {
                 this.toastyService.success({
-                    msg: 'Suscripciones recuperadas correctamente.',
+                    msg: 'Planes recuperados correctamente.',
                     showClose: true,
                     theme: 'bootstrap',
                     timeout: 5000,
-                    title: 'Obtencion de suscripciones.'
+                    title: 'Obtencion de planes.'
                 });
-                this.suscriptions = res.data;
+                this.plans = res.data;
             }
         );
     }
 
-    cancelSuscription(id) {
-        this.busy = this.billingService.updateSuscription(id, {
+    cancelPlan(id) {
+        this.busy = this.billingService.updatePlan(id, {
             status: 'cancelled'
         }).subscribe(
             res => {
                 this.toastyService.success({
-                    msg: 'Suscripcion cancelada correctamente.',
+                    msg: 'Plan cancelado correctamente.',
                     showClose: true,
                     theme: 'bootstrap',
                     timeout: 5000,
-                    title: 'Suscripcion'
+                    title: 'Plan'
                 });
 
-                let obj = _.find(this.suscriptions, { id: id });
+                let obj = _.find(this.plans, { id: id });
                 _.set(obj, 'status', 'cancelled');
             });
     }
 
-    activateSuscription(id) {
-        this.busy = this.billingService.updateSuscription(id, {
+    activatePlan(id) {
+        this.busy = this.billingService.updatePlan(id, {
             status: 'active'
         }).subscribe(
             res => {
                 this.toastyService.success({
-                    msg: 'Suscripcion activada correctamente.',
+                    msg: 'Plan activada correctamente.',
                     showClose: true,
                     theme: 'bootstrap',
                     timeout: 5000,
-                    title: 'Suscripcion'
+                    title: 'Plan'
                 });
 
-                let obj = _.find(this.suscriptions, { id: id });
+                let obj = _.find(this.plans, { id: id });
                 _.set(obj, 'status', 'active');
             });
     }
 
-    pauseSuscription(id) {
-        this.busy = this.billingService.updateSuscription(id, {
+    pausePlan(id) {
+        this.busy = this.billingService.updatePlan(id, {
             status: 'inactive'
         }).subscribe(
             res => {
                 this.toastyService.success({
-                    msg: 'Suscripcion pausada correctamente.',
+                    msg: 'Plan pausado correctamente.',
                     showClose: true,
                     theme: 'bootstrap',
                     timeout: 5000,
-                    title: 'Suscripcion'
+                    title: 'Plan'
                 });
 
-                let obj = _.find(this.suscriptions, { id: id });
+                let obj = _.find(this.plans, { id: id });
                 _.set(obj, 'status', 'inactive');
             });
     }

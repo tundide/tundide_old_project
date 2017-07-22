@@ -24,7 +24,7 @@ let mp = new MP(config.billing.accessToken);
  * }
  * 
  */
-router.post('/card/associate/', session.authorize, function(req, res) {
+router.post('/card/associate/', session.authorize(), function(req, res) {
     let card = {
         "token": req.body.cardId
     };
@@ -58,7 +58,7 @@ router.post('/card/associate/', session.authorize, function(req, res) {
  * }
  * 
  */
-router.get('/card/list', session.authorize, function(req, res) {
+router.get('/card/list', session.authorize(), function(req, res) {
     let searchCards = mp.get("/v1/customers/" + req.user.billing.mercadopago + "/cards");
 
     searchCards.then(function(cards) {
@@ -86,7 +86,7 @@ router.get('/card/list', session.authorize, function(req, res) {
  * }
  * 
  */
-router.delete('/card/delete/:cardId', session.authorize, function(req, res) {
+router.delete('/card/delete/:cardId', session.authorize(), function(req, res) {
     let deleteCard = mp.delete("/v1/customers/" + req.user.billing.mercadopago + "/cards/" + req.params.cardId);
 
     deleteCard.then(function() {
@@ -114,7 +114,7 @@ router.delete('/card/delete/:cardId', session.authorize, function(req, res) {
  * }
  * 
  */
-router.post('/plan/', session.authorize, function(req, res) {
+router.post('/plan/', session.authorize("administrator"), function(req, res) {
     let planData = mp.post("/v1/plans", {
         "description": "Subscripcion de Plata",
         "auto_recurring": {
@@ -160,7 +160,7 @@ router.post('/plan/', session.authorize, function(req, res) {
  * }
  * 
  */
-router.get('/plan/:id', session.authorize, function(req, res) {
+router.get('/plan/:id', session.authorize("administrator"), function(req, res) {
     let planData = mp.get("/v1/plans/" + req.params.id);
 
     planData.then(
@@ -190,7 +190,7 @@ router.get('/plan/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.put('/plan/:id', session.authorize, function(req, res) {
+router.put('/plan/:id', session.authorize("administrator"), function(req, res) {
     let planData = mp.put("/v1/plans/" + req.params.id, {
         "description": "Plan de Plata",
         "status": req.body.status,
@@ -225,7 +225,7 @@ router.put('/plan/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.get('/plan', session.authorize, function(req, res) {
+router.get('/plan', session.authorize("administrator"), function(req, res) {
     Plan.find({}, function(err, plans) {
         if (err) {
             res.status(billingResponse.internalservererror.status).json(

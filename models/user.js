@@ -17,6 +17,7 @@ let userSchema = mongoose.Schema({
     },
     shortId: String,
     socketId: String,
+    roles: [String],
     name: String,
     email: String,
     lastAccess: Date,
@@ -67,18 +68,18 @@ userSchema.methods.validPassword = function(password) {
 
 
 /**
- * A composition of user Facebook profile data and Facebook token data.
- * @typedef {Object}            Facebook
- * @property {string}           id            - Facebook user id of the user
- * @property {string}           token         - Facebook long lived token to access user information later
- * @property {string}           email         - Email of facebook user 
- * @property {string}           name          - Display name of facebook user
+ * A composition of user Authentication profile data and Auth token data.
+ * @typedef {Object}            Authentication
+ * @property {string}           id            - Authentication user id of the user
+ * @property {string}           token         - Authentication long lived token to access user information later
+ * @property {string}           email         - Email of authentication user 
+ * @property {string}           name          - Display name of authentication user
  */
 
 /**
  * Details of the client Plan
  * @typedef {Object} Plan
- * @property {number}           type                    - Type of Plan (Bronze - Silver - Gold - Plantinum - Diamond)
+ * @property {number}           type                    - Type of Plan (Stone - Bronze - Silver - Gold - Crystal)
  * @property {string}           testMonth               - Indicate is the actual month is test
  * @property {number}           publicationsAvailable   - Count of publications available 
  * @property {date}             expiration              - Date of publication expiration
@@ -88,7 +89,10 @@ userSchema.methods.validPassword = function(password) {
  * Mongoose model for user document.
  *
  * @class User
- * @property {Plan}           plan                            - plan of the user
- * @property {Facebook}       facebook                        - Facebook information of the user
+ * @property {Plan}                 plan            - plan of the user
+ * @property {Authentication}       authentication  - Authentication information of the user
+ * @property {string}               shortId         - shortId of the user
+ * @property {string}               socketId        - id of the socket.io of the user
+ * @property {ArrayArray.<Role>}    roles           - list of roles for the user
  */
 module.exports = mongoose.model('User', userSchema);

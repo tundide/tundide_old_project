@@ -23,7 +23,7 @@ module.exports = function(passport) {
      * @apiSuccess {Object} User with Id - Name - Email - Token.
      * 
      */
-    router.get('/userdata', session.authorize, function(req, res) {
+    router.get('/userdata', session.authorize(), function(req, res) {
         let authorization = req.headers.authorization.split(' ');
         let type = authorization[0];
         let token = authorization[1];

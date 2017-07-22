@@ -22,7 +22,7 @@ let Response = require('../shared/response.js');
  * }
  * 
  */
-router.get('/', session.authorize, function(req, res) {
+router.get('/', session.authorize(), function(req, res) {
     User.findById(req.user._id,
         function(err, data) {
             if (err) {
@@ -60,7 +60,7 @@ router.get('/', session.authorize, function(req, res) {
  * }
  * 
  */
-router.get('/exists/:id', session.authorize, function(req, res) {
+router.get('/exists/:id', session.authorize(), function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.params.id);
 
     User.find({
@@ -104,7 +104,7 @@ router.get('/exists/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.patch('/', session.authorize, function(req, res) {
+router.patch('/', session.authorize(), function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.body.publicationId);
 
     User.update({ _id: req.user._id }, { $push: { "favorites": publicationId } }, { safe: true, upsert: true },
@@ -139,7 +139,7 @@ router.patch('/', session.authorize, function(req, res) {
  * }
  * 
  */
-router.delete('/:id', session.authorize, function(req, res) {
+router.delete('/:id', session.authorize(), function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.params.id);
 
     User.update({ _id: req.user._id }, { $pull: { "favorites": publicationId } }, { safe: true, upsert: true },

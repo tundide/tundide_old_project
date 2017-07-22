@@ -27,7 +27,7 @@ let session = require('../auth/session');
  * }
  * 
  */
-router.patch('/:id', session.authorize, function(req, res) {
+router.patch('/:id', session.authorize(), function(req, res) {
     let review = {
         score: req.body.score,
         message: req.body.message,

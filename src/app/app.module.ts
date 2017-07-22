@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { AuthService } from './auth/auth.service';
-import { UserResolver } from './auth/user.resolver';
+import { AuthGuard } from './auth/auth-guard.service';
 import { SocketService } from './shared/socket.service';
 import { ErrorService } from './errors/error.service';
 import { MainModule } from './main/main.module';
@@ -23,10 +23,10 @@ import { APP_CONFIG, AppConfig } from './app.config';
         ToastyModule.forRoot()
     ],
     providers: [
+        AuthGuard,
         AuthService,
         SocketService,
         ErrorService,
-        UserResolver,
         { provide: APP_CONFIG, useValue: AppConfig }
     ]
 })

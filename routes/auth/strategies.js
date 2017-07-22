@@ -5,7 +5,11 @@ let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let shortid = require('shortid');
 let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
-let mp = require('../../mercadopago');
+let Role = require('../../models/role');
+// let mp = require('../../mercadopago');
+
+let MP = require("mercadopago");
+let mp = new MP(config.billing.accessToken);
 
 module.exports = function(passport) {
 
@@ -43,7 +47,9 @@ module.exports = function(passport) {
                         newUser.email = profile.emails[0].value;
                         newUser.name = profile.displayName;
                         newUser.shortId = 'USG-' + shortid.generate();
-                        mp.createCustomer({
+                        newUser.roles.push('user');
+
+                        mp.post("/v1/customers", {
                             "email": newUser.authentication.username,
                             "first_name": profile.name.givenName,
                             "last_name": profile.name.familyName
@@ -61,8 +67,27 @@ module.exports = function(passport) {
                                     });
                                 }
                             },
-                            (error) => {
-                                console.log(error);
+                            () => {
+                                let customer = {
+                                    "email": newUser.authentication.username
+                                };
+
+                                let saved_customer = mp.get("/v1/customers/search", customer);
+                                saved_customer.then((customer) => {
+                                    newUser.billing.mercadopago = customer.response.results[0].id;
+
+                                    newUser.save(function(err) {
+                                        if (err)
+                                            throw err;
+
+
+                                        return done(null, newUser);
+                                    });
+                                }, () => {
+                                    return res.status(authenticationResponse.internalservererror.status).json(
+                                        new Response(authenticationResponse.internalservererror.default)
+                                    );
+                                });
                             });
                     }
                 });

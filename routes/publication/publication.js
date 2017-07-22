@@ -51,7 +51,7 @@ let _ = require('lodash');
  * }
  * 
  */
-router.post('/', session.authorize, function(req, res) {
+router.post('/', session.authorize(), function(req, res) {
     let pub = new Publication();
     pub.user = req.user._id;
     pub.title = req.body.title;
@@ -93,7 +93,7 @@ router.post('/', session.authorize, function(req, res) {
  * @apiGroup Publication
  * 
  */
-router.patch('/', session.authorize, function(req, res) {
+router.patch('/', session.authorize(), function(req, res) {
     if (req.user.id !== req.body.user) {
         return res.status(authenticationResponse.forbidden.status).json(
             new Response(authenticationResponse.forbidden.unauthorized)
@@ -217,7 +217,7 @@ router.get('/find/:value', function(req, res) {
  *    id:2
  * 
  */
-router.get('/list/user/:status', session.authorize, function(req, res) {
+router.get('/list/user/:status', session.authorize(), function(req, res) {
     Publication.find({ $and: [{ user: req.user._id }, { status: req.params.status }] }, function(err, publications) {
         if (err) {
             return res.status(publicationResponse.internalservererror.status).json(
@@ -270,7 +270,7 @@ function saveService(publication, publicationModel) {
  * }
  * 
  */
-router.patch('/status', session.authorize, function(req, res) {
+router.patch('/status', session.authorize(), function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.body.publicationId);
 
     Publication.findOneAndUpdate({ _id: publicationId }, { "$set": { "status": req.body.status } }, function(err, doc) {

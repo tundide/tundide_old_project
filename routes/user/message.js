@@ -24,7 +24,7 @@ let Response = require('../shared/response.js');
  * }
  * 
  */
-router.get('/', session.authorize, function(req, res) {
+router.get('/', session.authorize(), function(req, res) {
     User.findById(req.user._id,
         function(err, data) {
             if (err) {
@@ -67,7 +67,7 @@ router.get('/', session.authorize, function(req, res) {
  *     }
  * 
  */
-router.post('/', session.authorize, function(req, res) {
+router.post('/', session.authorize(), function(req, res) {
     let message = new Message();
     message.message = req.body.message;
     message.to = req.body.to;
@@ -102,7 +102,7 @@ router.post('/', session.authorize, function(req, res) {
  * }
  * 
  */
-router.delete('/:id', session.authorize, function(req, res) {
+router.delete('/:id', session.authorize(), function(req, res) {
     let publicationId = new mongoose.Types.ObjectId(req.params.id);
 
     User.update({ _id: req.user._id }, { $pull: { "favorites": publicationId } }, { safe: true, upsert: true },

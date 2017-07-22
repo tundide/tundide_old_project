@@ -31,7 +31,7 @@ let _ = require('lodash');
  * }
  * 
  */
-router.patch('/:id', session.authorize, function(req, res) {
+router.patch('/:id', session.authorize(), function(req, res) {
     let id = new mongoose.Types.ObjectId(req.params.id);
 
     let reservation = {
@@ -97,7 +97,7 @@ router.patch('/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.patch('/approve/:id', session.authorize, function(req, res) {
+router.patch('/approve/:id', session.authorize(), function(req, res) {
     if (!req.body.reservation) {
         return res.status(reservationResponse.badrequest.status).json(
             new Response(reservationResponse.badrequest.reservationEmpty)
@@ -176,7 +176,7 @@ router.patch('/approve/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.patch('/change/:id', session.authorize, function(req, res) {
+router.patch('/change/:id', session.authorize(), function(req, res) {
     if (!req.body.id) {
         return res.status(reservationResponse.badrequest.status).json(
             new Response(reservationResponse.badrequest.reservationEmpty)
@@ -256,7 +256,7 @@ router.patch('/change/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.patch('/cancel/:id', session.authorize, function(req, res) {
+router.patch('/cancel/:id', session.authorize(), function(req, res) {
     if (!req.body.reservation) {
         return res.status(reservationResponse.badrequest.status).json(
             new Response(reservationResponse.badrequest.reservationEmpty)
@@ -337,7 +337,7 @@ router.patch('/cancel/:id', session.authorize, function(req, res) {
  * }
  * 
  */
-router.get('/', session.authorize, function(req, res) {
+router.get('/', session.authorize(), function(req, res) {
     let userId = new mongoose.Types.ObjectId(req.user._id);
 
     Publication.find({

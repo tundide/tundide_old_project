@@ -45,6 +45,7 @@ module.exports = function(passport) {
                         'name': fulluser.name,
                         'token': fulluser.authentication.token,
                         'username': fulluser.authentication.username,
+                        'roles': fulluser.roles,
                         'shortId': fulluser.shortId
                     };
 
@@ -76,6 +77,7 @@ module.exports = function(passport) {
                                 'name': fulluser.name,
                                 'token': fulluser.authentication.token,
                                 'username': fulluser.authentication.username,
+                                'roles': fulluser.roles,
                                 'shortId': fulluser.shortId
                             };
 

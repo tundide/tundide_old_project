@@ -9,7 +9,6 @@ import { PublicationPausedComponent } from './publication/paused.component';
 import { PublicationFavoriteComponent } from './publication/favorite.component';
 import { AlertComponent } from './settings/alert.component';
 import { ScheduleComponent } from './settings/schedule.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { routing } from './admin.routing';
 import { SharedModule } from '../shared/shared.module';
 import { DataTableModule } from 'angular2-datatable';
@@ -21,18 +20,17 @@ import { PublicationService } from '../publication/publication.service';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { BusyModule } from 'angular2-busy';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { AuthService } from '../auth/auth.service';
 
 @NgModule({
     declarations: [AdminComponent,
         ProfileComponent,
-        SidebarComponent,
         AlertComponent,
         ScheduleComponent,
         PublicationActiveComponent,
         PublicationPausedComponent,
         PublicationFavoriteComponent],
     exports: [AdminComponent,
-        SidebarComponent,
         PublicationActiveComponent,
         PublicationPausedComponent,
         PublicationFavoriteComponent],
@@ -47,6 +45,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
             confirmButtonType: 'danger'
         })],
     providers: [AuthGuard,
+        AuthService,
         PublicationService,
         ReservationService,
         FavoriteService,

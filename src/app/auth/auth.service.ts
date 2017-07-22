@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { User } from './user.model';
 import { ErrorService } from '../errors/error.service';
 import { SocketService } from '../shared/socket.service';
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
 
 /**
  * Manage user authentication and session.
@@ -33,9 +33,9 @@ export class AuthService {
     private host: string = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 
     constructor(public http: Http,
-                private errorService: ErrorService,
-                private socketService: SocketService,
-                ) { }
+        private errorService: ErrorService,
+        private socketService: SocketService,
+    ) { }
 
     /**
      * Validate is the user is authenticated or not
@@ -62,8 +62,7 @@ export class AuthService {
         return this.http.get(this.host + '/auth/userdata', { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
-
-                return new User(result.data.name, result.data.username, result.data.shortId, result.data.id);
+                return new User(result.data.name, result.data.username, result.data.shortId, result.data.id, result.data.roles);
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
@@ -89,12 +88,12 @@ export class AuthService {
     signin(email: string, password: string) {
         let usr = {
             email: email,
-            password:  Md5.hashStr(password)
+            password: Md5.hashStr(password)
         };
 
         const body = JSON.stringify(usr);
-        const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post(this.host + '/auth/signin', body, {headers: headers})
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post(this.host + '/auth/signin', body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 localStorage.setItem('token', result.data);
@@ -115,15 +114,15 @@ export class AuthService {
     signout(name: string, email: string, password: string) {
         let usr = {
             jwt: {
-                email:  email,
-                password:  Md5.hashStr(password)
+                email: email,
+                password: Md5.hashStr(password)
             },
             name: name
         };
 
         const body = JSON.stringify(usr);
-        const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post(this.host + '/auth/signout', body, {headers: headers})
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post(this.host + '/auth/signout', body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 return result;

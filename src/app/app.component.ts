@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { ErrorService } from './errors/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,6 @@ import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './auth/user.model';
 import { SocketService } from './shared/socket.service';
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
 declare var $: JQueryStatic;
 
 @Component({
@@ -23,22 +22,21 @@ export class AppComponent implements OnInit, OnDestroy {
     private user: User;
 
     constructor(elm: ElementRef,
+        public router: Router,
         private route: ActivatedRoute,
         private modalService: NgbModal,
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
         private errorService: ErrorService,
         private authService: AuthService,
-        private socketService: SocketService,
-        private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
+        private socketService: SocketService) {
         this.toastyConfig.theme = 'bootstrap';
-        // this.subscription = route.queryParams.subscribe(
-        //     (queryParam: any) => {
-        //         if (queryParam['t']) {
-        //             window.location.href = '/#/';
-        //         }
-        //     }
-        // );
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                ga('set', 'page', event.urlAfterRedirects);
+                ga('send', 'pageview');
+            }
+        });
     }
 
     onContactUsClick() {

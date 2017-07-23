@@ -7,6 +7,7 @@ import { ToastyService, ToastyConfig, ToastOptions } from 'ng2-toasty';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './auth/user.model';
 import { SocketService } from './shared/socket.service';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 declare var $: JQueryStatic;
 
 @Component({
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private toastyConfig: ToastyConfig,
         private errorService: ErrorService,
         private authService: AuthService,
-        private socketService: SocketService) {
+        private socketService: SocketService,
+        private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
         this.toastyConfig.theme = 'bootstrap';
         // this.subscription = route.queryParams.subscribe(
         //     (queryParam: any) => {

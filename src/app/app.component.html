@@ -2,14 +2,22 @@
 <router-outlet></router-outlet>
 <footer></footer>
 
-<div class="sticky-container">
-    <ul class="sticky">
-        <li>
-            <img width="32" height="32" title="" alt="" src="/images/contact.png" />
-            <p (click)="onContactUsClick()">Contactar</p>
-        </li>
-    </ul>
+<div id="container-floating">
+
+    <div class="nd2 nds" data-toggle="tooltip" data-placement="left" data-original-title="Reminder">
+        <p (click)="onContactUsClick()" class="letter"><i class="fa fa-comments-o" aria-hidden="true"></i></p>
+    </div>
+    <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="Edoardo@live.it"><img class="reminder">
+        <p (click)="onContactUsClick()" class="letter"><i class="fa fa-question" aria-hidden="true"></i></p>
+    </div>
+
+    <div class="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create">
+        <p class="plus"><i class="fa fa-question" aria-hidden="true"></i></p>
+        <img class="edit" src="https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/bt_compose2_1x.png">
+    </div>
+
 </div>
+
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 
 <ng-template ngbModalContainer #contactus let-c="close" let-d="dismiss">

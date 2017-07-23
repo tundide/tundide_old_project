@@ -9,6 +9,7 @@ import { FileUploadComponent } from './components/fileupload/fileupload.componen
 import { FileUploadService } from './components/fileupload/fileupload.service';
 import { CalendarModule } from 'angular-calendar';
 import { CamelCase } from './camelcase.pipe';
+import { GoogleAnalyticsEventsService } from './google-analytics-events.service';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -33,7 +34,10 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
         NgbTimepickerModule.forRoot(),
         CalendarModule.forRoot()
     ],
-    providers: [FileUploadService]
+    providers: [
+        FileUploadService,
+        GoogleAnalyticsEventsService
+    ]
 })
 
 export class SharedModule {

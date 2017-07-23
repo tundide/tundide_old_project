@@ -6,6 +6,7 @@ import { BillingComponent } from './billing.component';
 import { PayComponent } from './pay.component';
 import { PaymentMethodsComponent } from './paymentmethods.component';
 import { PlansComponent } from './plans.component';
+import { SuscriptionsComponent } from './suscriptions.component';
 import { PlanComponent } from './plan/plan.component';
 import { BillingService } from './billing.service';
 import { ErrorService } from '../../errors/error.service';
@@ -18,6 +19,7 @@ import { routing } from './billing.routing';
 @NgModule({
     declarations: [BillingComponent,
         PlanComponent,
+        SuscriptionsComponent,
         PayComponent,
         PaymentMethodsComponent,
         PlansComponent],

@@ -15,6 +15,7 @@
                     <a [routerLink]="['billing']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Historial</a>
                     <a [routerLink]="['billing/paymentmethods']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Medios de Pago</a>
                     <a *ngIf="hasRole('administrator')" [routerLink]="['billing/plans']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Planes</a>
+                    <a *ngIf="hasRole('administrator')" [routerLink]="['billing/suscriptions']" [routerLinkActive]="['router-link-active']" class="list-group-item" data-parent="#menu2">Suscripciones</a>
                 </div>
 
                 <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fa fa-wrench"></i> <span class="hidden-sm-down">Configuraci&oacute;n</span> </a>

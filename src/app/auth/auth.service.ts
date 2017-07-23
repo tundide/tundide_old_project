@@ -72,7 +72,7 @@ export class AuthService {
 
     /**
      * Get User Credentials from SessionStorage
-     * @returns       Objet "User" with UserId - Name - Email - Token.
+     * @returns       Object "User" with UserId - Name - Email - Token.
      */
     getUserCredentials() {
         let userJson = sessionStorage.getItem('user');

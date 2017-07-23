@@ -1,0 +1,48 @@
+<div [ngBusy]="busy"></div>
+<div class="card">
+    <div class="card-block">
+        <h3 class="card-title">Suscripciones</h3>
+        <table *ngIf="this.plans" class="table">
+            <thead>
+                <tr>
+                    <th>Pagador</th>
+                    <th>Estado</th>
+                    <th>Monto</th>
+                    <th>Frequencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let plan of plans">
+                    <td>{{plan.description}}</td>
+                    <td [ngSwitch]="plan.status">
+                        <b class="text-primary" *ngSwitchCase="'authorized'">
+                            Autorizada
+                        </b>
+                        <b class="text-info" *ngSwitchCase="'paused'">
+                            Pausada
+                        </b>
+                        <b class="text-danger" *ngSwitchCase="'finished'">
+                            Finalizada
+                        </b>
+                        <b class="text-danger" *ngSwitchCase="'cancelled'">
+                            Cancelada
+                        </b>
+                    </td>
+                    <td>{{plan.auto_recurring.transaction_amount}}</td>
+                    <td>{{plan.auto_recurring.frequency}} {{plan.auto_recurring.frequency_type}}</td>
+                    <td>
+                        <a mwlConfirmationPopover *ngIf="plan.status == 'inactive'" title="Reanudar" message="Esta seguro que desea reanudar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="activatePlan(plan.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-play"></i>
+                        </a>
+                        <a mwlConfirmationPopover *ngIf="plan.status == 'active'" title="Pausar" message="Esta seguro que desea pausar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="pausePlan(plan.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-pause"></i>
+                        </a>
+                        <a mwlConfirmationPopover *ngIf="plan.status == 'active' || plan.status == 'inactive'" title="Cancelar" message="Esta seguro que desea cancelar esta suscripcion?" confirmText="Si" cancelText="No" placement="left" (confirm)="cancelPlan(plan.id)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -29,7 +29,7 @@ gulp.task('apidoc', function(done) {
         dest: "docs/api",
         debug: false,
         includeFilters: [".*\\.js$"],
-        excludeFilters: ["node_modules/"]
+        excludeFilters: ["node_modules/", ".vscode/", "docs/", "public/"]
     }, done);
 });
 

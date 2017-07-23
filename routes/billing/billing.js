@@ -115,6 +115,7 @@ router.delete('/card/delete/:cardId', session.authorize(), function(req, res) {
  * 
  */
 router.post('/plan/', session.authorize("administrator"), function(req, res) {
+    // TODO: Terminar de armar el alta de planes
     let planData = mp.post("/v1/plans", {
         "description": "Subscripcion de Plata",
         "auto_recurring": {
@@ -191,6 +192,7 @@ router.get('/plan/:id', session.authorize("administrator"), function(req, res) {
  * 
  */
 router.put('/plan/:id', session.authorize("administrator"), function(req, res) {
+    // TODO: Terminar de armar el alta de planes
     let planData = mp.put("/v1/plans/" + req.params.id, {
         "description": "Plan de Plata",
         "status": req.body.status,

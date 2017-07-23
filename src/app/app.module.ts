@@ -11,6 +11,7 @@ import { ErrorService } from './errors/error.service';
 import { MainModule } from './main/main.module';
 import { ToastyModule } from 'ng2-toasty';
 import { APP_CONFIG, AppConfig } from './app.config';
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -20,7 +21,8 @@ import { APP_CONFIG, AppConfig } from './app.config';
         routing,
         MainModule,
         NgbModule.forRoot(),
-        ToastyModule.forRoot()
+        ToastyModule.forRoot(),
+        Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ])
     ],
     providers: [
         AuthGuard,

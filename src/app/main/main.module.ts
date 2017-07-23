@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { HomeComponent } from './home/home.component';
 import { SocketService } from '../shared/socket.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Angulartics2Module } from 'angulartics2';
 
 @NgModule({
     declarations: [HomeComponent,
@@ -23,7 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         HttpModule,
         RouterModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        Angulartics2Module.forChild()
     ],
     providers: [SocketService]
 })

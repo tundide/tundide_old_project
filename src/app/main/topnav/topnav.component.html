@@ -19,9 +19,9 @@
                 <a class="nav-link" href="#">Acerca de</a>
             </li>
         </ul>
-        <form class="form-inline mr-auto" #f="ngForm" [formGroup]="formGroupSearch" (ngSubmit)="search(); f.reset()">
+        <form class="form-inline mr-auto hidden-sm-down" #f="ngForm" [formGroup]="formGroupSearch" (ngSubmit)="search(); f.reset()">
             <input required class="form-control mr-sm-2" formControlName="search" type="text" name="searchSpace" [(ngModel)]="searchWord" placeholder="Busca lo que necesitas">
-            <button class="btn btn-outline-primary my-2 my-sm-0" [disabled]="!formGroupSearch.valid" type="submit">Buscar</button>
+            <button class="btn btn-default my-2 my-sm-0" [disabled]="!formGroupSearch.valid" type="submit">Buscar</button>
         </form>
         <ul class="navbar-nav top-nav navbar-right pull-xs-right top-right-nav">
             <li *ngIf="user" class="dropdown nav-item" dropdown="">
@@ -80,5 +80,14 @@
                 <a class="nav-link" routerLink="/auth/signout" routerLinkActive="active">Registrarte</a>
             </li>
         </ul>
+    </div>
+    <div>
+        <form class="form-inline hidden-md-up" #f="ngForm" [formGroup]="formGroupSearch" (ngSubmit)="search(); f.reset()">
+            <div class="input-group">
+                <input required class="form-control input-lg" formControlName="search" type="text" name="searchSpace" [(ngModel)]="searchWord" placeholder="Busca lo que necesitas">
+                <button class="input-group-addon input-lg btn btn-default" [disabled]="!formGroupSearch.valid" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+
+        </form>
     </div>
 </nav>

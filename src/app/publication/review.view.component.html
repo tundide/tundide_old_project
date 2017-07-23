@@ -7,7 +7,7 @@
 
             <div class="form-group">
                 <p>{{ review.message }}</p>
-                <small class="form-text text-muted">{{ review.user.name }}</small>
+                <small *ngIf="review.user" class="form-text text-muted">{{ review.user.name }}</small>
             </div>
 
         </blockquote>

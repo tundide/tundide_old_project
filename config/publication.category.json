@@ -21,6 +21,7 @@
         "id": 7,
         "description": "Otras Propiedades"
     }],
+    "id": 1,
     "image": "/images/property.jpg",
     "title": "Inmuebles",
     "type": "Property"
@@ -50,6 +51,7 @@
         "id": 8,
         "description": "Otros Servicios"
     }],
+    "id": 2,
     "image": "/images/service.jpg",
     "title": "Servicios",
     "type": "Service"
@@ -64,6 +66,7 @@
         "id": 3,
         "description": "Otros Entretenimientos"
     }],
+    "id": 3,
     "image": "/images/entreteinment.jpg",
     "title": "Entretenimiento",
     "type": "Entreteinment"
@@ -81,6 +84,7 @@
         "id": 4,
         "description": "Otros"
     }],
+    "id": 4,
     "image": "/images/others.jpg",
     "title": "Otros",
     "type": "Others"

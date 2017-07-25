@@ -103,37 +103,39 @@ export class PublicationViewComponent implements OnInit, OnDestroy {
 
       this.publicationService.getFromDatabase(params['id']).subscribe(
         res => {
-          this.publication = res.data;
+          if (res) {
 
-          _.forEach(this.publication.reservations, (reservation, key) => {
-            let startDate = moment(reservation.startDate);
-            let endDate = moment(reservation.endDate);
-            this.events.push({
-              actions: this.actions,
-              color: (reservation.approved ? colors.green : colors.yellow),
-              end: endDate.toDate(),
-              meta: {
-                publication: this.publication.id,
-                reservation: reservation.id
-              },
-              start: startDate.toDate(),
-              title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
+            this.publication = res.data;
+            _.forEach(this.publication.reservations, (reservation, key) => {
+              let startDate = moment(reservation.startDate);
+              let endDate = moment(reservation.endDate);
+              this.events.push({
+                actions: this.actions,
+                color: (reservation.approved ? colors.green : colors.yellow),
+                end: endDate.toDate(),
+                meta: {
+                  publication: this.publication.id,
+                  reservation: reservation.id
+                },
+                start: startDate.toDate(),
+                title: '(' + startDate.format('HH:mm') + '-' + endDate.format('HH:mm') + ') ' + reservation.title
+              });
             });
-          });
+
+            if (this.user) {
+              this.favoriteService.exists(params['id'])
+                .subscribe(resfav => {
+                  this.favorite = resfav.data;
+                });
+            }
+
+            this.reviewService.getScore(params['id'])
+              .subscribe(resrev => {
+                this.publicationAverage = resrev.data;
+              });
+          }
         }
       );
-
-      if (this.user) {
-        this.favoriteService.exists(params['id'])
-          .subscribe(res => {
-            this.favorite = res.data;
-          });
-      }
-
-      this.reviewService.getScore(params['id'])
-        .subscribe(res => {
-          this.publicationAverage = res.data;
-        });
     });
 
     this.advertiserService.onContactAdvertiser.subscribe((confirm) => {

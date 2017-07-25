@@ -121,7 +121,7 @@ export class PublicationService {
         let token = localStorage.getItem('token');
         const headers = new Headers({'Authorization': token, 'Content-Type': 'application/json'});
 
-        return this.http.get(this.host + '/publication/find/' + query, {headers: headers})
+        return this.http.get(this.host + '/publication?search=' + query, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 return {

@@ -10,8 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [HomeComponent,
-                    TopNavComponent,
-                    FooterComponent],
+        TopNavComponent,
+        FooterComponent],
     exports: [CommonModule,
         FormsModule,
         RouterModule,
@@ -28,4 +28,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     providers: [SocketService]
 })
 
-export class MainModule {}
+export class MainModule { }

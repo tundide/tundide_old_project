@@ -27,6 +27,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
+      if (params['t']) {
+        alert(params['t']);
+      }
+      if (params['c']) {
+        alert(params['c']);
+      }
+
       this.stringBuscado = params['b'];
       this.busy = this.publicationService.findIntoDatabase(this.stringBuscado).subscribe(
         res => {

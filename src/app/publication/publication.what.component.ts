@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import * as json from './publication.what.component.json';
+import * as json from '../../../config/publication.category.json';
 
 @Component({
   selector: 'publication-what',

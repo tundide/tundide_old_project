@@ -1,46 +1,48 @@
-<view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite" (onRequestReservation)="requestReservation($event)" (onFavoriteChange)="favoriteChange($event)"></view-property>
-<div class="card" *ngIf="publication?.configuration?.showCalendar">
-    <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
-    </calendar>
-</div>
-<div class="card">
-    <div class="card-block">
-        <h4 class="card-title">Comentarios</h4>
-        <review-view></review-view>
+<div *ngIf="publication">
+    <view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite" (onRequestReservation)="requestReservation($event)" (onFavoriteChange)="favoriteChange($event)"></view-property>
+    <div class="card" *ngIf="publication?.configuration?.showCalendar">
+        <calendar #calendar [events]="events" day="true" week="true" month="true" default="day">
+        </calendar>
     </div>
-</div>
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">Comentarios</h4>
+            <review-view></review-view>
+        </div>
+    </div>
 
-<!--TEMPORAL SOLO PARA PRUEBAS-->
-<div class="card">
-    <review-new></review-new>
-</div>
-<!--TEMPORAL SOLO PARA PRUEBAS-->
-<ng-template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Confirmar Reserva</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <!--TEMPORAL SOLO PARA PRUEBAS-->
+    <div class="card">
+        <review-new></review-new>
+    </div>
+    <!--TEMPORAL SOLO PARA PRUEBAS-->
+    <ng-template ngbModalContainer #confirmaReservation let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Confirmar Reserva</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
         </button>
-    </div>
-    <publication-reserve *ngIf="reservation" [reservation]="reservation" (change)="changeReservation($event)"></publication-reserve>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
-        <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
-    </div>
-</ng-template>
+        </div>
+        <publication-reserve *ngIf="reservation" [reservation]="reservation" (change)="changeReservation($event)"></publication-reserve>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c(true)">Confirmar Reserva</button>
+            <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
+        </div>
+    </ng-template>
 
-<ng-template ngbModalContainer #messageToTheAdvertiser let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Enviar mensaje</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <ng-template ngbModalContainer #messageToTheAdvertiser let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Enviar mensaje</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
         </button>
-    </div>
-    <div class="modal-body">
-        <textarea class="form-control" [(ngModel)]="message" rows="10"></textarea>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c(true)">Enviar Mensaje</button>
-        <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
-    </div>
-</ng-template>
+        </div>
+        <div class="modal-body">
+            <textarea class="form-control" [(ngModel)]="message" rows="10"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c(true)">Enviar Mensaje</button>
+            <button type="button" class="btn btn-secondary" (click)="c(false)">Cancelar</button>
+        </div>
+    </ng-template>
+</div>

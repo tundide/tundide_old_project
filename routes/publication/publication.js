@@ -143,8 +143,8 @@ router.get('/:id', function(req, res) {
                 new Response(publicationResponse.success.retrievedSuccessfully, doc)
             );
         } else {
-            return res.status(publicationResponse.successnocontent.status).json(
-                new Response(publicationResponse.successnocontent.publicationNotExist)
+            return res.status(publicationResponse.notfound.status).json(
+                new Response(publicationResponse.notfound.publicationNotExist)
             );
         }
     }); // .populate('user'); NO AGREGAR POR QUE SE PUBLICAN TODOS LOS DATOS DEL USUARIO
@@ -152,19 +152,28 @@ router.get('/:id', function(req, res) {
 
 // TODO: Completar documentacion y ejemplos
 /**
- * @api {get} /find/:query Find publication
+ * @api {get} / Find publication
  * @apiName getpublicationbyquery
  * @apiGroup Publication
  * 
  * @apiParam {String} query Query to search publication
  * 
  */
-router.get('/find/:value', function(req, res) {
+router.get('/', function(req, res) {
+    let orFilter = [];
+
+    if (req.query.search) {
+        orFilter.push({ "title": { "$regex": req.query.search, "$options": "i" } });
+        orFilter.push({ "description": { "$regex": req.query.search, "$options": "i" } });
+    }
+
+    if (req.query.category) {
+        orFilter.push({ "configuration.category": req.query.category });
+    }
+    console.log(orFilter);
     Publication.find({
         "$and": [{
-                "$or": [{ "title": { "$regex": req.params.value, "$options": "i" } },
-                    { "description": { "$regex": req.params.value, "$options": "i" } }
-                ]
+                "$or": orFilter
             },
             { "status": 1 }
         ]

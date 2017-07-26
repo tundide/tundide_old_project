@@ -1,3 +1,6 @@
+<div *ngIf="!publication">
+    Publicacion INEXISTENTE
+</div>
 <div *ngIf="publication">
     <view-property *ngIf="publication && publicationAverage" [user]="user" [property]="publication" [publicationAverage]="publicationAverage" [favorite]="favorite" (onRequestReservation)="requestReservation($event)" (onFavoriteChange)="favoriteChange($event)"></view-property>
     <div class="card" *ngIf="publication?.configuration?.showCalendar">

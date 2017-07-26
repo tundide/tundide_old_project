@@ -3,7 +3,7 @@
         {{ formErrors.title }}
     </div>
     <form-wizard #wizard>
-        <wizard-step [title]="'Que queres alguilar?'" [isValid]="formNew.controls.whatgroup.valid" (onNext)="onStepWhat($event)">
+        <wizard-step [title]="'Que queres alquilar?'" [isValid]="formNew.controls.whatgroup.valid" (onNext)="onStepWhat($event)">
             <publication-what [whatGroup]="formNew.controls.whatgroup" (whatChange)="rentWhatChange($event)"></publication-what>
         </wizard-step>
         <wizard-step [title]="'Danos un poco mas de detalle'" [isValid]="formNew.controls.propertygroup.valid">

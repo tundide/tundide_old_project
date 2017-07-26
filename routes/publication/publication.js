@@ -132,6 +132,16 @@ router.patch('/', session.authorize(), function(req, res) {
  * 
  */
 router.get('/:id', function(req, res) {
+    // TODO: llevar validacion de ObjectId a una libreria general
+    let checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+    let isValid = checkForHexRegExp.test(req.params.id);
+
+    if (!isValid) {
+        return res.status(publicationResponse.notfound.status).json(
+            new Response(publicationResponse.notfound.publicationNotExist)
+        );
+    }
+
     Publication.findById(req.params.id, function(err, doc) {
         if (err) {
             return res.status(publicationResponse.internalservererror.status).json(

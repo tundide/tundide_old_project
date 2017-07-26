@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(elm: ElementRef,
         public router: Router,
-        private route: ActivatedRoute,
+        public route: ActivatedRoute,
         private modalService: NgbModal,
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
@@ -37,26 +37,11 @@ export class AppComponent implements OnInit, OnDestroy {
                 ga('send', 'pageview');
             }
         });
-    }
 
-    onContactUsClick() {
-        this.modalService.open(this.contactusModal, { size: 'lg' }).result.then((result) => {
-            if (result) {
-                this.toastyService.success({
-                    msg: 'El mensaje se envio correctamente',
-                    showClose: true,
-                    theme: 'bootstrap',
-                    timeout: 5000,
-                    title: 'Mensaje enviado con exito.'
-                });
-            }
-        });
-    }
-
-    ngOnInit() {
-        let token: string;
         this.subscription = this.route.queryParams.subscribe(
             (queryParam: any) => {
+                let token: string;
+
                 if (queryParam['t']) {
                     token = queryParam['t'];
                     window.location.href = '/#/';
@@ -75,9 +60,23 @@ export class AppComponent implements OnInit, OnDestroy {
                         });
                 }
             });
+    }
 
+    onContactUsClick() {
+        this.modalService.open(this.contactusModal, { size: 'lg' }).result.then((result) => {
+            if (result) {
+                this.toastyService.success({
+                    msg: 'El mensaje se envio correctamente',
+                    showClose: true,
+                    theme: 'bootstrap',
+                    timeout: 5000,
+                    title: 'Mensaje enviado con exito.'
+                });
+            }
+        });
+    }
 
-
+    ngOnInit() {
         this.errorService.errorOccurred.subscribe((error) => {
             let toastOptions: ToastOptions = {
                 msg: error.message,

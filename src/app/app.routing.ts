@@ -4,7 +4,6 @@ import { AuthGuard } from './auth/auth-guard.service';
 
 export const routes: Routes = [
     {
-        canActivate: [AuthGuard],
         component: HomeComponent, path: '', pathMatch: 'full'
     },
     { path: 'auth', loadChildren: './auth/auth.module#AuthModule' },

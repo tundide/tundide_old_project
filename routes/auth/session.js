@@ -12,16 +12,16 @@ module.exports = {
                     new Response(authentication.forbidden.unauthorized)
                 );
             }
-
-            let hasRole = _.some(req.user.roles, function(_role) {
-                return _role === role;
-            });
-
-            if (role) {
-                if (!hasRole) {
-                    return res.status(authentication.forbidden.status).json(
-                        new Response(authentication.forbidden.unauthorized)
-                    );
+            if (req.user) {
+                let hasRole = _.some(req.user.roles, function(_role) {
+                    return _role === role;
+                });
+                if (role) {
+                    if (!hasRole) {
+                        return res.status(authentication.forbidden.status).json(
+                            new Response(authentication.forbidden.unauthorized)
+                        );
+                    }
                 }
             }
 

@@ -11,6 +11,7 @@ let session = require('../auth/session');
 let publicationResponse = require('../../config/response').publication;
 let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
+let Validators = require('../../lib/Validators/ObjectId.js');
 let _ = require('lodash');
 
 // TODO:Completar ejemplos
@@ -132,11 +133,7 @@ router.patch('/', session.authorize(), function(req, res) {
  * 
  */
 router.get('/:id', function(req, res) {
-    // TODO: llevar validacion de ObjectId a una libreria general
-    let checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
-    let isValid = checkForHexRegExp.test(req.params.id);
-
-    if (!isValid) {
+    if (!Validators.isValid(req.params.id)) {
         return res.status(publicationResponse.notfound.status).json(
             new Response(publicationResponse.notfound.publicationNotExist)
         );

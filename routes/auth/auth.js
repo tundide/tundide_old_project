@@ -176,7 +176,7 @@ module.exports = function(passport) {
             from: 'info@tundide.com',
             to: req.body.jwt.email,
             subject: 'Por favor confirme su direccion de email',
-            message: 'Por favor confirme su email haciendo click aqui'
+            message: 'Por favor confirme su email haciendo click aqui, o copie y pegue la siguiente direccion en el navegador'
         }, function(error, response) {
             if (error) {
                 console.log('Error response received');

@@ -15,6 +15,9 @@ a:not([href]) {
     user-select: none
 }
 
+
+/*** Hack para tener el <a> como link sin tener href ***/
+
 .error {
     background: #B52D30;
     color: #fff;

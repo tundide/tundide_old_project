@@ -135,6 +135,7 @@
         "less": "^2.7.2",
         "less-loader": "^4.0.5",
         "lite-server": "^2.3.0",
+        "node-env-file": "^0.1.8",
         "node-sass": "^4.5.3",
         "null-loader": "^0.1.1",
         "path": "^0.12.7",

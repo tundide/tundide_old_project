@@ -12,8 +12,11 @@ let mongoose = require('mongoose');
 let cors = require('cors');
 let User = require('./models/user');
 let config = require('./config/app.json')[process.env.NODE_ENV || 'development'];
+let env = require('node-env-file');
 
-mongoose.connect(config.database.mongodb.connectionString, config.database.mongodb.config, function(err) {
+env(__dirname + '/.env', { raise: false });
+
+mongoose.connect(process.env.MONGODB_URI, config.database.mongodb.config, function(err) {
     if (err) {
         console.log(err);
     }

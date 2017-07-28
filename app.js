@@ -16,7 +16,10 @@ let env = require('node-env-file');
 
 env(__dirname + '/.env', { raise: false });
 
-mongoose.connect(process.env.MONGODB_URI, config.database.mongodb.config, function(err) {
+mongoose.connect(process.env.MONGODB_URI, {
+    "useMongoClient": true,
+    "sslValidate": true
+}, function(err) {
     if (err) {
         console.log(err);
     }

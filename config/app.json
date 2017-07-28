@@ -27,22 +27,7 @@
                 "callbackURL": "http://localhost:3000/auth/google/callback"
             }
         },
-        "database": {
-            "mongodb": {
-                "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
-                "config": {
-                    "useMongoClient": true,
-                    "sslValidate": true
-                }
-            },
-            "redis": {
-                "connectionString": "redis://h:pe8b3db5bd39075fb62d48e5c2fd47caffe947fcb74e1a8fd4405b73a0b172572@ec2-34-226-55-20.compute-1.amazonaws.com:11399"
-            }
-        },
-        "url": "http://localhost:3000",
-        "billing": {
-            "accessToken": "TEST-2875862101013091-070921-f28603a023c34d9e7f0f94caaeb11544__LC_LA__-263242370"
-        }
+        "url": "http://localhost:3000"
     },
     "production": {
         "auth": {
@@ -72,21 +57,6 @@
                 "callbackURL": "http://www.tundide.com/auth/google/callback"
             }
         },
-        "database": {
-            "mongodb": {
-                "connectionString": "mongodb://tundide:5qoH7qkhSV35ntzeucx6@ds153652.mlab.com:53652/heroku_jnrc2dw9",
-                "config": {
-                    "useMongoClient": true,
-                    "sslValidate": true
-                }
-            },
-            "redis": {
-                "connectionString": "redis://h:p78e76562e7f0d844e41d0b73751b22e130bec1914beaed62ef589e374efe99d7@ec2-34-204-146-206.compute-1.amazonaws.com:54479"
-            }
-        },
-        "url": "http://www.tundide.com",
-        "billing": {
-            "accessToken": "APP_USR-2875862101013091-070921-4aeb9a8286cf28cb34a9e094c1830899__LB_LC__-263242370"
-        }
+        "url": "http://www.tundide.com"
     }
 }

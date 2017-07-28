@@ -9,7 +9,7 @@ let Role = require('../../models/role');
 // let mp = require('../../mercadopago');
 
 let MP = require("mercadopago");
-let mp = new MP(config.billing.accessToken);
+let mp = new MP(process.env.MERCADOPAGO_API_KEY);
 
 module.exports = function(passport) {
 

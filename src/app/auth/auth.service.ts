@@ -71,6 +71,22 @@ export class AuthService {
     }
 
     /**
+     * Confirm registered user
+     */
+    confirm(userid: string): Observable<User> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+
+        return this.http.patch(this.host + '/auth/confirm', { 'userid': userid }, { headers: headers })
+            .map((response: Response) => {
+                return response.json();
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    /**
      * Get User Credentials from SessionStorage
      * @returns       Object "User" with UserId - Name - Email - Token.
      */

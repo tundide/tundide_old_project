@@ -3,7 +3,6 @@ let FacebookStrategy = require('passport-facebook').Strategy;
 let TwitterStrategy = require('passport-twitter').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let shortid = require('shortid');
-let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
 let Role = require('../../models/role');
 // let mp = require('../../mercadopago');
@@ -24,9 +23,9 @@ module.exports = function(passport) {
     });
 
     passport.use(new GoogleStrategy({
-            clientID: config.auth.googleAuth.clientID,
-            clientSecret: config.auth.googleAuth.clientSecret,
-            callbackURL: config.auth.googleAuth.callbackURL,
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: process.env.SITE_URL + '/auth/google/callback',
             passReqToCallback: true
         },
         function(request, accessToken, refreshToken, profile, done) {

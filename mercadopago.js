@@ -1,4 +1,3 @@
-let config = require('./config/app.json')[process.env.NODE_ENV || 'development'];
 let MP = require("mercadopago");
 let mp = new MP(process.env.MERCADOPAGO_API_KEY);
 

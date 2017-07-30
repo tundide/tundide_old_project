@@ -8,7 +8,6 @@ let path = require('path');
 let Jimp = require("jimp");
 let filesResponse = require('../../config/response').files;
 let Response = require('../shared/response.js');
-let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 
 module.exports = function(mongoose) {
     /**

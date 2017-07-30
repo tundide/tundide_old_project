@@ -4,7 +4,6 @@ let Province = require('../../models/province');
 let locationResponse = require('../../config/response').location;
 let Response = require('../shared/response.js');
 let cache = require('../shared/cache');
-let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let redis = require('redis');
 
 let client = redis.createClient(process.env.REDIS_URL);

@@ -2,7 +2,6 @@ let express = require('express');
 let passport = require('passport');
 let jwt = require('jsonwebtoken');
 let router = express.Router();
-let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let User = require('../../models/user');
 let session = require('./session');
 let shortid = require('shortid');
@@ -55,7 +54,7 @@ module.exports = function(passport) {
                 });
                 break;
             case 'jwt':
-                jwt.verify(token, config.auth.jwt.secret, function(err, decoded) {
+                jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
                     if (err) {
                         return res.status(authenticationResponse.internalservererror.status).json(
                             new Response(authenticationResponse.internalservererror.default, err)
@@ -125,7 +124,7 @@ module.exports = function(passport) {
             },
             function(err, user) {
                 if (user) {
-                    let token = 'jwt ' + jwt.sign(user.shortId, config.auth.jwt.secret);
+                    let token = 'jwt ' + jwt.sign(user.shortId, process.env.JWT_SECRET);
 
                     return res.status(authenticationResponse.success.status).json(
                         new Response(authenticationResponse.success.loginSuccessfully, token)
@@ -162,36 +161,46 @@ module.exports = function(passport) {
         user.name = req.body.name;
         user.shortId = 'USJ-' + shortid.generate();
 
-        let token = jwt.sign(user.shortId, config.auth.jwt.secret);
+        let token = jwt.sign(user.shortId, process.env.JWT_SECRET);
 
         user.authentication = {
             'username': req.body.jwt.email,
             'password': req.body.jwt.password,
-            'token': token
+            'token': token,
+            'status': 0
         };
 
-        saved = user.save();
-
-        Email.send({
-            name: req.body.name,
-            userid: user.shortId,
-            from: 'info@tundide.com',
-            to: req.body.jwt.email,
-            subject: 'Por favor confirme su direccion de email',
-            message: 'Por favor confirme su email haciendo click aqui, o copie y pegue la siguiente direccion en el navegador'
-        }, function(error, response) {
-            if (error) {
-                console.log('Error response received');
-                // TODO: Si falla mandar bien el siguiente response, que tiene que ser como error
-                res.status(authenticationResponse.successcreated.status).json(
-                    new Response(authenticationResponse.successcreated.signoutSuccessfully)
+        User.findOne({ 'authentication.username': req.body.jwt.email }, function(err, user) {
+            if (user) {
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.userExists)
                 );
             }
-        });
 
-        return res.status(authenticationResponse.successcreated.status).json(
-            new Response(authenticationResponse.successcreated.signoutSuccessfully)
-        );
+            saved = user.save();
+
+            // TODO: Registrarse en mercadopago
+            Email.send({
+                name: req.body.name,
+                userid: user.shortId,
+                from: 'info@tundide.com',
+                to: req.body.jwt.email,
+                subject: 'Por favor confirme su direccion de email',
+                message: 'Por favor confirme su email haciendo click aqui, o copie y pegue la siguiente direccion en el navegador'
+            }, function(error, response) {
+                if (error) {
+                    console.log('Error response received');
+                    // TODO: Si falla mandar bien el siguiente response, que tiene que ser como error
+                    res.status(authenticationResponse.successcreated.status).json(
+                        new Response(authenticationResponse.successcreated.signoutSuccessfully)
+                    );
+                }
+            });
+
+            return res.status(authenticationResponse.successcreated.status).json(
+                new Response(authenticationResponse.successcreated.signoutSuccessfully)
+            );
+        });
     });
 
     /**
@@ -208,8 +217,6 @@ module.exports = function(passport) {
      * 
      */
     router.patch("/confirm", function(req, res) {
-        user.shortId = req.body.userid;
-
         User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "status": 1 /* Enabled */ } }, function(err, doc) {
             if (err) {
                 return res.status(authenticationResponse.internalservererror.status).json(
@@ -258,7 +265,7 @@ module.exports = function(passport) {
             if (err) { return next(err); }
 
             if (user) {
-                res.redirect(config.url + '/#/?t=google ' + user.authentication.token);
+                res.redirect(process.env.SITE_URL + '/#/?t=google ' + user.authentication.token);
             } else {
                 return res.status(authenticationResponse.forbidden.status).json(
                     new Response(authenticationResponse.forbidden.unauthorized)

@@ -1,5 +1,4 @@
 let jwt = require('jsonwebtoken');
-let config = require('../../config/app.json')[process.env.NODE_ENV || 'development'];
 let authentication = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
 let _ = require('lodash');
@@ -40,7 +39,7 @@ module.exports = {
                     // }
                     break;
                 case 'jwt':
-                    jwt.verify(token, config.auth.jwt.secret, function(err, decoded) {
+                    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
                         if (err) {
                             return res.status(authentication.unauthorized.status).json(
                                 new Response(authentication.unauthorized.credentialInvalid)

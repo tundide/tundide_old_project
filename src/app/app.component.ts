@@ -89,7 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.toastyService.error(toastOptions);
         });
 
-        if (process.env.environment === 'development') {
+        if (process.env.ENV === 'development') {
             $.getScript('http://localhost:35729/livereload.js', function () {
                 console.log('Debug Habilitado');
             });

@@ -13,7 +13,8 @@ let userSchema = mongoose.Schema({
         username: String,
         token: String,
         password: String,
-        attempts: Number
+        attempts: Number,
+        status: { type: Number, default: 0 }
     },
     shortId: String,
     socketId: String,
@@ -71,11 +72,12 @@ userSchema.methods.validPassword = function(password) {
  * A composition of user Authentication profile data and Auth token data.
  * @typedef {Object}            Authentication
  * @property {string}           id            - Authentication user id of the user
+ * @property {string}           username      - Username of authentication user
  * @property {string}           token         - Authentication long lived token to access user information later
- * @property {string}           email         - Email of authentication user 
- * @property {string}           name          - Display name of authentication user
+ * @property {string}           password      - Password for authentication
+ * @property {number}           attempts      - Number of attempts to authenticate
+ * @property {number}           status=0      - Status of user authentication (0 - Pending to Confirm | 1 - Enabled | 2 - Disabled)
  */
-
 /**
  * Details of the client Plan
  * @typedef {Object} Plan

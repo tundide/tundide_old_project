@@ -10,6 +10,10 @@
             "retrievedSuccessfully": {
                 "status": "accepted",
                 "message": "Usuario recuperado correctamente"
+            },
+            "confirmSuccessfully": {
+                "status": "accepted",
+                "message": "Cuenta de correo confirmada correctamente"
             }
         },
         "successcreated": {

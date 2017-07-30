@@ -173,6 +173,8 @@ module.exports = function(passport) {
         saved = user.save();
 
         Email.send({
+            name: req.body.name,
+            userid: user.shortId,
             from: 'info@tundide.com',
             to: req.body.jwt.email,
             subject: 'Por favor confirme su direccion de email',
@@ -190,6 +192,36 @@ module.exports = function(passport) {
         return res.status(authenticationResponse.successcreated.status).json(
             new Response(authenticationResponse.successcreated.signoutSuccessfully)
         );
+    });
+
+    /**
+     * @api {post} /confirm Confirm registered user email
+     * @apiName confirm
+     * @apiGroup Auth
+     * 
+     * @apiExample {js} Confirm Example
+     * {
+     *   "userid": "USJ-SJD77as8W",
+     * }
+     * 
+     * @apiSuccess {void}.
+     * 
+     */
+    router.patch("/confirm", function(req, res) {
+        user.shortId = req.body.userid;
+
+        User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "status": 1 /* Enabled */ } }, function(err, doc) {
+            if (err) {
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.database, err)
+                );
+            };
+
+            return res.status(authenticationResponse.success.status).json(
+                // TODO: Ver si estaria bueno enviar un mail dandole la bienvenida a quien confirmo su cuenta
+                new Response(authenticationResponse.success.confirmSuccessfully)
+            );
+        });
     });
 
     /**

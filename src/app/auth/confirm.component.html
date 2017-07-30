@@ -1,1 +1,15 @@
-Se le envio un correo a la direccion de email Por favor confirme
+<div *ngIf="!uid" class="card">
+    <div class="card-block">
+        <h4 class="card-title">Correo pendiente de confirmaci&oacute;n</h4>
+        <p>Se envio un correo electronico a la direcci&oacute;n que suministro.</p>
+        <p>Una vez confirmada la direcci&oacute;n de correo, usted podra acceder a Tundide.</p>
+    </div>
+</div>
+
+<div *ngIf="uid" class="card">
+    <div class="card-block">
+        <h4 class="card-title">Gracias por confirmar su direcci&oacute;n de correo</h4>
+        <p>A partir de este momento usted podra comenzar a disfrutar de la herramienta</p>
+        <p><small>En unos instantes sera redirigido para que ingrese a su portal.</small></p>
+    </div>
+</div>

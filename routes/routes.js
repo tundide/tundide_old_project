@@ -1,5 +1,5 @@
 module.exports = function(app, passport, mongoose) {
-    let auth = require('./auth/auth.js')(passport);
+    let auth = require('./auth/auth.js')();
     let location = require('./shared/location.js');
     let review = require('./publication/review.js');
     let reservation = require('./publication/reservation.js');

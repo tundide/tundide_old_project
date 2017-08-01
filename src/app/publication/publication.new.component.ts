@@ -38,6 +38,7 @@ export class PublicationNewComponent implements OnInit {
     private modalService: NgbModal,
     private publicationService: PublicationService) {
     this.publicationValid = false;
+    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
     this.toastyConfig.theme = 'bootstrap';
   }
 
@@ -46,7 +47,6 @@ export class PublicationNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
     this.loadValidators();
   }
 

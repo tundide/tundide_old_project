@@ -15,6 +15,8 @@ let env = require('node-env-file');
 
 env(__dirname + '/.env', { raise: false });
 
+let strategies = require("./routes/auth/strategies.js")();
+
 mongoose.connect(process.env.MONGODB_URI, {
     "useMongoClient": true,
     "sslValidate": true
@@ -36,7 +38,7 @@ app.use(cors({ origin: process.env.SITE_URL }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(passport.initialize());
+app.use(strategies.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
@@ -44,7 +46,7 @@ app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 
 app.use(function(req, res, next) {
     if (req.headers.authorization) {
-        let token = req.headers.authorization.split(' ')[1];
+        let token = req.headers.authorization;
         User.findOne({ 'authentication.token': token }, function(error, result) {
             if (error) return;
 

@@ -19,7 +19,8 @@ let userSchema = mongoose.Schema({
     shortId: String,
     socketId: String,
     roles: [String],
-    name: String,
+    firstName: String,
+    lastName: String,
     email: String,
     lastAccess: Date,
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Publication' }],
@@ -87,10 +88,13 @@ userSchema.methods.validPassword = function(password) {
  * @property {date}             expiration              - Date of publication expiration
  */
 
+// TODO: Completar la documentacion
 /**
  * Mongoose model for user document.
  *
  * @class User
+ * @property {string}               firstName       - The first name of the user
+ * @property {string}               lastName        - The last name of the user
  * @property {Plan}                 plan            - plan of the user
  * @property {Authentication}       authentication  - Authentication information of the user
  * @property {string}               shortId         - shortId of the user

@@ -1,6 +1,6 @@
 let express = require('express');
 let passport = require('passport');
-let jwt = require('jsonwebtoken');
+let jwt = require("jwt-simple");
 let router = express.Router();
 let User = require('../../models/user');
 let session = require('./session');
@@ -9,10 +9,7 @@ let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
 let Email = require('../../lib/Message/Email.js');
 
-require('./strategies')(passport);
-
-
-module.exports = function(passport) {
+module.exports = function() {
 
     /**
      * @api {get} /userdata Request User information
@@ -23,182 +20,29 @@ module.exports = function(passport) {
      * 
      */
     router.get('/userdata', session.authorize(), function(req, res) {
-        let authorization = req.headers.authorization.split(' ');
-        let type = authorization[0];
-        let token = authorization[1];
-        switch (type) {
-            case 'google':
-                User.findOne({ 'authentication.token': token }, function(err, fulluser) {
-                    if (!fulluser) {
-                        return res.status(authenticationResponse.forbidden.status).json(
-                            new Response(authenticationResponse.forbidden.unauthorized)
-                        );
-                    }
-                    if (err)
-                        return res.status(authenticationResponse.internalservererror.status).json(
-                            new Response(authenticationResponse.internalservererror.default, err)
-                        );
-
-                    let userObj = {
-                        'id': fulluser.id,
-                        'name': fulluser.name,
-                        'token': fulluser.authentication.token,
-                        'username': fulluser.authentication.username,
-                        'roles': fulluser.roles,
-                        'shortId': fulluser.shortId
-                    };
-
-                    return res.status(authenticationResponse.success.status).json(
-                        new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
-                    );
-                });
-                break;
-            case 'jwt':
-                jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
-                    if (err) {
-                        return res.status(authenticationResponse.internalservererror.status).json(
-                            new Response(authenticationResponse.internalservererror.default, err)
-                        );
-                    } else {
-                        User.findOne({ 'authentication.token': token }, function(err, fulluser) {
-                            if (!fulluser) {
-                                return res.status(authenticationResponse.forbidden.status).json(
-                                    new Response(authenticationResponse.forbidden.unauthorized)
-                                );
-                            }
-                            if (err)
-                                return res.status(authenticationResponse.internalservererror.status).json(
-                                    new Response(authenticationResponse.internalservererror.default)
-                                );
-
-                            let userObj = {
-                                'id': fulluser.id,
-                                'name': fulluser.name,
-                                'token': fulluser.authentication.token,
-                                'username': fulluser.authentication.username,
-                                'roles': fulluser.roles,
-                                'shortId': fulluser.shortId
-                            };
-
-                            return res.status(authenticationResponse.success.status).json(
-                                new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
-                            );
-                        });
-                    }
-                });
-                break;
-        }
-    });
-
-    /**
-     * @api {post} /signin Signin User with JWT
-     * @apiName signin
-     * @apiGroup Auth
-     * 
-     * @apiExample {js} Signin Example
-     * {
-     *   "email": "user@mail.com",
-     *   "password": "fc3b322ab12bb56b7db9ddc0eabab261"
-     * }
-     * 
-     * @apiSuccess {String} Return JWT Token.
-     * 
-     */
-    router.post("/signin", function(req, res) {
-        if (!req.body.email) {
-            return res.status(authenticationResponse.badrequest.status).json(
-                new Response(authenticationResponse.badrequest.userEmpty)
-            );
-        }
-
-        if (!req.body.password) {
-            return res.status(authenticationResponse.badrequest.status).json(
-                new Response(authenticationResponse.badrequest.passwordEmpty)
-            );
-        }
-
-        User.findOne({
-                $and: [{ "authentication.username": req.body.email },
-                    { "authentication.password": req.body.password }
-                ]
-            },
-            function(err, user) {
-                if (user) {
-                    let token = 'jwt ' + jwt.sign(user.shortId, process.env.JWT_SECRET);
-
-                    return res.status(authenticationResponse.success.status).json(
-                        new Response(authenticationResponse.success.loginSuccessfully, token)
-                    );
-                } else {
-                    return res.status(authenticationResponse.unauthorized.status).json(
-                        new Response(authenticationResponse.unauthorized.credentialInvalid)
-                    );
-                }
-            }
-        );
-
-    });
-
-    /**
-     * @api {post} /signout Signout User with JWT
-     * @apiName signout
-     * @apiGroup Auth
-     * 
-     * @apiExample {js} Signout Example
-     * {
-     *   "name": "Name",
-     *   "jwt": {
-     *     "email": "user@mail.com",
-     *     "password": "fc3b322ab12bb56b7db9ddc0eabab261"
-     *   }
-     * }
-     * 
-     * @apiSuccess {String} Return JWT Token.
-     * 
-     */
-    router.post("/signout", function(req, res) {
-        let user = new User();
-        user.name = req.body.name;
-        user.shortId = 'USJ-' + shortid.generate();
-
-        let token = jwt.sign(user.shortId, process.env.JWT_SECRET);
-
-        user.authentication = {
-            'username': req.body.jwt.email,
-            'password': req.body.jwt.password,
-            'token': token,
-            'status': 0
-        };
-
-        User.findOne({ 'authentication.username': req.body.jwt.email }, function(err, user) {
-            if (user) {
-                return res.status(authenticationResponse.internalservererror.status).json(
-                    new Response(authenticationResponse.internalservererror.userExists)
+        let token = req.headers.authorization;
+        User.findOne({ 'authentication.token': token }, function(err, fulluser) {
+            if (!fulluser) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
                 );
             }
+            if (err)
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.default, err)
+                );
 
-            saved = user.save();
+            let userObj = {
+                'id': fulluser.id,
+                'name': fulluser.firstName + ' ' + fulluser.lastName,
+                'token': fulluser.authentication.token,
+                'username': fulluser.authentication.username,
+                'roles': fulluser.roles,
+                'shortId': fulluser.shortId
+            };
 
-            // TODO: Registrarse en mercadopago
-            Email.send({
-                name: req.body.name,
-                userid: user.shortId,
-                from: 'info@tundide.com',
-                to: req.body.jwt.email,
-                subject: 'Por favor confirme su direccion de email',
-                message: 'Por favor confirme su email haciendo click aqui, o copie y pegue la siguiente direccion en el navegador'
-            }, function(error, response) {
-                if (error) {
-                    console.log('Error response received');
-                    // TODO: Si falla mandar bien el siguiente response, que tiene que ser como error
-                    res.status(authenticationResponse.successcreated.status).json(
-                        new Response(authenticationResponse.successcreated.signoutSuccessfully)
-                    );
-                }
-            });
-
-            return res.status(authenticationResponse.successcreated.status).json(
-                new Response(authenticationResponse.successcreated.signoutSuccessfully)
+            return res.status(authenticationResponse.success.status).json(
+                new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
             );
         });
     });
@@ -240,6 +84,7 @@ module.exports = function(passport) {
      * 
      */
     router.get('/logout', function(req, res) {
+        req.logout();
         res.redirect('/');
     });
 
@@ -255,21 +100,83 @@ module.exports = function(passport) {
     }));
 
     /**
+     * @api {post} /signin Signin User with Local Strategy
+     * @apiName signin
+     * @apiGroup Auth
+     * 
+     * @apiExample {js} Signin Example
+     * {
+     *   "email": "user@mail.com",
+     *   "password": "fc3b322ab12bb56b7db9ddc0eabab261"
+     * }
+     * 
+     * @apiSuccess {String} Return JWT Token.
+     * 
+     */
+    router.post('/signin', function(req, res, next) {
+        passport.authenticate('local-signin', function(err, status, user) {
+            if (err) { return next(err); }
+
+            switch (+status) {
+                case 0:
+                    return res.status(authenticationResponse.unauthorized.status).json(
+                        new Response(authenticationResponse.unauthorized.pendingConfirm)
+                    );
+                case 1:
+                    return res.status(authenticationResponse.success.status).json(
+                        new Response(authenticationResponse.success.loginSuccessfully, user.authentication.token)
+                    );
+                default:
+                    return res.status(authenticationResponse.unauthorized.status).json(
+                        new Response(authenticationResponse.unauthorized.credentialInvalid)
+                    );
+            }
+        })(req, res, next);
+    });
+
+    /**
+     * @api {post} /signout Signout User with Local Strategy
+     * @apiName signout
+     * @apiGroup Auth
+     * 
+     * @apiExample {js} Signout Example
+     * {
+     *   "email": "user@mail.com",
+     *   "password": "fc3b322ab12bb56b7db9ddc0eabab261"
+     * }
+     * 
+     * @apiSuccess {String} Return JWT Token.
+     * 
+     */
+    router.post('/signout', function(req, res, next) {
+        passport.authenticate('local-signout', function(err, user, info) {
+            if (err) { return next(err); }
+
+            return res.status(authenticationResponse.successcreated.status).json(
+                new Response(authenticationResponse.successcreated.signoutSuccessfully)
+            );
+        })(req, res, next);
+    });
+
+    /**
      * @api {get} /google/callback Redirect after google authentication 
      * @apiName googleCallback
      * @apiGroup Auth
      * 
      */
     router.get("/google/callback", function(req, res, next) {
-        passport.authenticate('google', function(err, user, info) {
+        passport.authenticate('google', function(err, status, user) {
             if (err) { return next(err); }
 
-            if (user) {
-                res.redirect(process.env.SITE_URL + '/#/?t=google ' + user.authentication.token);
-            } else {
-                return res.status(authenticationResponse.forbidden.status).json(
-                    new Response(authenticationResponse.forbidden.unauthorized)
-                );
+            switch (+status) {
+                case 0:
+                    return res.redirect(process.env.SITE_URL + '/#/auth/confirm');
+                case 1:
+                    return res.redirect(process.env.SITE_URL + '/#/?t=' + user.authentication.token);
+                default:
+                    return res.status(authenticationResponse.forbidden.status).json(
+                        new Response(authenticationResponse.forbidden.unauthorized)
+                    );
             }
         })(req, res, next);
     });

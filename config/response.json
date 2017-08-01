@@ -31,7 +31,8 @@
         },
         "unauthorized": {
             "status": 401,
-            "credentialInvalid": { "code": 1403, "error": "invalid username or password", "message": "El usuario o contrase&ntilde;a es inv&aacute;lido" }
+            "credentialInvalid": { "code": 1403, "error": "invalid username or password", "message": "El usuario o contrase&ntilde;a es inv&aacute;lido" },
+            "pendingConfirm": { "code": 1404, "error": "pending to confirm", "message": "La cuenta esta pendiente a confirmarse" }
         },
         "forbidden": {
             "status": 403,

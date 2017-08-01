@@ -129,11 +129,8 @@ export class AuthService {
      */
     signout(name: string, email: string, password: string) {
         let usr = {
-            jwt: {
-                email: email,
-                password: Md5.hashStr(password)
-            },
-            name: name
+            email: email,
+            password: Md5.hashStr(password)
         };
 
         const body = JSON.stringify(usr);

@@ -1,26 +1,22 @@
-<div class="card" id="cardLogin">
+<div class="card">
     <div class="card-block">
-        <form (ngSubmit)="submitForm(form.value)" #form="ngForm">
+        <form #form="ngForm" (ngSubmit)="submitForm(form.value)" [formGroup]="formGroupSignout">
             <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="inputNombre">Nombre</label>
-                    <input type="text" required ngModel name="name" class="form-control" id="inputNombre">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="col-md-12 form-group">
                     <label for="inputMail">E-mail</label>
-                    <input type="email" required ngModel name="email" class="form-control" id="inputMail">
+                    <input type="email" formControlName="email" required ngModel name="email" class="form-control" id="inputMail">
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="col-md-12 form-group">
                     <label for="inputContrasena">Contrase&ntilde;a</label>
-                    <input name="password" required ngModel name="password" class="form-control" promptLabel="Por favor ingrese una contrase&ntilde;a" weakLabel="Facil" type="password" pPassword />
+                    <input name="password" required ngModel formControlName="password" name="password" class="form-control" promptLabel="Por favor ingrese una contrase&ntilde;a" weakLabel="Facil" type="password" pPassword />
                 </div>
-                <div class="col-md-6 form-group">
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
                     <label for="inputRepetirContrasena">Repetir Contrase&ntilde;a</label>
-                    <input name="confirmpassword" required ngModel name="confirmpassword" class="form-control" type="password" pPassword />
+                    <input name="confirmpassword" required ngModel formControlName="confirmpassword" name="confirmpassword" class="form-control" type="password" pPassword />
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Registrarme</button>

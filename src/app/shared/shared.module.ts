@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { DateTimePickerComponent } from './components/calendar/datetimepicker.component';
 import { FileUploadComponent } from './components/fileupload/fileupload.component';
+import { PasswordStrengthBar } from './components/password-strength-bar/password-strength-bar.component';
 import { FileUploadService } from './components/fileupload/fileupload.service';
 import { CalendarModule } from 'angular-calendar';
 import { CamelCase } from './camelcase.pipe';
@@ -16,6 +17,7 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
     declarations: [CamelCase,
         CalendarComponent,
         DateTimePickerComponent,
+        PasswordStrengthBar,
         FileUploadComponent],
     exports: [
         CamelCase,
@@ -23,6 +25,7 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
         FormsModule,
         RouterModule,
         CalendarComponent,
+        PasswordStrengthBar,
         DateTimePickerComponent,
         FileUploadComponent],
     imports: [

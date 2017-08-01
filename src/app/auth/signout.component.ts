@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PasswordValidator } from '../shared/customValidators/password.validator';
 
 @Component({
   selector: 'signout',
@@ -16,11 +17,16 @@ export class SignoutComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    let regexpattern = '/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{4,20}/';
     this.formGroupSignout = this.formBuilder.group({
-      confirmpassword: this.formBuilder.control('', [Validators.required]),
-      email: this.formBuilder.control('', [Validators.required]),
-      password: this.formBuilder.control('', [Validators.required])
-    });
+      confirmpassword: this.formBuilder.control('', [Validators.required,
+      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/)]),
+      email: this.formBuilder.control('', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
+      password: this.formBuilder.control('', [Validators.required,
+      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/)])
+    }, {
+        validator: PasswordValidator.MatchPassword
+      });
   }
 
   submitForm(form: any): void {

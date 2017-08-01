@@ -61,7 +61,7 @@ module.exports = function() {
      * 
      */
     router.patch("/confirm", function(req, res) {
-        User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "status": 1 /* Enabled */ } }, function(err, doc) {
+        User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "authentication.status": 1 /* Enabled */ } }, function(err, doc) {
             if (err) {
                 return res.status(authenticationResponse.internalservererror.status).json(
                     new Response(authenticationResponse.internalservererror.database, err)

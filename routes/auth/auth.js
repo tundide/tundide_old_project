@@ -115,7 +115,23 @@ module.exports = function() {
      */
     router.post('/signin', function(req, res, next) {
         passport.authenticate('local-signin', function(err, status, user) {
-            if (err) { return next(err); }
+            if (err) {
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.default)
+                );
+            }
+
+            if (!req.body.email) {
+                return res.status(authenticationResponse.badrequest.status).json(
+                    new Response(authenticationResponse.badrequest.userEmpty)
+                );
+            }
+
+            if (!req.body.password) {
+                return res.status(authenticationResponse.badrequest.status).json(
+                    new Response(authenticationResponse.badrequest.passwordEmpty)
+                );
+            }
 
             switch (+status) {
                 case 0:
@@ -149,8 +165,18 @@ module.exports = function() {
      * 
      */
     router.post('/signout', function(req, res, next) {
-        passport.authenticate('local-signout', function(err, user, info) {
-            if (err) { return next(err); }
+        passport.authenticate('local-signout', function(err, status) {
+            if (err) {
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.default)
+                );
+            }
+
+            if (status == 1 /*User exists*/ ) {
+                return res.status(authenticationResponse.internalservererror.status).json(
+                    new Response(authenticationResponse.internalservererror.userExists)
+                );
+            }
 
             return res.status(authenticationResponse.successcreated.status).json(
                 new Response(authenticationResponse.successcreated.signoutSuccessfully)
@@ -165,19 +191,14 @@ module.exports = function() {
      * 
      */
     router.get("/google/callback", function(req, res, next) {
-        passport.authenticate('google', function(err, status, user) {
-            if (err) { return next(err); }
-
-            switch (+status) {
-                case 0:
-                    return res.redirect(process.env.SITE_URL + '/#/auth/confirm');
-                case 1:
-                    return res.redirect(process.env.SITE_URL + '/#/?t=' + user.authentication.token);
-                default:
-                    return res.status(authenticationResponse.forbidden.status).json(
-                        new Response(authenticationResponse.forbidden.unauthorized)
-                    );
+        passport.authenticate('google', function(err, user) {
+            if (err) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
             }
+
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.authentication.token);
         })(req, res, next);
     });
 

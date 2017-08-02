@@ -17,13 +17,13 @@ export class SignoutComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    let regexpattern = '/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{4,20}/';
+    let regexpattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
     this.formGroupSignout = this.formBuilder.group({
       confirmpassword: this.formBuilder.control('', [Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/)]),
+      Validators.pattern(regexpattern)]),
       email: this.formBuilder.control('', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
       password: this.formBuilder.control('', [Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/)])
+      Validators.pattern(regexpattern)])
     }, {
         validator: PasswordValidator.MatchPassword
       });

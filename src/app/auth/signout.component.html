@@ -24,7 +24,14 @@
                             La contrase&ntilde;a es requerida
                         </div>
                         <div class="error" ngxError="pattern">
-                            La contrase&ntilde;a debe contar con un minimo de 8 caracteres, debe contener al menos una minuscula, una mayuscula y un numero o simbolo
+                            La contrase&ntilde;a debe tener las siguientes caracteristicas
+                            <ul>
+                                <li>Minimo de 8 caracteres</li>
+                                <li>Una mayuscula</li>
+                                <li>Una minuscula</li>
+                                <li>Un numero</li>
+                                <li>Un caracter especial (@ $ ! % * # ? &)</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -37,7 +44,7 @@
                         <div class="error" ngxError="required">
                             El Titulo es requerido
                         </div>
-                        <div class="error" [ngxError]="MatchPassword">
+                        <div class="error" ngxError="MatchPassword">
                             La contrase&ntilde;a no coincide
                         </div>
                         <div class="error" ngxError="pattern">

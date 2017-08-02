@@ -30,19 +30,6 @@ module.exports = function() {
             passReqToCallback: false
         },
         function(email, password, done) {
-
-            if (!email) {
-                return res.status(authenticationResponse.badrequest.status).json(
-                    new Response(authenticationResponse.badrequest.userEmpty)
-                );
-            }
-
-            if (!password) {
-                return res.status(authenticationResponse.badrequest.status).json(
-                    new Response(authenticationResponse.badrequest.passwordEmpty)
-                );
-            }
-
             User.findOne({
                     $and: [{ "authentication.username": email },
                         { "authentication.password": password }
@@ -78,27 +65,48 @@ module.exports = function() {
             }
             // User.findOne wont fire unless data is sent back
             process.nextTick(function() {
-                let shortId = 'USG-' + shortid.generate();
-                let token = jwt.encode(shortId, process.env.JWT_SECRET);
+                User.findOne({ 'authentication.username': email }, function(err, user) {
+                    if (err) {
+                        return done(err);
+                    }
+                    if (user) {
+                        return done(null, 1 /*User exists*/ );
+                    }
 
-                let newUser = new User();
+                    let shortId = 'USG-' + shortid.generate();
+                    let token = jwt.encode(shortId, process.env.JWT_SECRET);
 
-                newUser.authentication = {
-                    'username': email,
-                    'password': password,
-                    'token': token,
-                    'status': 0
-                };
+                    let newUser = new User();
 
-                newUser.email = email;
-                newUser.shortId = shortId;
+                    newUser.authentication = {
+                        'username': email,
+                        'password': password,
+                        'token': token,
+                        'status': 0
+                    };
 
-                newUser.roles.push('user');
-                newUser.firstName = email;
-                newUser.lastName = email;
+                    newUser.email = email;
+                    newUser.shortId = shortId;
 
-                NewUser(newUser, done);
+                    newUser.roles.push('user');
+                    newUser.firstName = shortId;
+                    newUser.lastName = '';
 
+                    NewUser(newUser, (err, user) => {
+                        if (err)
+                            return done(err);
+
+                        Email.signoutConfirmSend({
+                            name: email,
+                            userid: newUser.shortId,
+                            from: 'no-reply@mail.tundide.com',
+                            to: newUser.email,
+                            subject: 'Por favor confirme su direccion de correo electronico'
+                        }, (error) => {
+                            return done(error);
+                        });
+                    });
+                });
             });
         }));
 
@@ -114,11 +122,8 @@ module.exports = function() {
                     if (err)
                         return done(err);
 
-                    let status = user.authentication.status;
-
                     if (user) {
-                        return done(null, status, user);
-
+                        return done(null, user);
                     } else {
                         let newUser = new User();
 
@@ -150,20 +155,8 @@ module.exports = function() {
     function NewUser(newUser, done) {
         let savedUser = (err) => {
             if (err)
-                throw err;
+                return done(err);
 
-            Email.send({
-                name: newUser.firstName + ' ' + newUser.lastName,
-                userid: newUser.shortId,
-                from: 'info@tundide.com',
-                to: newUser.email,
-                subject: 'Por favor confirme su direccion de email',
-                message: 'Por favor confirme su email haciendo click aqui, o copie y pegue la siguiente direccion en el navegador'
-            }, (error) => {
-                if (error) {
-                    return done(error);
-                }
-            });
             return done(null, newUser);
         };
 

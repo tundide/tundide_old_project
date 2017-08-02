@@ -4,13 +4,12 @@ import { RouterModule } from '@angular/router';
 import { SigninComponent } from './signin.component';
 import { SignoutComponent } from './signout.component';
 import { ConfirmComponent } from './confirm.component';
-import { PasswordStrengthBar } from '../shared/components/password-strength-bar/password-strength-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { routing } from './auth.routing';
 
 @NgModule({
-    declarations: [SigninComponent, SignoutComponent, ConfirmComponent, PasswordStrengthBar],
+    declarations: [SigninComponent, SignoutComponent, ConfirmComponent],
     exports: [SigninComponent, SignoutComponent, ConfirmComponent],
     imports: [routing,
         RouterModule,

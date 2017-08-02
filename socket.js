@@ -6,8 +6,8 @@ module.exports = function(server) {
     io.use(function(socket, next) {
         let userId = socket.request._query['userId'];
 
-        User.update({ shortId: userId }, { 'socketId': socket.id }, { upsert: true, multi: true }, function(error, result) {
-            if (error) return;
+        User.findOneAndUpdate({ shortId: userId }, { "$set": { "socketId": socket.id } }, function(err, doc) {
+            if (err) return;
         });
 
         next();

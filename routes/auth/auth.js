@@ -8,6 +8,11 @@ let shortid = require('shortid');
 let authenticationResponse = require('../../config/response').authentication;
 let Response = require('../shared/response.js');
 let Email = require('../../lib/Message/Email.js');
+let config = require('../../config/app.json');
+let Recaptcha = require('recaptcha-verify');
+let recaptcha = new Recaptcha({
+    secret: config.secretReCaptcha
+});
 
 module.exports = function() {
 
@@ -165,23 +170,36 @@ module.exports = function() {
      * 
      */
     router.post('/signout', function(req, res, next) {
-        passport.authenticate('local-signout', function(err, status) {
-            if (err) {
+        recaptcha.checkResponse(req.body.token, function(error, response) {
+            if (error) {
                 return res.status(authenticationResponse.internalservererror.status).json(
                     new Response(authenticationResponse.internalservererror.default)
                 );
             }
+            if (response.success) {
+                passport.authenticate('local-signout', function(err, status) {
+                    if (err) {
+                        return res.status(authenticationResponse.internalservererror.status).json(
+                            new Response(authenticationResponse.internalservererror.default)
+                        );
+                    }
 
-            if (status == 1 /*User exists*/ ) {
+                    if (status == 1 /*User exists*/ ) {
+                        return res.status(authenticationResponse.internalservererror.status).json(
+                            new Response(authenticationResponse.internalservererror.userExists)
+                        );
+                    }
+
+                    return res.status(authenticationResponse.successcreated.status).json(
+                        new Response(authenticationResponse.successcreated.signoutSuccessfully)
+                    );
+                })(req, res, next);
+            } else {
                 return res.status(authenticationResponse.internalservererror.status).json(
-                    new Response(authenticationResponse.internalservererror.userExists)
+                    new Response(authenticationResponse.internalservererror.captchaInvalid)
                 );
             }
-
-            return res.status(authenticationResponse.successcreated.status).json(
-                new Response(authenticationResponse.successcreated.signoutSuccessfully)
-            );
-        })(req, res, next);
+        });
     });
 
     /**

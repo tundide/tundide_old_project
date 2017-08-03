@@ -127,10 +127,11 @@ export class AuthService {
      * @param  {string} email email of the user
      * @param  {string} password password of the user
      */
-    signout(name: string, email: string, password: string) {
+    signout(name: string, email: string, password: string, token: string) {
         let usr = {
             email: email,
-            password: Md5.hashStr(password)
+            password: Md5.hashStr(password),
+            token: token
         };
 
         const body = JSON.stringify(usr);

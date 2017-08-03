@@ -1,0 +1,8 @@
+{
+    "secretReCaptcha": "6LftYysUAAAAAE8eTeaeTP9fUXLrkxaJgLm1nvbD",
+    "mail": {
+        "templates": {
+            "confirmMailId": "0968d15e-cfd7-4a8b-ad27-d80c57e7e5b5"
+        }
+    }
+}

@@ -42,7 +42,8 @@
             "status": 500,
             "default": { "code": 1500, "error": "Unespected Error", "message": "Ocurrio un error inesperado en la autenticaci&oacute;n" },
             "saveerror": { "code": 1501, "error": "Mongoose Save Error", "message": "Ocurrio un error al guardar el mensaje" },
-            "userExists": { "code": 1501, "error": "User Exists", "message": "El usuario que quiere registrar ya se encuentra en nuestra base de datos" }
+            "userExists": { "code": 1502, "error": "User Exists", "message": "El usuario que quiere registrar ya se encuentra en nuestra base de datos" },
+            "captchaInvalid": { "code": 1503, "error": "User is a robot", "message": "El captcha es invalido" }
         }
     },
     "location": {

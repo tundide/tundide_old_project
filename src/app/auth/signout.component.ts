@@ -11,6 +11,7 @@ import { PasswordValidator } from '../shared/customValidators/password.validator
 })
 export class SignoutComponent implements OnInit {
   private formGroupSignout: FormGroup;
+  private captchaToken;
 
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -29,9 +30,12 @@ export class SignoutComponent implements OnInit {
       });
   }
 
+  handleCorrectCaptcha(event) {
+    this.captchaToken = event;
+  }
+
   submitForm(form: any): void {
-    // TODO: Agregar reCaptcha
-    this.authService.signout(form.name, form.email, form.password).subscribe(
+    this.authService.signout(form.name, form.email, form.password, this.captchaToken).subscribe(
       data => {
         this.router.navigate(['/auth/confirm']);
       }

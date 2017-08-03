@@ -53,6 +53,11 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <re-captcha (captchaResponse)="handleCorrectCaptcha($event)" site_key="6LftYysUAAAAABcYK_HTu1FFJcgB5boNNHr7C402"></re-captcha>
+                </div>
+            </div>
             <button type="submit" [disabled]="!formGroupSignout.valid" class="btn btn-primary">Registrarme</button>
         </form>
     </div>

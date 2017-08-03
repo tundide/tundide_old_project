@@ -7,6 +7,7 @@ import { ConfirmComponent } from './confirm.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { routing } from './auth.routing';
+import { ReCaptchaModule } from 'angular2-recaptcha';
 
 @NgModule({
     declarations: [SigninComponent, SignoutComponent, ConfirmComponent],
@@ -14,6 +15,7 @@ import { routing } from './auth.routing';
     imports: [routing,
         RouterModule,
         CommonModule,
+        ReCaptchaModule,
         NgxErrorsModule,
         FormsModule,
         ReactiveFormsModule]

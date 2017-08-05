@@ -26,7 +26,15 @@ module.exports = function() {
      */
     router.get('/userdata', session.authorize(), function(req, res) {
         let token = req.headers.authorization;
-        User.findOne({ 'authentication.token': token }, function(err, fulluser) {
+        User.findOne({
+            $or: [{ 'google.token': token },
+                { 'outlook.token': token },
+                { 'facebook.token': token },
+                { 'twitter.token': token },
+                { 'linkedin.token': token },
+                { 'local.token': token }
+            ]
+        }, function(err, fulluser) {
             if (!fulluser) {
                 return res.status(authenticationResponse.forbidden.status).json(
                     new Response(authenticationResponse.forbidden.unauthorized)
@@ -39,12 +47,37 @@ module.exports = function() {
 
             let userObj = {
                 'id': fulluser.id,
-                'name': fulluser.firstName + ' ' + fulluser.lastName,
-                'token': fulluser.authentication.token,
-                'username': fulluser.authentication.username,
+                'name': fulluser.displayName,
+                'token': '',
+                'username': '',
                 'roles': fulluser.roles,
                 'shortId': fulluser.shortId
             };
+
+            if (fulluser.google) {
+                userObj.username = fulluser.google.username;
+                userObj.token = fulluser.google.token;
+            }
+            if (fulluser.linkedin) {
+                userObj.username = fulluser.linkedin.username;
+                userObj.token = fulluser.linkedin.token;
+            }
+            if (fulluser.outlook) {
+                userObj.username = fulluser.outlook.username;
+                userObj.token = fulluser.outlook.token;
+            }
+            if (fulluser.twitter) {
+                userObj.username = fulluser.twitter.username;
+                userObj.token = fulluser.twitter.token;
+            }
+            if (fulluser.facebook) {
+                userObj.username = fulluser.facebook.username;
+                userObj.token = fulluser.facebook.token;
+            }
+            if (fulluser.local) {
+                userObj.username = fulluser.local.username;
+                userObj.token = fulluser.local.token;
+            }
 
             return res.status(authenticationResponse.success.status).json(
                 new Response(authenticationResponse.success.retrievedSuccessfully, userObj)
@@ -66,7 +99,7 @@ module.exports = function() {
      * 
      */
     router.patch("/confirm", function(req, res) {
-        User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "authentication.status": 1 /* Enabled */ } }, function(err, doc) {
+        User.findOneAndUpdate({ shortId: req.body.userid }, { "$set": { "local.status": 1 /* Enabled */ } }, function(err, doc) {
             if (err) {
                 return res.status(authenticationResponse.internalservererror.status).json(
                     new Response(authenticationResponse.internalservererror.database, err)
@@ -92,17 +125,6 @@ module.exports = function() {
         req.logout();
         res.redirect('/');
     });
-
-    /**
-     * @api {get} /google Get Passport authentication
-     * @apiName google
-     * @apiGroup Auth
-     * 
-     */
-    router.get('/google', passport.authenticate('google', {
-        scope: ['email'],
-        session: false
-    }));
 
     /**
      * @api {post} /signin Signin User with Local Strategy
@@ -145,7 +167,7 @@ module.exports = function() {
                     );
                 case 1:
                     return res.status(authenticationResponse.success.status).json(
-                        new Response(authenticationResponse.success.loginSuccessfully, user.authentication.token)
+                        new Response(authenticationResponse.success.loginSuccessfully, user.local.token)
                     );
                 default:
                     return res.status(authenticationResponse.unauthorized.status).json(
@@ -202,6 +224,18 @@ module.exports = function() {
         });
     });
 
+
+    /**
+     * @api {get} /google Get Passport authentication
+     * @apiName google
+     * @apiGroup Auth
+     * 
+     */
+    router.get('/google', passport.authenticate('google', {
+        scope: ['email'],
+        session: false
+    }));
+
     /**
      * @api {get} /google/callback Redirect after google authentication 
      * @apiName googleCallback
@@ -216,7 +250,113 @@ module.exports = function() {
                 );
             }
 
-            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.authentication.token);
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.google.token);
+        })(req, res, next);
+    });
+
+    /**
+     * @api {get} /outlook Get Passport authentication
+     * @apiName outlook
+     * @apiGroup Auth
+     * 
+     */
+    router.get('/outlook',
+        passport.authenticate('windowslive', { scope: ['wl.signin', 'wl.basic'] }));
+    /**
+     * @api {get} /outlook/callback Redirect after outlook authentication 
+     * @apiName outlookCallback
+     * @apiGroup Auth
+     * 
+     */
+    router.get("/outlook/callback", function(req, res, next) {
+        passport.authenticate('windowslive', function(err, user) {
+            if (err) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
+            }
+
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.outlook.token);
+        })(req, res, next);
+    });
+
+    /**
+     * @api {get} /linkedin Get Passport authentication
+     * @apiName linkedin
+     * @apiGroup Auth
+     * 
+     */
+    router.get('/linkedin',
+        passport.authenticate('linkedin'));
+    /**
+     * @api {get} /linkedin/callback Redirect after linkedin authentication 
+     * @apiName linkedinCallback
+     * @apiGroup Auth
+     * 
+     */
+    router.get("/linkedin/callback", function(req, res, next) {
+        passport.authenticate('linkedin', function(err, user) {
+            if (err) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
+            }
+
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.linkedin.token);
+        })(req, res, next);
+    });
+
+    /**
+     * @api {get} /facebook Get Passport authentication
+     * @apiName facebook
+     * @apiGroup Auth
+     * 
+     */
+    router.get('/facebook',
+        passport.authenticate('facebook'));
+
+    /**
+     * @api {get} /facebook/callback Redirect after outlook authentication 
+     * @apiName facebookCallback
+     * @apiGroup Auth
+     * 
+     */
+    router.get("/facebook/callback", function(req, res, next) {
+        passport.authenticate('facebook', function(err, user) {
+            if (err) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
+            }
+
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.facebook.token);
+        })(req, res, next);
+    });
+
+    /**
+     * @api {get} /twitter Get Passport authentication
+     * @apiName twitter
+     * @apiGroup Auth
+     * 
+     */
+    router.get('/twitter',
+        passport.authenticate('twitter'));
+
+    /**
+     * @api {get} /twitter/callback Redirect after outlook authentication 
+     * @apiName twitterCallback
+     * @apiGroup Auth
+     * 
+     */
+    router.get("/twitter/callback", function(req, res, next) {
+        passport.authenticate('twitter', function(err, user) {
+            if (err) {
+                return res.status(authenticationResponse.forbidden.status).json(
+                    new Response(authenticationResponse.forbidden.unauthorized)
+                );
+            }
+
+            return res.redirect(process.env.SITE_URL + '/#/?t=' + user.twitter.token);
         })(req, res, next);
     });
 

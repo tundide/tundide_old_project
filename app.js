@@ -1,6 +1,7 @@
 require('./jobs.js');
 require('./mercadopago.js');
 let express = require('express');
+let session = require('express-session');
 let path = require('path');
 let favicon = require('serve-favicon');
 let logger = require('morgan');
@@ -37,6 +38,10 @@ app.use(compression());
 app.use(cors({ origin: process.env.SITE_URL }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    cookie: { secure: true }
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(strategies.initialize());
 app.use(passport.session());
@@ -47,7 +52,15 @@ app.use("/node_modules", express.static(path.join(__dirname, 'node_modules')));
 app.use(function(req, res, next) {
     if (req.headers.authorization) {
         let token = req.headers.authorization;
-        User.findOne({ 'authentication.token': token }, function(error, result) {
+        User.findOne({
+            $or: [{ 'google.token': token },
+                { 'outlook.token': token },
+                { 'facebook.token': token },
+                { 'twitter.token': token },
+                { 'linkedin.token': token },
+                { 'local.token': token }
+            ]
+        }, function(error, result) {
             if (error) return;
 
             req.user = result;

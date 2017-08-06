@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { BillingService } from './billing.service';
 import { Subscription } from 'rxjs';
+import * as $S from 'scriptjs';
 declare var $: JQueryStatic;
 declare var Mercadopago;
 
@@ -19,7 +20,7 @@ export class PayComponent implements OnInit {
     }
 
     ngOnInit() {
-        $.getScript('https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js', () => {
+        $S('https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js', () => {
             Mercadopago.setPublishableKey(process.env.publickey.mercadopago);
             Mercadopago.getIdentificationTypes(function (status, data) {
                 $.each(data, function (i, item) {

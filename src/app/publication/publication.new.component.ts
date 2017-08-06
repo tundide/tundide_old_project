@@ -10,6 +10,7 @@ import { Service } from './service/service.model';
 import { WizardComponent } from '../shared/components/wizard/wizard.component';
 import { MinImages } from '../shared/customValidators/image.validator';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import * as $S from 'scriptjs';
 
 declare var $: JQueryStatic;
 declare var CKEDITOR;
@@ -38,7 +39,7 @@ export class PublicationNewComponent implements OnInit {
     private modalService: NgbModal,
     private publicationService: PublicationService) {
     this.publicationValid = false;
-    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
+    $S('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js', null);
     this.toastyConfig.theme = 'bootstrap';
   }
 

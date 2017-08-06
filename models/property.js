@@ -15,22 +15,7 @@ let PublicationSchema = require('./publication.js');
  * @constructor Property
  */
 let PropertySchema = PublicationSchema.schema.extend({
-    facilities: {
-        internet: Boolean,
-        airconditioning: Boolean,
-        elevator: Boolean,
-        heating: Boolean,
-        reception: Boolean,
-        security: Boolean,
-        powerunit: Boolean,
-        phone: Boolean,
-        gas: Boolean,
-        water: Boolean,
-        lobby: Boolean,
-        buffet: Boolean,
-        ramp: Boolean,
-        openingtothestreet: Boolean
-    },
+    facilities: {},
     location: {
         province: Number,
         place: Number,
@@ -39,7 +24,7 @@ let PropertySchema = PublicationSchema.schema.extend({
         latitude: Number,
         longitude: Number
     }
-});
+}, { strict: false });
 
 /**
  * Find properties into publications

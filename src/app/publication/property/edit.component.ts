@@ -145,7 +145,6 @@ export class PropertyEditComponent implements OnInit {
 
         if (cat.facilities) {
             this.facilitiesTypes = cat.facilities;
-            console.log(this.facilitiesTypes);
         }
 
 

@@ -33,20 +33,23 @@ class Details {
 }
 
 class Facilities {
-    internet = false;
-    security = false;
-    lobby = false;
-    airconditioning = false;
-    powerunit = false;
-    buffet = false;
-    elevator = false;
-    phone = false;
-    ramp = false;
-    heating = false;
-    gas = false;
-    openingtothestreet = false;
-    reception = false;
-    water = false;
+    // internet = false;
+    // security = false;
+    // lobby = false;
+    // airconditioning = false;
+    // powerunit = false;
+    // buffet = false;
+    // elevator = false;
+    // phone = false;
+    // ramp = false;
+    // heating = false;
+    // gas = false;
+    // openingtothestreet = false;
+    // reception = false;
+    // water = false;
+    // enabled = false;
+    // spaceformaterial = false;
+    // stretcher = false;
 }
 
 class Configuration {

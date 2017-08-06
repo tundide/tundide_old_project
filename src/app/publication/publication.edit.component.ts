@@ -7,6 +7,7 @@ import { ToastyService, ToastyConfig } from 'ng2-toasty';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MinImages } from '../shared/customValidators/image.validator';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import * as $S from 'scriptjs';
 
 @Component({
   selector: 'publication-edit',
@@ -19,6 +20,7 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
   private publication: Publication;
   private changeDetected = false;
   private formEdit: FormGroup;
+  private ckeditorLoaded = false;
 
   constructor(
     private toastyService: ToastyService,
@@ -30,6 +32,9 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private publicationService: PublicationService) {
     // Si cambia algo de la publicacion tengo que actualizar el modelo local
+    $S('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js', () => {
+      this.ckeditorLoaded = true;
+    });
   }
 
   publicationChange(event) {
@@ -39,7 +44,6 @@ export class PublicationEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    $.getScript('//cdn.ckeditor.com/4.7.1/basic/ckeditor.js');
 
     this.loadValidators();
     this.sub = this.route.params.subscribe(params => {

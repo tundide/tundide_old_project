@@ -70,47 +70,10 @@
             <div class="card-block">
                 <h4 class="card-title">Comodidades</h4>
                 <div *ngIf="property.facilities">
-                    <p *ngIf="property.facilities.internet" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Internet</span>
-                    </p>
-                    <p *ngIf="property.facilities.airconditioning" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Aire acondicionado</span>
-                    </p>
-                    <p *ngIf="property.facilities.elevator" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Ascensor</span>
-                    </p>
-                    <p *ngIf="property.facilities.heating" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Calefacci&oacute;n</span>
-                    </p>
-                    <p *ngIf="property.facilities.reception" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Recepci&oacute;n</span>
-                    </p>
-                    <p *ngIf="property.facilities.security" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Seguridad</span>
-                    </p>
-                    <p *ngIf="property.facilities.powerunit" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Grupo Electrogeno</span>
-                    </p>
-                    <p *ngIf="property.facilities.phone" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Telefono</span>
-                    </p>
-                    <p *ngIf="property.facilities.gas" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Gas Natural</span>
-                    </p>
-                    <p *ngIf="property.facilities.water" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Agua Corriente</span>
-                    </p>
-                    <p *ngIf="property.facilities.lobby" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Sala de Espera</span>
-                    </p>
-                    <p *ngIf="property.facilities.buffet" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Cafeteria</span>
-                    </p>
-                    <p *ngIf="property.facilities.ramp" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Rampa de acceso</span>
-                    </p>
-                    <p *ngIf="property.facilities.openingtothestreet" class="card-text">
-                        <span><i class="fa fa-check" aria-hidden="true"></i>Apertura puerta de calle</span>
+                    <p *ngFor="let f of propertyFacilities" class="card-text">
+                        <span>
+                            <i class="fa fa-check" aria-hidden="true"></i>{{f.description}}
+                        </span>
                     </p>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Rx';
 import { User } from './auth/user.model';
 import { SocketService } from './shared/socket.service';
 declare var $: JQueryStatic;
+import * as $S from 'scriptjs';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
         });
 
         if (process.env.ENV === 'development') {
-            $.getScript('http://localhost:35729/livereload.js', function () {
+            $S('http://localhost:35729/livereload.js', function () {
                 console.log('Debug Habilitado');
             });
         }

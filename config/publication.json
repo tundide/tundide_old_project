@@ -73,10 +73,108 @@
         ]
     }, {
         "id": 3,
-        "description": "Quinta"
+        "description": "Quinta",
+        "facilities": [{
+                "model": "security",
+                "description": "Seguridad Privada"
+            },
+            {
+                "model": "internet",
+                "description": "Internet"
+            },
+            {
+                "model": "airconditioning",
+                "description": "Aire Acondicionado"
+            },
+            {
+                "model": "heating",
+                "description": "Calefaccion"
+            },
+            {
+                "model": "powerunit",
+                "description": "Grupo Electrogeno"
+            },
+            {
+                "model": "phone",
+                "description": "Telefono"
+            },
+            {
+                "model": "gas",
+                "description": "Gas Natural"
+            },
+            {
+                "model": "water",
+                "description": "Agua Corriente"
+            },
+            {
+                "model": "buffet",
+                "description": "Cafeteria"
+            },
+            {
+                "model": "ramp",
+                "description": "Rampa de Acceso"
+            }
+        ]
     }, {
         "id": 4,
-        "description": "Consultorio"
+        "description": "Consultorio",
+        "facilities": [{
+                "model": "security",
+                "description": "Seguridad Privada"
+            },
+            {
+                "model": "internet",
+                "description": "Internet"
+            },
+            {
+                "model": "airconditioning",
+                "description": "Aire Acondicionado"
+            },
+            {
+                "model": "heating",
+                "description": "Calefaccion"
+            },
+            {
+                "model": "powerunit",
+                "description": "Grupo Electrogeno"
+            },
+            {
+                "model": "phone",
+                "description": "Telefono"
+            },
+            {
+                "model": "gas",
+                "description": "Gas Natural"
+            },
+            {
+                "model": "water",
+                "description": "Agua Corriente"
+            },
+            {
+                "model": "buffet",
+                "description": "Cafeteria"
+            },
+            {
+                "model": "ramp",
+                "description": "Rampa de Acceso"
+            },
+            {
+                "model": "enabled",
+                "description": "Habilitado por Ministerio de Salud"
+            },
+            {
+                "model": "spaceformaterial",
+                "description": "Espacio para material"
+            },
+            {
+                "model": "stretcher",
+                "description": "Camilla"
+            },
+            {
+                "model": "couch",
+                "description": "Divan"
+            }
+        ]
     }, {
         "id": 5,
         "description": "Salon de fiesta"

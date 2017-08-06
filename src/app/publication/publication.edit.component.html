@@ -1,4 +1,4 @@
-<edit-property *ngIf="whatType=='Property' && publication" [propertyGroup]="formEdit.controls.propertygroup" [publication]="publication" (change)="publicationChange($event)"></edit-property>
+<edit-property *ngIf="whatType=='Property' && publication && ckeditorLoaded" [propertyGroup]="formEdit.controls.propertygroup" [publication]="publication" (change)="publicationChange($event)"></edit-property>
 <edit-service *ngIf="whatType=='Service'"></edit-service>
 <!--
     Cuando esten desarrollando los dos descomentarlo

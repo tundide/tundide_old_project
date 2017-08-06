@@ -9,6 +9,7 @@ import { AdvertiserService } from '../../advertiser/advertiser.service';
 import { FavoriteService } from '../favorite.service';
 import { Property } from './property.model';
 import { CeiboShare } from 'ng2-social-share';
+import * as json from '../../../../config/publication.json';
 import * as _ from 'lodash';
 
 @Component({
@@ -37,6 +38,7 @@ export class PropertyViewComponent implements OnInit {
 
   private myPublication: Boolean = false;
   private address: string;
+  private propertyFacilities: Array<any>;
 
   constructor(private route: ActivatedRoute,
     private authService: AuthService,
@@ -49,6 +51,7 @@ export class PropertyViewComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
+
     if (this.user) {
       this.myPublication = (this.user.id === this.property.user);
     }
@@ -65,6 +68,34 @@ export class PropertyViewComponent implements OnInit {
         this.property.location.placeDescription = place.description;
       }
     );
+
+    this.propertyFacilities = this.loadPropertyFacilities();
+  }
+
+  loadPropertyFacilities() {
+    let pubType = (<any>_.find((<any>json), { type: 'Property' }));
+
+    let cat = (<any>_.find(pubType.categories, (o) => {
+      return o.id.toString() === this.property.configuration.category.toString();
+    }));
+
+    let ret = new Array();
+
+    if (cat.facilities) {
+      _.each(cat.facilities, (f) => {
+        _.each(this.property.facilities, (value, key, obj) => {
+          if (f.model === key && value) {
+            ret.push({
+              'description': f.description,
+              'status': value
+            });
+          }
+        });
+      });
+      return ret;
+    }
+
+    return;
   }
 
   favoriteChange(added: Boolean) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import * as json from '../../../../config/publication.category.json';
+import * as json from '../../../../config/publication.json';
 
 @Component({
   selector: 'home',

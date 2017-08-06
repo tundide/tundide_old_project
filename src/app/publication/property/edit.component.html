@@ -128,55 +128,8 @@
     <div class="card">
         <div class="card-block">
             <h4 class="card-title">Con que comodidades cuenta?</h4>
-            <div class="row">
-                <div class="col-lg-4">
-                    <p>
-                        <ui-switch name="internet" [(ngModel)]="publication.facilities.internet" (ngModelChange)="publicationChange($event)"></ui-switch> Internet
-                    </p>
-                    <p>
-                        <ui-switch name="airconditioning" [(ngModel)]="publication.facilities.airconditioning" (ngModelChange)="publicationChange($event)"></ui-switch> Aire acondicionado
-                    </p>
-                    <p>
-                        <ui-switch name="elevator" [(ngModel)]="publication.facilities.elevator" (ngModelChange)="publicationChange($event)"></ui-switch> Ascensor
-                    </p>
-                    <p>
-                        <ui-switch name="heating" [(ngModel)]="publication.facilities.heating" (ngModelChange)="publicationChange($event)"></ui-switch> Calefacci&oacute;n
-                    </p>
-                    <p>
-                        <ui-switch name="reception" [(ngModel)]="publication.facilities.reception" (ngModelChange)="publicationChange($event)"></ui-switch> Recepci&oacute;n
-                    </p>
-                </div>
-                <div class="col-lg-4">
-                    <p>
-                        <ui-switch name="security" [(ngModel)]="publication.facilities.security" (ngModelChange)="publicationChange($event)"> </ui-switch> Seguridad
-                    </p>
-                    <p>
-                        <ui-switch name="powerunit" [(ngModel)]="publication.facilities.powerunit" (ngModelChange)="publicationChange($event)"></ui-switch> Grupo Electrogeno
-                    </p>
-                    <p>
-                        <ui-switch name="phone" [(ngModel)]="publication.facilities.phone" (ngModelChange)="publicationChange($event)"></ui-switch> Telefono
-                    </p>
-                    <p>
-                        <ui-switch name="gas" [(ngModel)]="publication.facilities.gas" (ngModelChange)="publicationChange($event)"></ui-switch> Gas Natural
-                    </p>
-                    <p>
-                        <ui-switch name="water" [(ngModel)]="publication.facilities.water" (ngModelChange)="publicationChange($event)"></ui-switch> Agua Corriente
-                    </p>
-                </div>
-                <div class="col-lg-4">
-                    <p>
-                        <ui-switch name="lobby" [(ngModel)]="publication.facilities.lobby" (ngModelChange)="publicationChange($event)"></ui-switch> Sala de Espera
-                    </p>
-                    <p>
-                        <ui-switch name="buffet" [(ngModel)]="publication.facilities.buffet" (ngModelChange)="publicationChange($event)"></ui-switch> Cafeteria
-                    </p>
-                    <p>
-                        <ui-switch name="ramp" [(ngModel)]="publication.facilities.ramp" (ngModelChange)="publicationChange($event)"></ui-switch> Rampa de acceso
-                    </p>
-                    <p>
-                        <ui-switch name="openingtothestreet" [(ngModel)]="publication.facilities.openingtothestreet" (ngModelChange)="publicationChange($event)"></ui-switch> Apertura puerta de calle
-                    </p>
-                </div>
+            <div *ngFor="let f of facilitiesTypes" class="facility">
+                <ui-switch [name]="f.model" [(ngModel)]="publication.facilities[f.model]" (ngModelChange)="publicationChange($event)"></ui-switch>{{f.description}}
             </div>
         </div>
     </div>

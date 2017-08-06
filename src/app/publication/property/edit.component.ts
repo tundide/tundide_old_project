@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import * as json from '../../../../config/publication.json';
 import * as _ from 'lodash';
 
 @Component({
@@ -32,6 +33,10 @@ export class PropertyEditComponent implements OnInit {
     public provinces = [];
     public locations = [];
     public selectedPlace: any;
+
+    public publicationConfiguration = (<any>json);
+
+    private facilitiesTypes;
 
     searchLocation = (text$: Observable<string>) =>
         text$
@@ -132,6 +137,18 @@ export class PropertyEditComponent implements OnInit {
     }
 
     ngOnInit() {
+        let pubType = (<any>_.find((<any>json), { type: 'Property' }));
+
+        let cat = (<any>_.find(pubType.categories, (o) => {
+            return o.id.toString() === this.publication.configuration.category.toString();
+        }));
+
+        if (cat.facilities) {
+            this.facilitiesTypes = cat.facilities;
+            console.log(this.facilitiesTypes);
+        }
+
+
         this.locationService.list().subscribe(
             res => {
                 this.provinces = res.data;
